@@ -1,0 +1,27 @@
+/* style.module.css */
+@font-face {
+    font-family: 'Segment';
+    src: url('/public/Seven/Segment.ttf') format('truetype');
+    /* Add other font formats if needed */
+  }
+
+
+
+.sevenSegment {
+  font-family: 'Segment', sans-serif;
+  font-size: 4rem; /* Adjust font size as needed */
+  font-weight: bold; /* Add bold style */
+  color: #fff; /* Adjust font color as needed */
+  /* Add other styles for your seven-segment display */
+}
+
+  
+  .led-font {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 5em; /* Adjust the font size as needed */
+    color: #ff0000; /* Set the desired LED color */
+  }
+
+
+ 
+  

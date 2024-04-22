@@ -1,0 +1,40 @@
+/* components/Slider.module.css */
+
+.sliderContainer {
+  position: relative;
+  
+  margin: 0;
+  padding: 0;
+}
+
+.sliderImage {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 0;
+  position: relative;
+}
+
+.arrows {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.arrow {
+  cursor: pointer;
+  background-color: #f4f8f400;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 20px;
+}
+
+.arrow:hover {
+  background-color: #45a04922;
+}

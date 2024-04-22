@@ -1,0 +1,19 @@
+.table-container {
+    height: 400px !important; /* Set the height of the container */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: #fff; /* Add a background color if needed */
+    z-index: 1000; /* Set a higher z-index to keep it above other elements */
+  }
+  
+  .sticky-footer {
+    position: sticky;
+    bottom: 0;
+    background-color: #fff; /* Add a background color if needed */
+    z-index: 1000; /* Set a higher z-index to keep it above other elements */
+  }
+  

@@ -3,7 +3,7 @@ import { Form } from "react-bootstrap";
 import { AdminCart } from "../AdminCart";
 
 export const Biller = ({ initialData }) => {
-  const [selectedProduct, setSelectedProduct] = useState("");
+  const [ setSelectedProduct] = useState("");
   const [selectedProductQuantity, setSelectedProductQuantity] = useState(0);
   const [selectedProductPrice, setSelectedProductPrice] = useState(0);
 

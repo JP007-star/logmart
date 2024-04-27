@@ -5,7 +5,7 @@ import { TextField, Button, Typography, Box, Link } from '@mui/material';
 
 const ForgotPasswordForm = ({ onSignInClick }) => {
     const [email, setEmail] = useState('');
-    const [error, setError] = useState('');
+    const [error] = useState('');
 
     const handleForgotPassword = async () => {
         // Your forgot password logic here

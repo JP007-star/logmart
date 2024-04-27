@@ -7,7 +7,7 @@ import styles from "./style.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AdminHeader = () => {
-  const { isDarkTheme, toggleTheme } = useTheme();
+  const { isDarkTheme } = useTheme();
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   const headerStyle = {

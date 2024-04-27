@@ -6,20 +6,7 @@ import SideBar from "../SideBar";
 import AdminHeader from "../AdminHeader";
 
 const ADHomeContainer= (props) => {
-  const { isDarkTheme, toggleTheme } = useTheme();
-
-  const product = {
-    name: "product",
-    price: "100",
-    imageUrl: "https://placehold.co/500x300.jpg",
-  };
-  const products = [product, product];
-  const images = [
-    "https://placehold.co/1400x300.jpg",
-    "https://placehold.co/1200x300.jpg",
-    "https://placehold.co/1300x300.jpg",
-  ];
-
+  const { isDarkTheme } = useTheme();
   return (
     <div className={isDarkTheme ? styles.darkContainer : styles.lightContainer}>
       <AdminHeader />

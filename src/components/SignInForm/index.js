@@ -3,7 +3,7 @@ import { useState } from 'react'; // Import useState hook
 import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { userSignIn } from '@/actions/user.action';
+import { userSignIn } from '../../actions/user.action';
 
 const defaultTheme = createTheme();
 

@@ -1,13 +1,13 @@
 import React from "react";
 import { useTheme } from "../ThemeContext";
-import { Navbar, Nav, NavDropdown, Container, Form, FormControl, Button } from "react-bootstrap";
+import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
 import styles from "./style.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as Unicons from '@iconscout/react-unicons';
 
 
 const Header = () => {
-  const { isDarkTheme, toggleTheme } = useTheme();
+  const { isDarkTheme } = useTheme();
 
   const headerStyle = {
     zIndex: 1000,

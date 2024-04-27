@@ -2,6 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from '../ProductCard';
 import  './style.module.css'; // Assuming you have a module for styles
+import {productApi } from '../../config';
+
+
+
 
 const ProductUserCard = () => {
   const [products, setProducts] = useState([]);
@@ -10,9 +14,11 @@ const ProductUserCard = () => {
     // Fetch products from the API endpoint
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3002/api/products');
+        console.log(productApi);
+        const response = await fetch(productApi);
         const data = await response.json();
         setProducts(data);
+        console.log(data);
       } catch (error) {
         console.error('Error fetching products:', error);
       }

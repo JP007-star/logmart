@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Nav, Row, Col } from 'react-bootstrap';
+import { Nav} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTag, faCutlery, faUsers, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTag, faCutlery, faUsers } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './style.module.css';
 
@@ -11,7 +11,7 @@ import styles from './style.module.css';
 **/
 
 export const SideBarMobile = ({ activeNavLink }) => {
-    const [isSidebarMinimized, setSidebarMinimized] = useState(false);
+    const [isSidebarMinimized] = useState(false);
 
   return(
    

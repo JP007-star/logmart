@@ -3,15 +3,17 @@ import { ThemeProvider } from "../../components/ThemeContext";
 import * as Unicons from "@iconscout/react-unicons";
 import SideBar from "../../components/SideBar";
 import AddUser from "../../components/AddUser";
-
-import Footer from "../../components/Footer";
 import UserList from "../../components/UserList";
 import AdminHeader from "../../components/AdminHeader";
 import { getServerSideProps } from "../../actions/initialData.action";
+import { SideBarMobile } from "../../components/SideBarMobile";
 
 const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
   const [isAddUserVisible, setAddUserVisible] = useState(false);
   const [users, setUsers] = useState(initialUsers);
+ 
+
+
   useEffect(() => {
     const initialData = async () => {
       try {
@@ -25,6 +27,7 @@ const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
 
     initialData();
   }, []);
+
   const handleAddUserClick = () => {
     setAddUserVisible(true);
   };
@@ -52,13 +55,16 @@ const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
 
     setAddUserVisible(false);
   };
+
   return (
     <>
       <ThemeProvider>
         <AdminHeader />
         <div className="d-flex col-12">
-          <SideBar activeNavLink="users" className="vh-100 col-2" />
-          <div className="card col-10 ms-md-3 mt-md-3">
+          <div className="d-none d-md-block col-md-2">
+            <SideBar activeNavLink="users" />
+          </div>
+          <div className="card col-12 col-md-10 ms-md-3 mt-md-3">
             <div className="card-body">
               {isAddUserVisible ? (
                 <AddUser
@@ -68,19 +74,17 @@ const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
               ) : (
                 <div className="col-12">
                   <div className="d-flex justify-content-between m-3">
-                  <h2>User List</h2>
-                  <button
-                    id="add-user"
-                    className="btn btn-primary float-sm-end float-lg-end"
-                    type="button"
-                    onClick={handleAddUserClick}
-                  >
-                    <Unicons.UilPlus />
-                    <Unicons.UilUser />
-                  </button>
+                    <h2>User List</h2>
+                    <button
+                      id="add-user"
+                      className="btn btn-primary float-sm-end float-lg-end"
+                      type="button"
+                      onClick={handleAddUserClick}
+                    >
+                      <Unicons.UilPlus />
+                      <Unicons.UilUser />
+                    </button>
                   </div>
-                 
-
                   <div className="user-list-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                     {users && users.length > 0 ? (
                       <UserList users={users} />
@@ -93,13 +97,16 @@ const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
             </div>
           </div>
         </div>
-        <Footer />
+        <SideBarMobile/>
+        <div className="container d-md-block">
+        <p className="text-center text-muted m-2" >
+          © 2024 Copyright: JP made with Love 
+          <img src="/images/heart.svg" height="20px" width="20px" alt="" />
+        </p>
+      </div>
       </ThemeProvider>
     </>
   );
 };
-
-
-
 
 export default AdminUsers;

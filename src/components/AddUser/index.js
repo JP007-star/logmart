@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { Card, Form, Button, Row, Alert } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Card, Form, Button, Row, Col, Alert } from "react-bootstrap";
+import addUser from "../../actions/user.action";
 
 const AddUser = ({ onCancel, onSubmit }) => {
   const [user, setUser] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    profilePicture: null, // Add profilePicture field to user state
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    profilePicture: null,
   });
 
   const [error, setError] = useState(null);
@@ -24,74 +25,59 @@ const AddUser = ({ onCancel, onSubmit }) => {
   const handleFileChange = (e) => {
     setUser((prevUser) => ({
       ...prevUser,
-      profilePicture: e.target.files[0], // Set profilePicture to the selected file
+      profilePicture: e.target.files[0],
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append('firstName', user.firstName);
-    formData.append('lastName', user.lastName);
-    formData.append('email', user.email);
-    formData.append('password', user.password);
-    formData.append('profilePicture', user.profilePicture); // Append profilePicture to the form data
-
     try {
-      const response = await fetch('http://localhost:9001/api/v1/admin/signup', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        // Handle error response
-        const errorData = await response.json();
-        setError(errorData.message || 'An error occurred');
-        return;
-      }
-
+      await addUser(user);
       setSuccessMessage('User added successfully');
-
       if (onSubmit) {
         onSubmit();
       }
     } catch (error) {
-      // Handle any other errors that may occur during the fetch
-      setError('An error occurred');
+      setError(error.message || 'An error occurred');
       console.error('Error:', error.message);
     }
   };
 
   return (
-    <Card className='col-md-12'>
+    <Card className="col-md-12">
       <Card.Body>
         <Card.Title>Add User</Card.Title>
-        
+
         {error && <Alert variant="danger">{error}</Alert>}
         {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="firstName">
-            <Form.Label>First Name:</Form.Label>
-            <Form.Control
-              type="text"
-              name="firstName"
-              value={user.firstName}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="lastName">
-            <Form.Label>Last Name:</Form.Label>
-            <Form.Control
-              type="text"
-              name="lastName"
-              value={user.lastName}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
+          <Row>
+            <Col>
+              <Form.Group controlId="firstName">
+                <Form.Label>First Name:</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="firstName"
+                  value={user.firstName}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="lastName">
+                <Form.Label>Last Name:</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="lastName"
+                  value={user.lastName}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
           <Form.Group controlId="email">
             <Form.Label>Email:</Form.Label>
             <Form.Control
@@ -116,23 +102,22 @@ const AddUser = ({ onCancel, onSubmit }) => {
             <Form.Label>Profile Picture:</Form.Label>
             <Form.Control
               type="file"
-              accept="image/*"
               name="profilePicture"
               onChange={handleFileChange}
               required
             />
           </Form.Group>
-          <Row className='flex-grow'>
-            <Button className="form-control mt-3" variant="primary" type="submit">
-              Submit
-            </Button>
-            <Button
-              className="form-control mt-3"
-              variant="secondary"
-              onClick={onCancel}
-            >
-              Cancel
-            </Button>
+          <Row className="m-3">
+            <Col>
+              <Button variant="secondary" onClick={onCancel} className="w-100">
+                Back
+              </Button>
+            </Col>
+            <Col>
+              <Button variant="primary" type="submit" className="w-100">
+                Submit
+              </Button>
+            </Col>
           </Row>
         </Form>
       </Card.Body>

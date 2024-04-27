@@ -42,33 +42,33 @@ export const userSignIn = async (formData) => {
 };
 
 
-
-
+  
 const addUser = async (user) => {
+  try {
     const formData = new FormData();
     formData.append('firstName', user.firstName);
     formData.append('lastName', user.lastName);
     formData.append('email', user.email);
     formData.append('password', user.password);
     formData.append('profilePicture', user.profilePicture);
-    
-  
-    try {
-      const response = await fetch(userDNS+'/api/v1/admin/signup', {
-        method: 'POST',
-        body: formData,
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'An error occurred');
-      }
-  
-      return await response.json();
-    } catch (error) {
-      throw error;
+    console.log(user);
+    const response = await fetch(userDNS + '/api/v1/signup', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'An error occurred');
     }
-  };
-  
-  export default addUser;
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error adding user:', error.message);
+    throw error;
+  }
+};
+
+export default addUser;
+
   

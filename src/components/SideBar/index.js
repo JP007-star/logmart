@@ -1,7 +1,6 @@
 // SideBar.js
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { Nav, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faTag, faCutlery, faUsers, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
@@ -41,10 +40,10 @@ const SideBar = ({ activeNavLink }) => {
     <>
       <div className={`${styles.sidebar} shadow-lg rounded bg-dark ${isSidebarMinimized ? styles.minimized : ''}`}>
         <div className={styles.logo} onClick={handleLogoClick}>
-          <Image
+          <img
             className="w-75 h-25"
             src={`${isSidebarMinimized ? '/images/logo_light_mini.png' : '/images/logo_light.png'}`}
-            alt="Description of the image"
+            alt="Description"
             width={500}
             height={300}
           />

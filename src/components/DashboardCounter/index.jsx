@@ -19,17 +19,6 @@ export const DashboardCounter = ({ initialData }) => {
           </div>
           <div className="card-body  h3">{initialData.users.length}</div>
         </div>
-
-        <div
-          className="card text-white ms-lg-3  bg-primary "
-          style={{ maxWidth: "13rem" }}
-        >
-          <div className="card-header h3 text-lg-center ">
-            <Unicons.UilUser /> Users
-          </div>
-          <div className="card-body  h3">{initialData.users.length}</div>
-        </div>
-
         <div
           className="card text-black bg-warning "
           style={{ maxWidth: "13rem" }}

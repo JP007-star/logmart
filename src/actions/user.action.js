@@ -1,3 +1,5 @@
+import { userDNS } from "../config";
+
 export const userSignIn = async (formData) => {
     try {
         const response = await fetch('http://localhost:9001/api/v1/signin', {
@@ -38,3 +40,35 @@ export const userSignIn = async (formData) => {
         }
     }
 };
+
+
+
+
+const addUser = async (user) => {
+    const formData = new FormData();
+    formData.append('firstName', user.firstName);
+    formData.append('lastName', user.lastName);
+    formData.append('email', user.email);
+    formData.append('password', user.password);
+    formData.append('profilePicture', user.profilePicture);
+    
+  
+    try {
+      const response = await fetch(userDNS+'/api/v1/admin/signup', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'An error occurred');
+      }
+  
+      return await response.json();
+    } catch (error) {
+      throw error;
+    }
+  };
+  
+  export default addUser;
+  

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/system';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {  userDNS } from '../../config';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const CustomDataGrid = styled(DataGrid)({
   '& .MuiDataGrid-root': {
@@ -14,14 +17,18 @@ const CustomDataGrid = styled(DataGrid)({
     },
   },
 });
+
 const UserList = ({ users, darkMode }) => {
   const columns = React.useMemo(
     () => [
-      { field: 'firstName', headerName: 'First Name',width: 150},
-      { field: 'lastName', headerName: 'Last Name',width: 150},
-      { field: 'username', headerName: 'Username',  width: 150 },
-      { field: 'email', headerName: 'Email', width: 150 },
-      { field: 'role', headerName: 'Role',  width: 150 },
+      { field: 'profilePicture', headerName: 'Profile Picture', width: 150, renderCell: (params) => (<img src={userDNS+params.value} alt="Profile" style={{ width: 50, borderRadius: '50%' }} />) },
+      { field: 'firstName', headerName: 'First Name', width: 150 },
+      { field: 'lastName', headerName: 'Last Name', width: 150 },
+      { field: 'email', headerName: 'Email', width: 300 },
+      { field: 'role', headerName: 'Role', width: 150 },
+      { field: 'edit', headerName: 'Action', width: 100 , renderCell: (params) => (<button className='btn btn-outline-primary' onClick={() => handleEdit(params.value)}><FontAwesomeIcon icon={faEdit}/></button>), },
+      { field: 'delete', headerName: 'Action', width: 100 , renderCell: (params) => (<button className='btn btn-outline-danger' onClick={() => handleDelete(params.value)}><FontAwesomeIcon icon={faTrash}/></button>), },
+
     ],
     []
   );
@@ -39,6 +46,14 @@ const UserList = ({ users, darkMode }) => {
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
+  };
+
+
+  const handleEdit = (event) => {
+   
+  };
+  const handleDelete= (event) => {
+   
   };
 
   const filteredUsers = users.filter((user) =>

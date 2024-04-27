@@ -7,6 +7,7 @@ const AddUser = ({ onCancel, onSubmit }) => {
     lastName: '',
     email: '',
     password: '',
+    profilePicture: null, // Add profilePicture field to user state
   });
 
   const [error, setError] = useState(null);
@@ -20,17 +21,27 @@ const AddUser = ({ onCancel, onSubmit }) => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      profilePicture: e.target.files[0], // Set profilePicture to the selected file
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append('firstName', user.firstName);
+    formData.append('lastName', user.lastName);
+    formData.append('email', user.email);
+    formData.append('password', user.password);
+    formData.append('profilePicture', user.profilePicture); // Append profilePicture to the form data
+
     try {
-      // Make API request to http://localhost:9001/api/v1/admin/signup
       const response = await fetch('http://localhost:9001/api/v1/admin/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -40,10 +51,8 @@ const AddUser = ({ onCancel, onSubmit }) => {
         return;
       }
 
-      // Handle successful response
       setSuccessMessage('User added successfully');
 
-      // Call the onSubmit prop if needed
       if (onSubmit) {
         onSubmit();
       }
@@ -100,6 +109,16 @@ const AddUser = ({ onCancel, onSubmit }) => {
               name="password"
               value={user.password}
               onChange={handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="profilePicture">
+            <Form.Label>Profile Picture:</Form.Label>
+            <Form.Control
+              type="file"
+              accept="image/*"
+              name="profilePicture"
+              onChange={handleFileChange}
               required
             />
           </Form.Group>

@@ -3,9 +3,9 @@
 .productUserCardContainer {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Minimum width of 250px for each card */
-  gap: 20px; /* Space between cards */
-  padding: 20px; /* Increased padding around the container */
-  padding-bottom: 60px; /* Additional padding at the bottom to prevent overlap with the footer */
+  gap: 10px; /* Space between cards */
+  padding: 10px; /* Increased padding around the container */
+  padding-bottom: 100px; /* Additional padding at the bottom to prevent overlap with the footer */
   box-sizing: border-box; /* Ensures padding doesn't affect overall width */
   background-color: #f5f5f5; /* Light background for the container */
   border-radius: 8px; /* Rounded corners for the container */

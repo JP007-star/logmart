@@ -1,0 +1,140 @@
+/* ProductCard.css */
+
+/* Card Container */
+.productCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px; /* Rounded corners */
+  padding: 16px;
+  margin: 16px; /* Margin for spacing between cards */
+  max-width: 300px; /* Max width of card */
+  background-color: var(--product-background-light); /* Default light theme background */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Dark Theme */
+.productCard.dark {
+  background-color: var(--product-background-dark);
+  color: var(--product-text-dark);
+}
+
+/* Light Theme */
+.productCard.light {
+  background-color: var(--product-background-light);
+  color: var(--product-text-light);
+}
+
+/* Hover Effect */
+.productCard:hover {
+  transform: translateY(-8px); /* Lift effect on hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* Image Styles */
+.productImage {
+  width: 100%;
+  height: 180px; /* Height of image */
+  border-radius: 8px; /* Rounded corners for image */
+  object-fit: cover; /* Ensure image covers the container */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for image */
+  transition: transform 0.3s ease;
+}
+
+/* Hover Zoom Effect */
+.productImage:hover {
+  transform: scale(1.05); /* Zoom effect on hover */
+}
+
+/* Product Info */
+.productInfo {
+  margin-top: 16px; /* Spacing between image and text */
+}
+
+/* Product Name */
+.productName {
+  font-size: 18px; /* Font size for name */
+  font-weight: 600; /* Bold text */
+  margin-bottom: 8px; /* Margin below the name */
+  color: #333; /* Darker color for readability */
+}
+
+/* Product Price */
+.productPrice {
+  font-size: 16px; /* Font size for price */
+  color: #555; /* Color for price text */
+  margin-bottom: 12px; /* Margin below the price */
+}
+
+/* Rating */
+.productRating p {
+  font-size: 14px; /* Font size for rating */
+  color: #777; /* Color for rating text */
+}
+
+/* Buttons Container */
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px; /* Spacing above buttons */
+}
+
+/* Button Styles */
+.btn {
+  padding: 10px 20px; /* Padding for buttons */
+  font-size: 14px; /* Font size for button text */
+  font-weight: 600; /* Medium weight */
+  cursor: pointer;
+  border: none;
+  border-radius: 8px; /* Rounded corners */
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48%; /* Width to fit two buttons side by side */
+  box-sizing: border-box;
+}
+
+/* Primary Button (Buy Now) */
+.btn-primary {
+  background-color: #007bff; /* Blue background */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Secondary Button (Add to Cart) */
+.btn-secondary {
+  background-color: #28a745; /* Green background */
+}
+
+.btn-secondary:hover {
+  background-color: #218838; /* Darker green on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Tertiary Button (Wishlist or Similar) */
+.btn-tertiary {
+  background-color: #6c757d; /* Grey background */
+}
+
+.btn-tertiary:hover {
+  background-color: #5a6268; /* Darker grey on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .btn {
+    width: 100%; /* Full width buttons on mobile */
+    margin: 8px 0; /* Vertical margin for stacking */
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-tertiary {
+    margin: 0;
+  }
+}

@@ -1,7 +1,6 @@
 import React from 'react';
-import styles from './style.module.css';
+import './style.css'; // Importing plain CSS
 import { useTheme } from '../ThemeContext';
-import classNames from 'classnames';
 import * as Unicons from '@iconscout/react-unicons';
 
 const ProductCard = ({ product }) => {
@@ -19,28 +18,30 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className={classNames(styles.productCard, 'mt-2', { [styles.dark]: isDarkTheme, [styles.light]: !isDarkTheme })}>
+    <div
+      className={`productCard ${isDarkTheme ? 'dark' : 'light'}`}
+    >
       <img
         src={image}
         alt={title}
-        className={classNames(styles.productImage, styles.responsiveImage)}
+        className="productImage"
       />
-      <div className={styles.productInfo}>
-        <h2 className={styles.productName}>{title}</h2>
-        <p className={styles.productPrice}>₹{price}</p>
-        <div className={styles.productRating}>
+      <div className="productInfo">
+        <h2 className="productName">{title}</h2>
+        <p className="productPrice">₹{price}</p>
+        <div className="productRating">
           {rating && typeof rating === 'object' && 'rate' in rating && 'count' in rating ? (
             <p>{`Rating: ${rating.rate} (${rating.count} reviews)`}</p>
           ) : (
             <p>No rating available</p>
           )}
         </div>
-        <div className={styles.buttonsContainer}>
-          <button onClick={handleBuyNow} className="btn btn-primary">
-            Buy Now
+        <div className="buttonsContainer">
+          <button onClick={handleBuyNow}>
+            Buy
           </button>
-          <button onClick={handleAddToCart} className="btn btn-warning">
-            Add to Cart <Unicons.UilShoppingCartAlt />
+          <button onClick={handleAddToCart}>
+            + <Unicons.UilShoppingCartAlt />
           </button>
         </div>
       </div>

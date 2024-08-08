@@ -1,0 +1,90 @@
+/* style.module.css */
+
+.productUserCardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Minimum width of 250px for each card */
+  gap: 20px; /* Space between cards */
+  padding: 20px; /* Increased padding around the container */
+  padding-bottom: 60px; /* Additional padding at the bottom to prevent overlap with the footer */
+  box-sizing: border-box; /* Ensures padding doesn't affect overall width */
+  background-color: #f5f5f5; /* Light background for the container */
+  border-radius: 8px; /* Rounded corners for the container */
+}
+
+.productCard {
+  background-color: #ffffff; /* White background for the cards */
+  border: 1px solid #e0e0e0; /* Light grey border */
+  border-radius: 10px; /* Rounded corners for the cards */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lifted effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+  padding: 16px; /* Internal padding for the content */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 20px; /* 20px space at the top */
+  margin-bottom: 20px; /* 20px space at the bottom */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.productCard:hover {
+  transform: translateY(-5px); /* Lift the card slightly on hover */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* Increase shadow for a more pronounced effect */
+}
+
+.productImage {
+  width: 100%; /* Ensure the image fills the card width */
+  height: 180px; /* Fixed height for uniformity */
+  border-radius: 8px; /* Rounded corners for the image */
+  object-fit: cover; /* Cover the area while maintaining aspect ratio */
+  margin-bottom: 12px; /* Space below the image */
+}
+
+.productName {
+  font-size: 18px; /* Larger font size for the product name */
+  font-weight: 600; /* Slightly bolder text */
+  color: #333333; /* Darker color for better contrast */
+  margin-bottom: 8px; /* Space below the product name */
+}
+
+.productPrice {
+  font-size: 16px; /* Consistent font size */
+  color: #888888; /* Grey color for price */
+  margin-bottom: 12px; /* Space below the price */
+}
+
+.productRating {
+  font-size: 14px; /* Smaller font size for rating */
+  color: #555555; /* Dark grey for rating text */
+  margin-bottom: 16px; /* Space below the rating */
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between; /* Space out the buttons */
+  margin-top: 12px; /* Space above the buttons */
+}
+
+button {
+  padding: 10px 16px; /* Increased padding for better touch targets */
+  border: none;
+  border-radius: 5px; /* Slightly rounded corners */
+  font-size: 14px; /* Consistent font size */
+  color: white; /* White text */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+}
+
+button.btn-primary {
+  background-color: #007bff; /* Blue background */
+}
+
+button.btn-primary:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+button.btn-warning {
+  background-color: #ffca2c; /* Yellow background */
+}
+
+button.btn-warning:hover {
+  background-color: #e0a800; /* Darker yellow on hover */
+}

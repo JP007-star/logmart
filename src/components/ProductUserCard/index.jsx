@@ -1,9 +1,8 @@
 // components/ProductUserCard.js
 import React, { useEffect, useState } from 'react';
 import ProductCard from '../ProductCard';
-import  './style.module.css'; // Assuming you have a module for styles
 import {productApi } from '../../config';
-
+import './style.css'
 
 
 

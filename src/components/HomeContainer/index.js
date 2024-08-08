@@ -4,7 +4,6 @@ import Slider from "../Slider";
 import Footer from "../Footer";
 import { useTheme } from "../ThemeContext";
 import styles from "./style.module.css";
-import { Row } from "react-bootstrap";
 import ProductUserCard from "../ProductUserCard";
 
 export const HomeContainer = (props) => {
@@ -21,9 +20,7 @@ export const HomeContainer = (props) => {
       <Header />
       <div className={styles.contentWrapper}>
         <Slider className="d-none d-md-block" images={images} />
-        <Row>
         <ProductUserCard/>
-        </Row>
        
         {/* Add more content as needed */}
       </div>

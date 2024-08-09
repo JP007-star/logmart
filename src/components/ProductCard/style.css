@@ -6,7 +6,7 @@
   border-radius: 12px; /* Rounded corners for a modern look */
   padding: 16px;
   margin: 8px; /* Reduced margin for better fit */
-  max-width: 280px; /* Adjusted width for a more compact card */
+  max-width: 350px; /* Adjusted width for a more compact card */
   background-color: var(--product-background-light); /* Default light theme background */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */

@@ -3,7 +3,7 @@ import './style.css';
 
 const CartSummary = ({ totalItems, totalPrice, totalDiscount, finalAmount }) => {
     return (
-        <div className="cartSummary p-2 m-3">
+        <div className="cartSummary p-2 m-lg-2 m-md-2">
             <h2>PRICE DETAILS</h2>
             <div className="priceBreakdown m-2 p-2">
                 <div className="priceRow">

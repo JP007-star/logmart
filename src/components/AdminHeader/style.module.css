@@ -1,7 +1,4 @@
-@font-face {
-  font-family: 'Segment';
-  src: url('/public/Seven\ Segment.ttf') format('truetype');
-}
+
 
 /* Header Container */
 .header {
@@ -28,7 +25,6 @@
 
 /* Seven Segment Time Display */
 .sevenSegment {
-  font-family: 'Segment', sans-serif;
   font-size: 3.5rem; /* Adjusted for desktop */
   font-weight: bold;
   color: #ff4500;

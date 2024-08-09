@@ -1,0 +1,39 @@
+/* AdminDashboard.css */
+
+/* Main sidebar styles */
+.sidebar-container {
+    transition: width 0.3s ease;
+  }
+  
+  /* Hide the main sidebar on mobile */
+  @media (max-width: 768px) {
+    .sidebar-container {
+      display: none;
+    }
+  }
+  
+  /* Main content area styles */
+  .content-area {
+    flex: 1;
+    transition: margin-left 0.3s ease;
+  }
+  
+  /* Toggle button styles */
+  .toggle-sidebar-btn {
+    display: none; /* Hide the toggle button on larger screens */
+  }
+  
+  @media (max-width: 768px) {
+    .toggle-sidebar-btn {
+      display: block;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+    }
+  
+    .content-area {
+      margin-left: 0;
+    }
+  }
+  

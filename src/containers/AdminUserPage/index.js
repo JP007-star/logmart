@@ -7,25 +7,29 @@ import UserList from "../../components/UserList";
 import AdminHeader from "../../components/AdminHeader";
 import { getServerSideProps } from "../../actions/initialData.action";
 import { SideBarMobile } from "../../components/SideBarMobile";
-import './style.css'
-const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
+import './style.css'; // Import the CSS file
+import { userApi } from "../../config";
+
+const AdminUsers = ({ users: initialUsers }) => {
   const [isAddUserVisible, setAddUserVisible] = useState(false);
   const [users, setUsers] = useState(initialUsers);
- 
+  const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
 
+  const toggleSidebar = () => {
+    setIsSidebarMinimized(!isSidebarMinimized);
+  };
 
   useEffect(() => {
-    const initialData = async () => {
+    const fetchUsers = async () => {
       try {
         const initial = await getServerSideProps();
-        console.log(initial);
-        setUsers(initial.initialData.users)
+        setUsers(initial.initialData.users);
       } catch (error) {
         console.error('Error fetching initial data:', error.message);
       }
     };
 
-    initialData();
+    fetchUsers();
   }, []);
 
   const handleAddUserClick = () => {
@@ -34,7 +38,7 @@ const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
 
   const handleFormSubmit = async (newUserData) => {
     try {
-      const response = await fetch("https://user-service-iflk.onrender.com/api/v1/admin/users", {
+      const response = await fetch(userApi, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,27 +48,28 @@ const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setUsers([...users, data.user]);
+        setAddUserVisible(false);
       } else {
         console.error("Failed to add user:", response.statusText);
       }
     } catch (error) {
       console.error("Error adding user:", error.message);
     }
-
-    setAddUserVisible(false);
   };
 
   return (
-    <>
-      <ThemeProvider>
-        <AdminHeader />
-        <div className="d-flex col-12">
-          <div className="d-none d-md-block col-md-2">
-            <SideBar activeNavLink="users" />
-          </div>
-          <div className="card col-12 col-md-10 ms-md-3 mt-md-3">
+    <ThemeProvider>
+      <AdminHeader />
+      <div className="d-flex admin-users-container">
+        <div className={`sidebar-container ${isSidebarMinimized ? 'minimized' : ''}`}>
+          <SideBar activeNavLink="users" />
+          <button onClick={toggleSidebar} className="toggle-sidebar-btn">
+            {isSidebarMinimized ? '>' : '<'}
+          </button>
+        </div>
+        <div className={`main-content ${isSidebarMinimized ? 'expanded' : ''}`}>
+          <div className="card shadow-sm rounded mt-3">
             <div className="card-body">
               {isAddUserVisible ? (
                 <AddUser
@@ -72,20 +77,19 @@ const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
                   onSubmit={handleFormSubmit}
                 />
               ) : (
-                <div className="col-12">
-                  <div className="d-flex justify-content-between m-3">
+                <div className="user-list-section">
+                  <div className="row">
                     <h2>User List</h2>
                     <button
                       id="add-user"
-                      className="btn-secondary float-sm-end float-lg-end"
+                      className="btn btn-secondary"
                       type="button"
                       onClick={handleAddUserClick}
                     >
-                      <Unicons.UilPlus />
-                      <Unicons.UilUser />
+                      <Unicons.UilPlus /> Add User
                     </button>
                   </div>
-                  <div className="user-list-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                  <div className="user-list-container">
                     {users && users.length > 0 ? (
                       <UserList users={users} />
                     ) : (
@@ -97,15 +101,13 @@ const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
             </div>
           </div>
         </div>
-        <SideBarMobile/>
-        <div className="container d-md-block">
-        <p className="text-center text-muted m-2" >
-          © 2024 Copyright: JP made with Love 
-          <img src="/images/heart.svg" height="20px" width="20px" alt="" />
-        </p>
       </div>
-      </ThemeProvider>
-    </>
+      <SideBarMobile />
+      <footer className="text-center text-muted mt-3 mb-2">
+        © 2024 Copyright: JP made with Love 
+        <img src="/images/heart.svg" height="20px" width="20px" alt="" />
+      </footer>
+    </ThemeProvider>
   );
 };
 

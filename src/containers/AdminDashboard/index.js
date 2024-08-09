@@ -5,40 +5,53 @@ import { DashboardCounter } from "../../components/DashboardCounter";
 import AdminHeader from "../../components/AdminHeader";
 import { ThemeProvider } from "../../components/ThemeContext";
 import { getServerSideProps } from "../../actions/initialData.action";
+import './style.css'; // Import the CSS file
+import { SideBarMobile } from "../../components/SideBarMobile";
 
 const AdminDashboard = () => {
   const [initialData, setInitialData] = useState({ products: [], users: [] });
+  const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
 
   useEffect(() => {
-    const initialData = async () => {
+    const fetchInitialData = async () => {
       try {
         const initial = await getServerSideProps();
-        console.log(initial);
         setInitialData(initial.initialData);
       } catch (error) {
         console.error('Error fetching initial data:', error.message);
       }
     };
 
-    initialData();
+    fetchInitialData();
   }, []);
 
-  const [isSidebarMinimized] = useState(false);
+  const toggleSidebar = () => {
+    setIsSidebarMinimized(!isSidebarMinimized);
+  };
 
   return (
     <ThemeProvider>
       <AdminHeader />
-      <div className="d-flex h-100">
-        <SideBar
-          activeNavLink="home"
-          className={`vh-75 col-1 ${isSidebarMinimized ? ' sidebar-minimized' : ''}`}
-        />
-        <div className={`card m-2 col-11`}>
+      <div className="d-flex admin-dashboard-container">
+        <div className={`sidebar-container ${isSidebarMinimized ? 'minimized' : ''}`}>
+          <SideBar activeNavLink="home" />
+          <button onClick={toggleSidebar} className="toggle-sidebar-btn">
+            {isSidebarMinimized ? '>' : '<'}
+          </button>
+        </div>
+        <div className={`content-area card m-2 ${isSidebarMinimized ? 'expanded' : ''}`}>
           <div className="card-body">
             <DashboardCounter initialData={initialData} />
             <Biller initialData={initialData} />
           </div>
         </div>
+      </div>
+      <SideBarMobile isSidebarMinimized={isSidebarMinimized} toggleSidebar={toggleSidebar} />
+      <div className="container d-md-block">
+        <p className="text-center text-muted m-2">
+          © 2024 Copyright: JP made with Love 
+          <img src="/images/heart.svg" height="20px" width="20px" alt="" />
+        </p>
       </div>
     </ThemeProvider>
   );

@@ -1,0 +1,69 @@
+/* DashboardCounter.css */
+
+.dashboard-counter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Increased gap between cards for better spacing */
+    justify-content: center; /* Center the cards horizontally */
+    padding: 0;
+  }
+  
+  .card-dash {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1 1 200px; /* Cards will grow and shrink, with a base size of 200px */
+    margin: 0.5rem; /* Margin around each card */
+  }
+  
+  .card-dash:hover {
+    transform: scale(1.05); /* Slightly larger on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+  }
+  
+  .card-header {
+    background: rgba(0, 0, 0, 0.1);
+    border-bottom: 0;
+    padding: 1rem 1.5rem; /* Consistent padding */
+  }
+  
+  .card-body {
+    background: #ffffff;
+    color: black;
+    padding: 1.5rem; /* Consistent padding */
+  }
+  
+  .card-body h3 {
+    margin: 0;
+    font-size: 2rem; /* Larger font size for better readability */
+  }
+  
+  .card-header h4 {
+    margin: 0;
+    font-size: 1.5rem; /* Adjusted font size */
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .bg-primary {
+    background-color: #007bff !important;
+  }
+  
+  .bg-warning {
+    background-color: #ffc107 !important;
+  }
+  
+  .bg-danger {
+    background-color: #dc3545 !important;
+  }
+  
+  .bg-success {
+    background-color: #28a745 !important;
+  }
+  
+  @media (max-width: 768px) {
+    .card-dash {
+      flex: 1 1 100%; /* Full width for small screens */
+    }
+  }
+  

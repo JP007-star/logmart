@@ -114,7 +114,7 @@ const AddUser = ({ onCancel, onSubmit }) => {
               </Button>
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="w-100">
+              <Button variant="warning" type="submit" className="w-100">
                 Submit
               </Button>
             </Col>

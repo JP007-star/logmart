@@ -7,7 +7,7 @@ import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const CustomDataGrid = styled(DataGrid)({
   '& .MuiDataGrid-root': {
-    height: '500px',
+    height: '450px',
     '& .MuiDataGrid-columnsContainer': {
       backgroundColor: '#212529',
       color: '#fff',

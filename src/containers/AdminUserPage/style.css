@@ -1,96 +1,70 @@
-/* General styles for the AdminUsers component */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .card {
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background-color: #fff;
-  }
-  
-  .card-body {
-    padding: 20px;
-  }
-  
-  /* Sidebar styles */
-  .col-md-2 {
-    padding: 0;
-  }
-  
-  @media (max-width: 768px) {
-    .col-md-2 {
-      display: none;
-    }
-  }
-  
-  /* Button styling */
-  #add-user {
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 5px;
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: background-color 0.3s ease;
-    border: none;
-  }
-  
-  #add-user:hover {
-    background-color: #0056b3;
-    cursor: pointer;
-  }
-  
-  #add-user svg {
-    margin-right: 5px;
-  }
-  
-  /* User list container styles */
-  .user-list-container {
-    max-height: 400px;
-    overflow-y: auto;
-    padding: 1rem;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    margin-top: 1rem;
-  }
-  
-  .user-list-container::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .user-list-container::-webkit-scrollbar-track {
-    background: #e9ecef;
-    border-radius: 10px;
-  }
-  
-  .user-list-container::-webkit-scrollbar-thumb {
-    background-color: #007bff;
-    border-radius: 10px;
-  }
-  
-  /* Footer styles */
+/* style.css */
 
-  
-  /* Mobile responsive adjustments */
-  @media (max-width: 768px) {
-    .card-body {
-      padding: 1rem;
-    }
-  
-    #add-user {
-      width: 100%;
-      justify-content: center;
-      margin-top: 1rem;
-    }
-  
-    .user-list-container {
-      padding: 0.5rem;
-    }
-  
-  }
-  
+/* General container styles */
+.admin-users-container {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+}
+
+/* Sidebar styles */
+.sidebar-container {
+  border-right: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.sidebar-container.minimized {
+  width: 60px; /* Adjust this based on your design */
+}
+
+.sidebar-container.minimized .sidebar-content {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1.5rem;
+  transition: background 0.3s ease;
+}
+
+.toggle-sidebar-btn:hover {
+  background: #0056b3;
+}
+
+/* Main content styles */
+.main-content {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.expanded {
+  margin-left: 60px; /* Adjust this based on your design */
+}
+
+/* Card styling */
+.card {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* User list container */
+.user-list-container {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 1rem;
+}
+
+

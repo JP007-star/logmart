@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import Cart from '../../components/Cart';
 import { ThemeProvider } from "../../components/ThemeContext";
 import './style.css'
+import Footer from '../../components/Footer';
 
 
 const CartPage = () => {
@@ -40,7 +41,7 @@ const CartPage = () => {
             <div className='contentWrapper'>
             <Cart  products={products} cartCount={cartCount} grandTotal={grandTotal} />
             </div>
-          
+            <Footer/>
             </ThemeProvider>
         </div>
     );

@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import { ThemeProvider } from "../../components/ThemeContext";
 import './style.css'
 import OrderConfirmation from '../../components/OrderConfirmation';
+import Footer from '../../components/Footer';
 
 
 const OrderConfirmationPage = () => {
@@ -18,6 +19,7 @@ const OrderConfirmationPage = () => {
             <div className='contentWrapper'>
             <OrderConfirmation/>
             </div>
+            <Footer />
           
             </ThemeProvider>
         </div>

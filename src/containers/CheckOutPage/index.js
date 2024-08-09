@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import { ThemeProvider } from "../../components/ThemeContext";
 import './style.css'
 import CheckOut from '../../components/CheckOut';
+import Footer from '../../components/Footer';
 
 
 const CheckOutPage = () => {
@@ -18,6 +19,7 @@ const CheckOutPage = () => {
             <div className='contentWrapper'>
             <CheckOut/>
             </div>
+            <Footer />
           
             </ThemeProvider>
         </div>

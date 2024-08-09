@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTag, faCutlery, faUsers, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTag, faCutlery, faUsers } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './style.module.css';
 
@@ -70,6 +70,15 @@ const SideBar = ({ activeNavLink }) => {
                 </div>
                 {!isSidebarMinimized && <span className="ms-2">Orders</span>}
               </Nav.Link>
+              {/* <Nav.Link
+                href="/admin/invoice/invoices"
+                className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'invoice' ? 'active' : ''}`}
+              >
+                <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
+                  <FontAwesomeIcon icon={faMoneyBill} size={isSidebarMinimized ? '2x' : 'lg'} />
+                </div>
+                {!isSidebarMinimized && <span className="ms-2">Invoice</span>}
+              </Nav.Link> */}
               <Nav.Link
                 href="/admin/product/products"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'products' ? 'active' : ''}`}

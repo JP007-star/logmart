@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { AdminCart } from "../AdminCart";
-import './style.css'; // Import the CSS file
+import './style.css'; // Import the updated CSS file
 
 export const Biller = ({ initialData }) => {
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -11,13 +11,13 @@ export const Biller = ({ initialData }) => {
 
   const handleProductChange = (event) => {
     const selectedProductId = event.target.value;
-    const selectedProduct = initialData.products.find(
+    const product = initialData.products.find(
       (product) => product._id === selectedProductId
     );
-    if (selectedProduct) {
-      setSelectedProduct(selectedProduct.title);
-      setSelectedProductQuantity(selectedProduct.quantity);
-      setSelectedProductPrice(selectedProduct.price);
+    if (product) {
+      setSelectedProduct(product.title);
+      setSelectedProductQuantity(product.quantity);
+      setSelectedProductPrice(product.price);
     } else {
       setSelectedProduct("");
       setSelectedProductQuantity(0);
@@ -30,9 +30,7 @@ export const Biller = ({ initialData }) => {
   };
 
   const handleAddToCart = () => {
-    // Add functionality to handle adding the product to the cart
     if (quantity > 0 && selectedProductPrice > 0) {
-      // Your logic to add to cart
       console.log(`Added ${quantity} of ${selectedProduct} to cart at $${selectedProductPrice} each.`);
     }
   };
@@ -44,12 +42,12 @@ export const Biller = ({ initialData }) => {
   ));
 
   return (
-    <div className="row justify-content-evenly pt-3 mt-3">
-      <div className="card col-lg-5 shadow-sm rounded">
+    <div className="biller-container">
+      <div className="biller-form card shadow-sm rounded">
         <div className="card-body">
-          <Form className="p-2">
+          <Form className="p-3">
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="productSelect">Product</Form.Label>
+              <Form.Label htmlFor="productSelect" className="form-label">Product</Form.Label>
               <Form.Select id="productSelect" size="lg" onChange={handleProductChange}>
                 <option value="">Select a product</option>
                 {options}
@@ -58,8 +56,8 @@ export const Biller = ({ initialData }) => {
 
             <Form.Group className="mb-3">
               <div className="d-flex justify-content-between">
-                <Form.Label htmlFor="quantityInput">Quantity</Form.Label>
-                <small className="form-text text-muted">
+                <Form.Label htmlFor="quantityInput" className="form-label">Quantity</Form.Label>
+                <small className="form-text">
                   Stock: {selectedProductQuantity}
                 </small>
               </div>
@@ -74,7 +72,7 @@ export const Biller = ({ initialData }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="priceInput">Price</Form.Label>
+              <Form.Label htmlFor="priceInput" className="form-label">Price</Form.Label>
               <Form.Control
                 type="number"
                 id="priceInput"
@@ -94,7 +92,7 @@ export const Biller = ({ initialData }) => {
           </Form>
         </div>
       </div>
-      <div className="card col-lg-5 shadow-sm rounded">
+      <div className="biller-cart card shadow-sm rounded">
         <div className="card-body">
           <AdminCart />
         </div>

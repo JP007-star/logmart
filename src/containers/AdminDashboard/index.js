@@ -8,7 +8,7 @@ import { getServerSideProps } from "../../actions/initialData.action";
 import './style.css'; // Import the CSS file
 import { SideBarMobile } from "../../components/SideBarMobile";
 
-const AdminDashboard = () => {
+const AdminHome = () => {
   const [initialData, setInitialData] = useState({ products: [], users: [] });
   const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
 
@@ -40,7 +40,7 @@ const AdminDashboard = () => {
           </button>
         </div>
         <div className={`content-area card m-2 ${isSidebarMinimized ? 'expanded' : ''}`}>
-          <div className="card-body">
+          <div>
             <DashboardCounter initialData={initialData} />
             <Biller initialData={initialData} />
           </div>
@@ -57,4 +57,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default AdminHome;

@@ -4,7 +4,7 @@ import './style.css'; // Import the updated CSS file
 
 export const DashboardCounter = ({ initialData }) => {
   return (
-    <div className="dashboard-counter-container row p-3">
+    <div className="dashboard-counter-container row ">
       <div className="card-dash text-white bg-primary shadow-sm rounded" style={{ maxWidth: "14rem" }}>
         <div className="card-header h4 text-center">
           <Unicons.UilUser /> Users

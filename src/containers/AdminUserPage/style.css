@@ -10,6 +10,7 @@
 /* Sidebar styles */
 .sidebar-container {
   border-right: 1px solid #dee2e6;
+  position: relative;
   transition: all 0.3s ease;
 }
 
@@ -42,11 +43,13 @@
 
 /* Main content styles */
 .main-content {
+  flex: 1;
   padding: 1rem;
   background-color: #f8f9fa;
   transition: margin-left 0.3s ease;
 }
 
+/* Sidebar minimization effects */
 .main-content.expanded {
   margin-left: 60px; /* Adjust this based on your design */
 }
@@ -58,7 +61,23 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Button styling */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+}
 
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.btn-primary .uil-plus {
+  margin-right: 0.5rem;
+}
 
 /* User list container */
 .user-list-container {
@@ -67,4 +86,65 @@
   margin-top: 1rem;
 }
 
+/* Footer styling */
+footer {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-top: 1px solid #dee2e6;
+}
 
+/* Responsive adjustments */
+@media (max-width: 1199px) {
+  .admin-users-container {
+    flex-direction: column;
+  }
+
+  .sidebar-container {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
+    position: static;
+  }
+
+  .toggle-sidebar-btn {
+    display: none;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .sidebar-container {
+    width: 100%;
+  }
+
+  .main-content {
+    padding: 0.5rem;
+  }
+
+  .user-list-container {
+    max-height: 300px;
+  }
+
+  .card {
+    margin: 0.5rem 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .btn-primary {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+  }
+
+  .toggle-sidebar-btn {
+    display: block;
+    font-size: 1.25rem;
+  }
+
+  .main-content {
+    padding: 0.25rem;
+  }
+}

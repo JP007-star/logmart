@@ -1,81 +1,48 @@
 import React from 'react';
-
-/**
- * @author
- * @function AdminCart
- **/
-
-import './style.module.css'
+import './style.css';
 
 export const AdminCart = (props) => {
+  const items = [
+    { id: 1, product: 'Product 1', price: 100, quantity: 2, total: 200 },
+    { id: 2, product: 'Product 2', price: 150, quantity: 3, total: 450 },
+    { id: 3, product: 'Product 2', price: 150, quantity: 3, total: 450 },
+    { id: 4, product: 'Product 2', price: 150, quantity: 3, total: 450 },
+    { id: 5, product: 'Product 2', price: 150, quantity: 3, total: 450 },
+    { id: 6, product: 'Product 3', price: 120, quantity: 1, total: 120 },
+  ];
+
+  const grandTotal = items.reduce((acc, item) => acc + item.total, 0);
+
   return (
-    <div  style={{maxHeight:"300px", overflowY:"scroll"}}>
-      <div className="table-responsive">
-        <table className="table">
-          <thead >
+    <div className="cart-table-wrapper">
+        <table className="cart-table">
+          <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Product</th>
-              <th scope="col">Price ₹</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Total</th>
+              <th>ID</th>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
             </tr>
           </thead>
-         
-          <tbody className="table-body"   >
-            <tr>
-              <th scope="row">1</th>
-              <td>Product 1</td>
-              <td>100</td>
-              <td>2</td>
-              <td>200</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Product 2</td>
-              <td>150</td>
-              <td>3</td>
-              <td>450</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Product 2</td>
-              <td>150</td>
-              <td>3</td>
-              <td>450</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Product 2</td>
-              <td>150</td>
-              <td>3</td>
-              <td>450</td>
-            </tr>
-             <tr>
-              <th scope="row">2</th>
-              <td>Product 2</td>
-              <td>150</td>
-              <td>3</td>
-              <td>450</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Product 3</td>
-              <td>120</td>
-              <td>1</td>
-              <td>120</td>
-            </tr>
+          <tbody>
+            {items.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.product}</td>
+                <td>₹{item.price}</td>
+                <td>{item.quantity}</td>
+                <td>₹{item.total}</td>
+              </tr>
+            ))}
           </tbody>
-         
-         
-          <tfoot className="sticky-bottom">
+          <tfoot>
             <tr>
-              <th colSpan={4}>Grant Total</th>
-              <td colSpan={2}>770</td>
+              <td colSpan="4">Grand Total:</td>
+              <td>₹{grandTotal}</td>
             </tr>
           </tfoot>
         </table>
-      </div>
     </div>
   );
 };

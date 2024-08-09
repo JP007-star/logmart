@@ -78,11 +78,11 @@ const AdminUsers = ({ users: initialUsers }) => {
                 />
               ) : (
                 <div className="user-list-section">
-                  <div className="row">
+                  <div className="d-flex justify-content-between mb-3">
                     <h2>User List</h2>
                     <button
                       id="add-user"
-                      className="btn btn-secondary"
+                      className="w-25 btn btn-primary"
                       type="button"
                       onClick={handleAddUserClick}
                     >

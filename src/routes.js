@@ -1,4 +1,4 @@
-import AdminDashboard from "./containers/AdminDashboard";
+import AdminHome from "./containers/AdminDashboard";
 import AdminLoginPage from "./containers/AdminLoginPage";
 import AdminUsers from "./containers/AdminUserPage";
 import CartPage from "./containers/CartPage";
@@ -16,8 +16,8 @@ const routes=[
         element:<AdminLoginPage/>
     },
     {
-        path:"/admin/dashboard",
-        element:<AdminDashboard/>
+        path:"/admin/home",
+        element:<AdminHome/>
     },
     {
         path:"/admin/user/users",

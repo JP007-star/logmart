@@ -42,7 +42,7 @@ const SideBar = ({ activeNavLink }) => {
         <Col xs={12} className="p-0">
           <Nav className={`nav nav-pills flex-column mb-auto w-100 ${isSidebarMinimized ? 'flex-row' : ''}`}>
             <Nav.Link
-              href="/admin/dashboard"
+              href="/admin/home"
               className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'home' ? 'active' : ''}`}
             >
               <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>

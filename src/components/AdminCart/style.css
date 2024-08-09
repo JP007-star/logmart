@@ -1,0 +1,81 @@
+/* AdminCart.css */
+
+/* General Styles */
+.cart-container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cart-table-wrapper {
+  max-height: 350px; /* Fixed height for scrollable tbody */
+  overflow: auto; /* Allows horizontal and vertical scrolling */
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-spacing: 0;
+}
+
+.cart-table thead th,
+.cart-table tfoot td {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 0; /* For thead */
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+}
+
+.cart-table tfoot {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0; /* For tfoot */
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+  border-top: 1px solid #ddd;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.cart-table td {
+  font-size: 14px;
+  color: #555;
+}
+
+.cart-table tfoot td {
+  font-weight: bold;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+  .cart-table th,
+  .cart-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+}

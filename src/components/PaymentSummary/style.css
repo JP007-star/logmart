@@ -1,0 +1,52 @@
+/* Payment Summary Container */
+.payment-summary {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+/* Summary Title */
+.payment-summary h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Summary Details */
+.payment-summary p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .payment-summary {
+        padding: 15px;
+    }
+
+    .payment-summary h4 {
+        font-size: 1.125rem;
+    }
+
+    .payment-summary p {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .payment-summary {
+        padding: 10px;
+    }
+
+    .payment-summary h4 {
+        font-size: 1rem;
+    }
+
+    .payment-summary p {
+        font-size: 0.75rem;
+    }
+}

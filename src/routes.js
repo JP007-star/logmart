@@ -1,8 +1,11 @@
+import OrderConfirmation from "./components/OrderConfirmation";
 import AdminDashboard from "./containers/AdminDashboard";
 import AdminLoginPage from "./containers/AdminLoginPage";
 import AdminUsers from "./containers/AdminUserPage";
 import CartPage from "./containers/CartPage";
+import CheckOutPage from "./containers/CheckOutPage";
 import HomePage from "./containers/HomePage";
+import OrderConfirmationPage from "./containers/OrderConfirmationPage";
 
 const routes=[
     {
@@ -20,9 +23,18 @@ const routes=[
     {
         path:"/admin/user",
         element:<AdminUsers/>
-    },   {
+    },  
+    {
         path:"/cart",
         element:<CartPage/>
+    },
+    {
+        path:"/checkout",
+        element:<CheckOutPage/>
+    },
+    {
+        path:"/success",
+        element:<OrderConfirmationPage/>
     },
 ]
 

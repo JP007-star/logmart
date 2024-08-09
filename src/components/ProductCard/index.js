@@ -43,7 +43,7 @@ const ProductCard = ({ product }) => {
           <button onClick={handleBuyNow} className='btn-secondary'>
             Buy
           </button>
-          <button onClick={handleAddToCart} className='btn-primary'>
+          <button onClick={handleAddToCart} className='btn-warning'>
             + <Unicons.UilShoppingCartAlt />
           </button>
         </div>

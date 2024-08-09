@@ -4,7 +4,7 @@ import CartCard from '../CartCard';
 import CartSummary from '../CartSummary';
 
 const Cart = ({ products, cartCount, grandTotal }) => {
-
+   
     const handleAddQuantity = (cartId) => {
         // Logic to add quantity
         console.log(`Added quantity for cart ID: ${cartId}`);
@@ -56,7 +56,7 @@ const Cart = ({ products, cartCount, grandTotal }) => {
                         ))}
                     
                     </ul>
-                    <CartSummary />
+                    <CartSummary showPlaceOrder={true} />
                     </div>
                 </>
             ) : (

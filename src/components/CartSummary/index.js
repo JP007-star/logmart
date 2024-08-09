@@ -1,30 +1,39 @@
 import React from 'react';
 import './style.css';
+import { useNavigate } from 'react-router-dom';
 
-const CartSummary = ({ totalItems, totalPrice, totalDiscount, finalAmount }) => {
+const CartSummary = ({ totalItems, totalPrice, totalDiscount, finalAmount, showPlaceOrder }) => {
+    const navigate = useNavigate();
+
+
+    const handleAddToCart = () => {
+        navigate('/checkout'); 
+          };
+
     return (
         <div className="cartSummary p-2 m-lg-2 m-md-2">
             <h2>PRICE DETAILS</h2>
             <div className="priceBreakdown m-2 p-2">
                 <div className="priceRow">
-                    <span>Price ({totalItems}335 items)</span>
-                    <span>₹{totalPrice}345</span>
+                    <span>Price ({totalItems} items)</span>
+                    <span>₹{totalPrice}</span>
                 </div>
                 <div className="priceRow">
                     <span>Discount</span>
-                    <span className="discount">- ₹{totalDiscount} 474</span>
+                    <span className="discount">- ₹{totalDiscount}</span>
                 </div>
                 <div className="priceRow">
                     <span>Delivery Charges</span>
                     <span className="deliveryCharge">Free</span>
                 </div>
-            
                 <div className="totalAmount">
                     <span>Total Amount</span>
-                    <span>₹{finalAmount}3463</span>
+                    <span>₹{finalAmount}</span>
                 </div>
                 <p className="savings">You will save ₹{totalDiscount} on this order</p>
-                <button className="placeOrderBtn">Place Order</button>
+                {showPlaceOrder && (
+                    <button className="placeOrderBtn" onClick={handleAddToCart}>Place Order</button>
+                )}
             </div>
         </div>
     );

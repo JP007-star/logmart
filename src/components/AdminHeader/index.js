@@ -1,4 +1,3 @@
-// components/AdminHeader.js
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../ThemeContext";
 import { Navbar, Nav } from "react-bootstrap";
@@ -20,7 +19,6 @@ const AdminHeader = () => {
   };
 
   useEffect(() => {
-    // Update currentDateTime every second
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000);
@@ -28,22 +26,14 @@ const AdminHeader = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Format time with 12-hour and seven-segment style
   const formattedTime = currentDateTime.toLocaleTimeString(undefined, {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
     hour12: true,
-    locale: "en-IN", // Set locale to English - India
-    timeZone: "Asia/Kolkata", // Set the time zone to the one used in India
   });
-  
 
-  // Format date in words (e.g., Tuesday, January 25th 2022)
   const formattedDateWords = format(currentDateTime, "EEEE, MMMM do yyyy");
-
-  // Format date in dd/mm/yyyy format
-  const formattedDateDDMMYYYY = format(currentDateTime, "dd/MM/yyyy");
 
   return (
     <Navbar
@@ -53,14 +43,24 @@ const AdminHeader = () => {
       expand="lg"
       style={headerStyle}
     >
-     
-      <Navbar.Text className="col-3 d-md-block text-center">
-        {formattedDateWords} ({formattedDateDDMMYYYY})
-      </Navbar.Text>
-      <Navbar.Text className={`sevenSegment h3 col-5 d-md-block text-center  ${styles.ledFont}`}>
-        {formattedTime}
-      </Navbar.Text>
-      <Navbar.Collapse id="responsive-navbar-nav ms-lg-3">
+      <Navbar.Brand className="d-flex align-items-center m-3">
+        <img
+          src="/images/logo.png"
+          alt="Logo"
+          className={styles.logo}
+        />
+              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
+        <div className="d-none d-lg-block ms-3">
+          <Navbar.Text className={styles.dateText}>
+            {formattedDateWords}
+          </Navbar.Text>
+          <Navbar.Text className={`sevenSegment ${styles.timeText}`}>
+            {formattedTime}
+          </Navbar.Text>
+        </div>
+      </Navbar.Brand>
+      <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
         <Nav className="m-3">
           <Nav.Link href="/admin/dashboard" style={menuStyle}>
             Dashboard
@@ -76,6 +76,14 @@ const AdminHeader = () => {
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
+      <div className="d-lg-none text-center mt-2">
+        <Navbar.Text className={styles.dateText}>
+          {formattedDateWords}
+        </Navbar.Text>
+        <Navbar.Text className={`sevenSegment ${styles.timeText}`}>
+          {formattedTime}
+        </Navbar.Text>
+      </div>
     </Navbar>
   );
 };

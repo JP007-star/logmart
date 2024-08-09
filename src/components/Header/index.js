@@ -42,8 +42,9 @@ const Header = () => {
           <Unicons.UilBell/>
           </div>
           <div className="float-end m-3 d-sm-none ">
-          <Unicons.UilShoppingCartAlt/>
-          </div>
+          <Nav.Link href="/cart" style={menuStyle}>
+            <Unicons.UilShoppingCartAlt/>
+            </Nav.Link>          </div>
          
         </Navbar.Brand>
         <Form inline className="mr-3 col-md-6 col-sm-10">
@@ -59,7 +60,7 @@ const Header = () => {
             <Nav.Link href="/" style={menuStyle}>
             <Unicons.UilEstate /> Home
             </Nav.Link>
-            <Nav.Link href="/products" style={menuStyle}>
+            <Nav.Link href="/" style={menuStyle}>
             <Unicons.UilApps /> Products
             </Nav.Link>
             <Nav.Link href="/cart" style={menuStyle}>

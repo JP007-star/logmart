@@ -7,7 +7,7 @@ import UserList from "../../components/UserList";
 import AdminHeader from "../../components/AdminHeader";
 import { getServerSideProps } from "../../actions/initialData.action";
 import { SideBarMobile } from "../../components/SideBarMobile";
-
+import './style.css'
 const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
   const [isAddUserVisible, setAddUserVisible] = useState(false);
   const [users, setUsers] = useState(initialUsers);
@@ -77,7 +77,7 @@ const AdminUsers = ({ users: initialUsers, userCount: initialUserCount }) => {
                     <h2>User List</h2>
                     <button
                       id="add-user"
-                      className="btn btn-primary float-sm-end float-lg-end"
+                      className="btn-secondary float-sm-end float-lg-end"
                       type="button"
                       onClick={handleAddUserClick}
                     >

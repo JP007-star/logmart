@@ -1,6 +1,14 @@
+/* Sidebar Container */
 .sidebar {
   transition: width 0.3s ease-in-out;
-  width: 200px;
+  width: 240px;
+  height: 100vh;
+  background-color: #343a40;
+  color: #ffffff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
 }
 
 .sidebar.minimized {
@@ -11,17 +19,77 @@
   cursor: pointer;
   padding: 10px;
 }
+
+.logo img {
+  max-width: 80%;  /* Scale the logo to take up 80% of its container width */
+  max-height: 80px; /* Set a max height to ensure it’s not too large */
+  transition: all 0.3s ease-in-out;
+  object-fit: contain;
+}
+
+.sidebar.minimized .logo img {
+  max-width: 50%; /* Scale down further when minimized */
+  max-height: 50px; /* Adjust the height for the minimized state */
+}
+
 .active {
-  background-color: #007bff; /* Change this color to the desired blue color */
+  background-color: #007bff;
+  border-radius: 0.25rem;
 }
+
 .line:hover {
-  background-color: #007bff; /* Change this color to the desired blue color */
+  background-color: #0056b3;
+  border-radius: 0.25rem;
 }
 
-
-
-.nav-link {
-  padding: 10px;
+.nav-pills .nav-link {
+  color: #ffffff;
+  padding: 15px 10px;
+  margin: 5px 0;
+  transition: background-color 0.2s, padding 0.2s, font-size 0.2s;
+  border-radius: 0.25rem;
 }
 
-/* Add more styles for a smooth transition effect */
+.nav-pills .nav-link.active {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.nav-pills .nav-link .iconOnly {
+  margin-right: 0;
+}
+
+.nav-pills .nav-link span {
+  font-size: 1rem;
+  margin-left: 10px;
+}
+
+.nav-pills .nav-link.active .iconOnly {
+  color: #ffffff;
+}
+
+.nav-pills .nav-link .iconOnly {
+  transition: transform 0.3s ease;
+}
+
+.sidebar.minimized .nav-pills .nav-link {
+  justify-content: center;
+}
+
+.sidebar.minimized .nav-pills .nav-link span {
+  display: none;
+}
+
+.sidebar.minimized .nav-pills .nav-link .iconOnly {
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80px;
+  }
+
+  .sidebar.minimized {
+    width: 60px;
+  }
+}

@@ -28,7 +28,7 @@ const Footer = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="#" className="nav-link px-2 text-muted"> {/* Replace <a> with <Link> */}
+            <Link to="/" className="nav-link px-2 text-muted"> {/* Replace <a> with <Link> */}
               <Unicons.UilApps />
             </Link>
           </li>
@@ -43,7 +43,7 @@ const Footer = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="#" className="nav-link px-2 text-muted"> {/* Replace <a> with <Link> */}
+            <Link to="/cart" className="nav-link px-2 text-muted"> {/* Replace <a> with <Link> */}
               <Unicons.UilShoppingCartAlt/>
             </Link>
           </li>

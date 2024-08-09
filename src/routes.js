@@ -16,11 +16,11 @@ const routes=[
         element:<AdminLoginPage/>
     },
     {
-        path:"/admin/dash",
+        path:"/admin/dashboard",
         element:<AdminDashboard/>
     },
     {
-        path:"/admin/user",
+        path:"/admin/user/users",
         element:<AdminUsers/>
     },  
     {

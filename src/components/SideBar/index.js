@@ -41,7 +41,7 @@ const SideBar = ({ activeNavLink }) => {
       <div className={`${styles.sidebar} shadow-lg rounded bg-dark ${isSidebarMinimized ? styles.minimized : ''}`}>
         <div className={styles.logo} onClick={handleLogoClick}>
           <img
-            className="w-75 h-25"
+           
             src={`${isSidebarMinimized ? '/images/logo_light_mini.png' : '/images/logo_light.png'}`}
             alt="Description"
             width={500}
@@ -53,7 +53,7 @@ const SideBar = ({ activeNavLink }) => {
             {/* Navigation */}
             <Nav className={`nav nav-pills flex-column mb-auto w-100 ${isSidebarMinimized ? 'flex-row' : ''}`}>
               <Nav.Link
-                href="/admin"
+                href="/admin/dashboard"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'home' ? 'active' : ''}`}
               >
                 <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
@@ -70,7 +70,7 @@ const SideBar = ({ activeNavLink }) => {
                 </div>
                 {!isSidebarMinimized && <span className="ms-2">Orders</span>}
               </Nav.Link>
-              <Nav.Link
+              {/* <Nav.Link
                 href="/admin/invoice/invoices"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'invoice' ? 'active' : ''}`}
               >
@@ -78,7 +78,7 @@ const SideBar = ({ activeNavLink }) => {
                   <FontAwesomeIcon icon={faMoneyBill} size={isSidebarMinimized ? '2x' : 'lg'} />
                 </div>
                 {!isSidebarMinimized && <span className="ms-2">Invoice</span>}
-              </Nav.Link>
+              </Nav.Link> */}
               <Nav.Link
                 href="/admin/product/products"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'products' ? 'active' : ''}`}

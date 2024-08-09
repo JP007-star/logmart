@@ -74,13 +74,7 @@
   color: #777; /* Color for rating text */
 }
 
-/* Buttons Container */
-.buttonsContainer {
-  display: flex;
-  flex-direction: column; /* Stack buttons vertically on small screens */
-  gap: 8px; /* Spacing between buttons */
-  margin-top: 12px; /* Spacing above buttons */
-}
+
 
 /* Button Styles */
 .btn {

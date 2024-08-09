@@ -2,18 +2,21 @@ import React from 'react';
 import './style.css'; // Importing plain CSS
 import { useTheme } from '../ThemeContext';
 import * as Unicons from '@iconscout/react-unicons';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+
   const { isDarkTheme } = useTheme();
   const { title, price, image, rating } = product;
 
   const handleBuyNow = () => {
-    alert(`Buying ${title} now!`);
-    // Add logic for handling the "Buy Now" action
+    navigate('/cart'); 
   };
 
   const handleAddToCart = () => {
-    alert(`Adding ${title} to the cart!`);
+    navigate('/cart'); 
+
     // Add logic for handling the "Add to Cart" action
   };
 

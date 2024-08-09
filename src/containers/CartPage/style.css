@@ -1,0 +1,14 @@
+/* style.module.css */
+.darkContainer {
+  background-color: #000; /* Dark theme background color */
+  color: #fff; /* Dark theme text color */
+}
+
+.lightContainer {
+  background-color: #fff; /* Light theme background color */
+  color: #000; /* Light theme text color */
+}
+
+.contentWrapper {
+  margin-top: 120px; /* Adjust this value based on your header height */
+}

@@ -3,16 +3,16 @@ import { ThemeProvider } from "../../components/ThemeContext";
 import * as Unicons from "@iconscout/react-unicons";
 import SideBar from "../../components/SideBar";
 import AddUser from "../../components/AddUser";
-import UserList from "../../components/UserList";
 import AdminHeader from "../../components/AdminHeader";
 import { getServerSideProps } from "../../actions/initialData.action";
 import { SideBarMobile } from "../../components/SideBarMobile";
 import './style.css'; // Import the CSS file
 import { userApi } from "../../config";
+import ProductList from "../../components/ProductList";
 
-const AdminUsers = ({ users: initialUsers }) => {
+const AdminProducts = ({ users: initialUsers }) => {
   const [isAddUserVisible, setAddUserVisible] = useState(false);
-  const [users, setUsers] = useState(initialUsers);
+  const [products, setProducts] = useState('');
   const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
 
   const toggleSidebar = () => {
@@ -23,7 +23,7 @@ const AdminUsers = ({ users: initialUsers }) => {
     const fetchUsers = async () => {
       try {
         const initial = await getServerSideProps();
-        setUsers(initial.initialData.users);
+        setProducts(initial.initialData.users);
       } catch (error) {
         console.error('Error fetching initial data:', error.message);
       }
@@ -48,7 +48,7 @@ const AdminUsers = ({ users: initialUsers }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setUsers([...users, data.user]);
+        setProducts([...products, data.product]);
         setAddUserVisible(false);
       } else {
         console.error("Failed to add user:", response.statusText);
@@ -61,9 +61,9 @@ const AdminUsers = ({ users: initialUsers }) => {
   return (
     <ThemeProvider>
       <AdminHeader />
-      <div className="d-flex admin-users-container">
+      <div className="d-flex admin-products-container">
         <div className={`sidebar-container ${isSidebarMinimized ? 'minimized' : ''}`}>
-          <SideBar activeNavLink="users" />
+          <SideBar activeNavLink="products" />
           <button onClick={toggleSidebar} className="toggle-sidebar-btn">
             {isSidebarMinimized ? '>' : '<'}
           </button>
@@ -79,7 +79,7 @@ const AdminUsers = ({ users: initialUsers }) => {
               ) : (
                 <div className="user-list-section">
                   <div className="d-flex justify-content-between mb-3">
-                    <h2>Customers</h2>
+                    <h2>Products</h2>
                     <button
                       id="add-user"
                       className="w-25 btn btn-primary"
@@ -90,10 +90,10 @@ const AdminUsers = ({ users: initialUsers }) => {
                     </button>
                   </div>
                   <div className="user-list-container">
-                    {users && users.length > 0 ? (
-                      <UserList users={users} />
+                    {products && products.length > 0 ? (
+                      <ProductList products={products} />
                     ) : (
-                      <p>No users available.</p>
+                      <p>No products available.</p>
                     )}
                   </div>
                 </div>
@@ -111,4 +111,4 @@ const AdminUsers = ({ users: initialUsers }) => {
   );
 };
 
-export default AdminUsers;
+export default AdminProducts;

@@ -51,7 +51,7 @@ const SideBar = ({ activeNavLink }) => {
               {!isSidebarMinimized && <span className="ms-2">Home</span>}
             </Nav.Link>
             <Nav.Link
-              href="/admin/order/orders"
+              href="/admin/orders"
               className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'orders' ? 'active' : ''}`}
             >
               <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
@@ -60,7 +60,7 @@ const SideBar = ({ activeNavLink }) => {
               {!isSidebarMinimized && <span className="ms-2">Orders</span>}
             </Nav.Link>
             <Nav.Link
-              href="/admin/product/products"
+              href="/admin/products"
               className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'products' ? 'active' : ''}`}
             >
               <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
@@ -69,7 +69,7 @@ const SideBar = ({ activeNavLink }) => {
               {!isSidebarMinimized && <span className="ms-2">Products</span>}
             </Nav.Link>
             <Nav.Link
-              href="/admin/user/users"
+              href="/admin/users"
               className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'users' ? 'active' : ''}`}
             >
               <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>

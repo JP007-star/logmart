@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { styled } from '@mui/system';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  userDNS } from '../../config';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-
+import styled from 'styled-components';
 const CustomDataGrid = styled(DataGrid)({
   '& .MuiDataGrid-root': {
-    height: '450px',
+    height: '500px',
     '& .MuiDataGrid-columnsContainer': {
       backgroundColor: '#212529',
       color: '#fff',
@@ -17,25 +13,41 @@ const CustomDataGrid = styled(DataGrid)({
     },
   },
 });
-
-const UserList = ({ users, darkMode }) => {
+const OrderList = ({ orders, darkMode }) => {
   const columns = React.useMemo(
     () => [
-      { field: 'profilePicture', headerName: 'Profile Picture', width: 150, renderCell: (params) => (<img src={userDNS+params.value} alt="Profile" style={{ width: 50, borderRadius: '50%' }} />) },
-      { field: 'firstName', headerName: 'First Name', width: 150 },
-      { field: 'lastName', headerName: 'Last Name', width: 150 },
-      { field: 'email', headerName: 'Email', width: 300 },
-      { field: 'role', headerName: 'Role', width: 150 },
-      { field: 'edit', headerName: 'Action', width: 100 , renderCell: (params) => (<button className='btn btn-secondary' onClick={() => handleEdit(params.value)}><FontAwesomeIcon icon={faEdit}/></button>), },
-      { field: 'delete', headerName: 'Action', width: 100 , renderCell: (params) => (<button className='btn btn-danger' onClick={() => handleDelete(params.value)}><FontAwesomeIcon icon={faTrash}/></button>), },
-
+      {
+        field: 'image',
+        headerName: 'Image',
+        width: 150,
+        renderCell: (params) => (
+          <img
+            src={params.value}
+            alt="Product"
+            style={{ width: '80px', height: '80px', objectFit: 'cover' }}
+          />
+        ),
+      },
+      { field: 'title', headerName: 'Title',width: 250 },
+      { field: 'price', headerName: 'Price',width: 150 },
+      {
+        field: 'description',
+        headerName: 'Description',
+        width: 150 ,
+        renderCell: (params) => (
+          <div style={{ maxHeight: '100px', overflowY: 'auto' }}>
+            {params.value}
+          </div>
+        ),
+      },
+      { field: 'category', headerName: 'Category', width: 150 },
     ],
     []
   );
 
   const [sortModel, setSortModel] = useState([
     {
-      field: 'firstName',
+      field: 'title',
       sort: 'asc',
     },
   ]);
@@ -48,16 +60,8 @@ const UserList = ({ users, darkMode }) => {
     setSearchText(event.target.value);
   };
 
-
-  const handleEdit = (event) => {
-   
-  };
-  const handleDelete= (event) => {
-   
-  };
-
-  const filteredUsers = users.filter((user) =>
-    Object.values(user).some(
+  const filteredorders = orders.filter((product) =>
+    Object.values(product).some(
       (value) =>
         value && value.toString().toLowerCase().includes(searchText.toLowerCase())
     )
@@ -65,11 +69,11 @@ const UserList = ({ users, darkMode }) => {
 
   return (
     <div style={{ height: 400, width: '100%' }}>
-      {users.length === 0 ? (
-        <div className="text-center">No users available.</div>
+      {orders.length === 0 ? (
+        <div className="text-center">No orders available.</div>
       ) : (
         <CustomDataGrid
-          rows={filteredUsers}
+          rows={filteredorders}
           columns={columns}
           pageSize={10}
           sortingOrder={['asc', 'desc']}
@@ -98,4 +102,4 @@ const UserList = ({ users, darkMode }) => {
   );
 };
 
-export default UserList;
+export default OrderList;

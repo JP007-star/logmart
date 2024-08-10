@@ -25,7 +25,7 @@ export const userSignIn = async (formData) => {
         sessionStorage.setItem('token', token);
 
         // Navigate to the desired location
-        window.location.href = '/admin/user/users';
+        window.location.href = '/admin/home';
 
         // Return the token (optional)
         return token;

@@ -63,7 +63,7 @@ const AdminHeader = () => {
       <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
         <Nav className="m-3">
           <Nav.Link href="/admin/home" style={menuStyle}>
-            Dashboard
+            Home
           </Nav.Link>
           <Nav.Link href="/admin/orders" style={menuStyle}>
             Orders

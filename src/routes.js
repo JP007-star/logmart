@@ -1,5 +1,7 @@
-import AdminHome from "./containers/AdminDashboard";
+import AdminHome from "./containers/AdminHome";
 import AdminLoginPage from "./containers/AdminLoginPage";
+import AdminOrders from "./containers/AdminOrders";
+import AdminProducts from "./containers/AdminProducts";
 import AdminUsers from "./containers/AdminUserPage";
 import CartPage from "./containers/CartPage";
 import CheckOutPage from "./containers/CheckOutPage";
@@ -20,15 +22,23 @@ const routes=[
         element:<AdminHome/>
     },
     {
-        path:"/admin/user/users",
+        path:"/admin/users",
         element:<AdminUsers/>
+    },  
+    {
+        path:"/admin/orders",
+        element:<AdminOrders/>
+    },  
+    {
+        path:"/admin/products",
+        element:<AdminProducts/>
     },  
     {
         path:"/cart",
         element:<CartPage/>
     },
     {
-        path:"/checkout",
+        path:"/checkout", 
         element:<CheckOutPage/>
     },
     {

@@ -16,7 +16,7 @@ const ProductUserCard = () => {
         console.log(productApi);
         const response = await fetch(productApi);
         const data = await response.json();
-        setProducts(data);
+        setProducts(data.products);
         console.log(data);
       } catch (error) {
         console.error('Error fetching products:', error);

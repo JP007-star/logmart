@@ -38,8 +38,9 @@ export const AdminCart = (props) => {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="4">Grand Total:</td>
+              <td colSpan="3">Grand Total:</td>
               <td>₹{grandTotal}</td>
+              <td><button className='btn btn-warning' style={{color:"black"}}>Check out</button></td>
             </tr>
           </tfoot>
         </table>

@@ -27,7 +27,7 @@ export const DashboardCounter = ({ initialData }) => {
         <div className="card-header h4 text-center">
           <Unicons.UilMoneyBill /> Revenue
         </div>
-        <div className="card-body h3 text-center">$10,000</div>
+        <div className="card-body h3 text-center">₹10,000</div>
       </div>
     </div>
   );

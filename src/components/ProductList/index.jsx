@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import styled from 'styled-components';
+import { styled } from '@mui/system';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 const CustomDataGrid = styled(DataGrid)({
   '& .MuiDataGrid-root': {
-    height: '500px',
+    height: '450px',
     '& .MuiDataGrid-columnsContainer': {
       backgroundColor: '#212529',
       color: '#fff',
@@ -13,7 +16,22 @@ const CustomDataGrid = styled(DataGrid)({
     },
   },
 });
-const ProductList = ({ products, darkMode }) => {
+
+const StyledButton = styled('button')(({ theme, variant }) => ({
+  padding: '6px 12px',
+  borderRadius: '4px',
+  border: 'none',
+  cursor: 'pointer',
+  color: '#fff',
+  fontWeight: 'bold',
+  fontSize: '0.875rem',
+  backgroundColor: variant === 'edit' ? '#17a2b8' : '#dc3545',
+  '&:hover': {
+    backgroundColor: variant === 'edit' ? '#138496' : '#c82333',
+  },
+}));
+
+const ProductList = ({ products }) => {
   const columns = React.useMemo(
     () => [
       {
@@ -24,23 +42,57 @@ const ProductList = ({ products, darkMode }) => {
           <img
             src={params.value}
             alt="Product"
-            style={{ width: '80px', height: '80px', objectFit: 'cover' }}
+            style={{
+              width: '80px',
+              height: '80px',
+              objectFit: 'cover',
+              borderRadius: '8px',
+            }}
           />
         ),
       },
-      { field: 'title', headerName: 'Title',width: 250 },
-      { field: 'price', headerName: 'Price',width: 150 },
+      { field: 'title', headerName: 'Title', width: 250 },
+      { field: 'price', headerName: 'Price', width: 150 },
       {
         field: 'description',
         headerName: 'Description',
-        width: 150 ,
+        width: 250,
         renderCell: (params) => (
-          <div style={{ maxHeight: '100px', overflowY: 'auto' }}>
+          <div
+            style={{
+              maxHeight: '100px',
+              overflowY: 'auto',
+              textOverflow: 'ellipsis',
+            }}
+          >
             {params.value}
           </div>
         ),
       },
       { field: 'category', headerName: 'Category', width: 150 },
+      {
+        field: 'edit',
+        headerName: 'Edit',
+        width: 100,
+        renderCell: (params) => (
+          <StyledButton variant="edit" onClick={() => handleEdit(params.value)}>
+            <FontAwesomeIcon icon={faEdit} />
+          </StyledButton>
+        ),
+      },
+      {
+        field: 'delete',
+        headerName: 'Delete',
+        width: 100,
+        renderCell: (params) => (
+          <StyledButton
+            variant="delete"
+            onClick={() => handleDelete(params.value)}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </StyledButton>
+        ),
+      },
     ],
     []
   );
@@ -58,6 +110,14 @@ const ProductList = ({ products, darkMode }) => {
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
+  };
+
+  const handleEdit = (id) => {
+    // Handle edit action here
+  };
+
+  const handleDelete = (id) => {
+    // Handle delete action here
   };
 
   const filteredProducts = products.filter((product) =>
@@ -91,7 +151,14 @@ const ProductList = ({ products, darkMode }) => {
                   placeholder="Search..."
                   value={searchText}
                   onChange={handleSearchChange}
-                  style={{ padding: '8px', marginRight: '8px' }}
+                  style={{
+                    padding: '8px',
+                    marginRight: '8px',
+                    borderRadius: '4px',
+                    border: '1px solid #ced4da',
+                    width: '100%',
+                    maxWidth: '400px',
+                  }}
                 />
               </div>
             ),

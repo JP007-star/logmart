@@ -23,7 +23,7 @@ const AdminProducts = ({ users: initialUsers }) => {
     const fetchUsers = async () => {
       try {
         const initial = await getServerSideProps();
-        setProducts(initial.initialData.users);
+        setProducts(initial.initialData.products);
       } catch (error) {
         console.error('Error fetching initial data:', error.message);
       }

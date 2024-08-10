@@ -71,7 +71,7 @@ const AdminHeader = () => {
           <Nav.Link href="/admin/products" style={menuStyle}>
             Products
           </Nav.Link>
-          <Nav.Link href="/admin/customers" style={menuStyle}>
+          <Nav.Link href="/admin/users" style={menuStyle}>
             Customers
           </Nav.Link>
         </Nav>

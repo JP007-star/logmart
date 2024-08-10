@@ -10,7 +10,7 @@ export async function getServerSideProps() {
       const users = await res.json();
   
       const initialdata ={
-        'products' : products,
+        'products' : products.products,
         'users' : users.users
        }
       return {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "../../components/ThemeContext";
-import * as Unicons from "@iconscout/react-unicons";
 import SideBar from "../../components/SideBar";
 import AddUser from "../../components/AddUser";
 import AdminHeader from "../../components/AdminHeader";
@@ -32,9 +31,7 @@ const AdminOrders = ({ users: initialUsers }) => {
     fetchUsers();
   }, []);
 
-  const handleAddUserClick = () => {
-    setAddUserVisible(true);
-  };
+
 
   const handleFormSubmit = async (newUserData) => {
     try {

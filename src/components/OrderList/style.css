@@ -1,0 +1,7 @@
+.react-bootstrap-table {
+    font-size: 14px; /* Adjust the font size as needed for better mobile readability */
+  }
+  
+  .custom-table td {
+    white-space: normal !important;
+  }

@@ -37,38 +37,23 @@ const ProductList = ({ products }) => {
       {
         field: 'image',
         headerName: 'Image',
-        width: 150,
+        width: 250,
         renderCell: (params) => (
           <img
             src={params.value}
             alt="Product"
             style={{
               width: '80px',
-              height: '80px',
+              height: '100px',
               objectFit: 'cover',
               borderRadius: '8px',
             }}
           />
         ),
       },
-      { field: 'title', headerName: 'Title', width: 250 },
+      { field: 'title', headerName: 'Title', width: 400 },
       { field: 'price', headerName: 'Price', width: 150 },
-      {
-        field: 'description',
-        headerName: 'Description',
-        width: 250,
-        renderCell: (params) => (
-          <div
-            style={{
-              maxHeight: '100px',
-              overflowY: 'auto',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {params.value}
-          </div>
-        ),
-      },
+      
       { field: 'category', headerName: 'Category', width: 150 },
       {
         field: 'edit',
@@ -93,6 +78,22 @@ const ProductList = ({ products }) => {
           </StyledButton>
         ),
       },
+      // {
+      //   field: 'description',
+      //   headerName: 'Description',
+      //   width: 250,
+      //   renderCell: (params) => (
+      //     <div
+      //       style={{
+      //         maxHeight: '100px',
+      //         overflowY: 'auto',
+      //         textOverflow: 'ellipsis',
+      //       }}
+      //     >
+      //       {params.value}
+      //     </div>
+      //   ),
+      // },
     ],
     []
   );

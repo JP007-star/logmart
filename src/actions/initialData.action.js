@@ -1,17 +1,21 @@
-import { productApi, userApi } from "../config";
+import { orderApi, productApi, userApi } from "../config";
 
 export async function getServerSideProps() {
-    // Fetch initial products data
     try {
       const response = await fetch(productApi);
       const products = await response.json();
   
       const res = await fetch(userApi);
       const users = await res.json();
-  
+
+      const resp = await fetch(orderApi);
+      const orders = await resp.json();
+      console.log(orders);
+    
       const initialdata ={
         'products' : products.products,
-        'users' : users.users
+        'users' : users.users,
+        'orders' : orders.orders
        }
       return {
        

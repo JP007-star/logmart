@@ -23,7 +23,7 @@ const AdminOrders = ({ users: initialUsers }) => {
     const fetchUsers = async () => {
       try {
         const initial = await getServerSideProps();
-        setOrders(initial.initialData.users);
+        setOrders(initial.initialData.orders);
       } catch (error) {
         console.error('Error fetching initial data:', error.message);
       }
@@ -48,7 +48,7 @@ const AdminOrders = ({ users: initialUsers }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setOrders([...orders, data.product]);
+        setOrders([...orders, data.order]);
         setAddUserVisible(false);
       } else {
         console.error("Failed to add user:", response.statusText);
@@ -86,7 +86,7 @@ const AdminOrders = ({ users: initialUsers }) => {
                       type="button"
                       onClick={handleAddUserClick}
                     >
-                      <Unicons.UilPlus /> Add User
+                      <Unicons.UilPlus /> Add Order
                     </button>
                   </div>
                   <div className="user-list-container">

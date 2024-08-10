@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "../../components/ThemeContext";
 import * as Unicons from "@iconscout/react-unicons";
 import SideBar from "../../components/SideBar";
-import AddUser from "../../components/AddUser";
 import AdminHeader from "../../components/AdminHeader";
 import { getServerSideProps } from "../../actions/initialData.action";
 import { SideBarMobile } from "../../components/SideBarMobile";
 import './style.css'; // Import the CSS file
 import { userApi } from "../../config";
 import ProductList from "../../components/ProductList";
+import AddProduct from "../../components/AddProduct";
 
 const AdminProducts = ({ users: initialUsers }) => {
-  const [isAddUserVisible, setAddUserVisible] = useState(false);
+  const [isAddProductVisible, setAddProductVisible] = useState(false);
   const [products, setProducts] = useState('');
   const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
 
@@ -32,8 +32,8 @@ const AdminProducts = ({ users: initialUsers }) => {
     fetchUsers();
   }, []);
 
-  const handleAddUserClick = () => {
-    setAddUserVisible(true);
+  const handleAddProductClick = () => {
+    setAddProductVisible(true);
   };
 
   const handleFormSubmit = async (newUserData) => {
@@ -49,12 +49,12 @@ const AdminProducts = ({ users: initialUsers }) => {
       if (response.ok) {
         const data = await response.json();
         setProducts([...products, data.product]);
-        setAddUserVisible(false);
+        setAddProductVisible(false);
       } else {
-        console.error("Failed to add user:", response.statusText);
+        console.error("Failed to add product:", response.statusText);
       }
     } catch (error) {
-      console.error("Error adding user:", error.message);
+      console.error("Error adding product:", error.message);
     }
   };
 
@@ -71,9 +71,9 @@ const AdminProducts = ({ users: initialUsers }) => {
         <div className={`main-content ${isSidebarMinimized ? 'expanded' : ''}`}>
           <div className="card shadow-sm rounded mt-3">
             <div className="card-body">
-              {isAddUserVisible ? (
-                <AddUser
-                  onCancel={() => setAddUserVisible(false)}
+              {isAddProductVisible ? (
+                <AddProduct
+                  onCancel={() => setAddProductVisible(false)}
                   onSubmit={handleFormSubmit}
                 />
               ) : (
@@ -84,9 +84,9 @@ const AdminProducts = ({ users: initialUsers }) => {
                       id="add-user"
                       className="w-25 btn btn-primary"
                       type="button"
-                      onClick={handleAddUserClick}
+                      onClick={handleAddProductClick}
                     >
-                      <Unicons.UilPlus /> Add User
+                      <Unicons.UilPlus /> Add Product
                     </button>
                   </div>
                   <div className="user-list-container">

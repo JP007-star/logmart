@@ -80,14 +80,7 @@ const AdminOrders = ({ users: initialUsers }) => {
                 <div className="user-list-section">
                   <div className="d-flex justify-content-between mb-3">
                     <h2>Orders</h2>
-                    <button
-                      id="add-user"
-                      className="w-25 btn btn-primary"
-                      type="button"
-                      onClick={handleAddUserClick}
-                    >
-                      <Unicons.UilPlus /> Add Order
-                    </button>
+                  
                   </div>
                   <div className="user-list-container">
                     {orders && orders.length > 0 ? (

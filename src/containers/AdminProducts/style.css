@@ -1,7 +1,7 @@
 /* style.css */
 
 /* General container styles */
-.admin-users-container {
+.admin-products-container {
   display: flex;
   flex-direction: row;
   padding: 0;
@@ -79,8 +79,8 @@
   margin-right: 0.5rem;
 }
 
-/* User list container */
-.user-list-container {
+/* product list container */
+.product-list-container {
   max-height: 400px;
   overflow-y: auto;
   margin-top: 1rem;
@@ -95,7 +95,7 @@ footer {
 
 /* Responsive adjustments */
 @media (max-width: 1199px) {
-  .admin-users-container {
+  .admin-products-container {
     flex-direction: column;
   }
 
@@ -124,7 +124,7 @@ footer {
     padding: 0.5rem;
   }
 
-  .user-list-container {
+  .product-list-container {
     max-height: 300px;
   }
 

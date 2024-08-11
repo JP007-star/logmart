@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './style.css';
-import { fetchCartDetails } from '../../actions/cart.action';
+import { deleteCartItem, fetchCartDetails } from '../../actions/cart.action';
 
-export const AdminCart = ({ cartItems: propCartItems }) => {
+export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
   const [cart, setCart] = useState(null); // Initialize cart state to null
   const [grandTotal, setGrandTotal] = useState(0); // Initialize grand total state
   const [totalDiscount, setTotalDiscount] = useState(0); // Initialize total discount state
@@ -52,6 +52,19 @@ export const AdminCart = ({ cartItems: propCartItems }) => {
     setTotalDiscount(discount);
   };
 
+  // Function to handle item deletion
+  const handleDelete = async (productId) => {
+    try {
+      await deleteCartItem(productId); // Delete the item
+      // Fetch updated cart details to refresh the state
+      const updatedCart = await fetchCartDetails();
+      setCart(updatedCart);
+      calculateGrandTotal(updatedCart.items); // Recalculate totals based on updated data
+    } catch (err) {
+      console.error('Error deleting item:', err.message);
+    }
+  };
+
   if (loading) {
     return <div>Loading cart details...</div>; // Display a loading state while fetching
   }
@@ -70,6 +83,7 @@ export const AdminCart = ({ cartItems: propCartItems }) => {
             <th>Quantity</th>
             <th>Discount</th>
             <th>Total</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -81,12 +95,20 @@ export const AdminCart = ({ cartItems: propCartItems }) => {
             const itemDiscountedTotal = itemTotal - (itemTotal * itemDiscount / 100);
 
             return (
-              <tr key={item.productId}>
+              <tr key={item._id}>
                 <td>{item.productName}</td>
                 <td>₹{itemPrice.toFixed(2)}</td>
                 <td>{itemQuantity}</td>
                 <td>{itemDiscount ? itemDiscount + '%' : '0%'}</td>
                 <td>₹{itemDiscountedTotal.toFixed(2)}</td>
+                <td>
+                  <button 
+                    className='btn btn-warning' 
+                    onClick={() => handleDelete(item.productId)}
+                  >
+                    X
+                  </button>
+                </td>
               </tr>
             );
           })}
@@ -94,13 +116,16 @@ export const AdminCart = ({ cartItems: propCartItems }) => {
         <tfoot>
           <tr>
             <td colSpan="2">Grand Total:</td>
-            <td colSpan="1">₹{grandTotal.toFixed(2)}</td>
+            <td colSpan="2">₹{grandTotal.toFixed(2)}</td>
             <td colSpan="1">Discount:</td>
             <td colSpan="1">₹{totalDiscount.toFixed(2)}</td>
           </tr>
           <tr>
-            <td colSpan="5">
+            <td colSpan="3">
               <button className='btn btn-warning' style={{ color: "black" }}>Check out</button>
+            </td>
+            <td colSpan="3">
+              <button className='btn btn-outline-warning bg-white' onClick={onClearCart} style={{ color: "black" }}>Clear</button>
             </td>
           </tr>
         </tfoot>

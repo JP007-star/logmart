@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { AdminCart } from "../AdminCart";
 import './style.css'; // Import the updated CSS file
-import { addToCart } from "../../actions/cart.action";
+import { addToCart, clearCart, fetchCartDetails } from "../../actions/cart.action";
 
 export const Biller = ({ initialData }) => {
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [selectedProductQuantity, setSelectedProductQuantity] = useState(1);
+  const [selectedProductId, setSelectedProductId] = useState("");
+  const [selectedProductQuantity, setSelectedProductQuantity] = useState(0);
   const [selectedProductPrice, setSelectedProductPrice] = useState(0);
-  const [selectedProductImage, setSelectedProductImage] = useState(0);
+  const [selectedProductImage, setSelectedProductImage] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [cart, setCart] = useState([]); // State to hold the cart items
+
+  // Fetch cart details when the component mounts
+  useEffect(() => {
+    const fetchCart = async () => {
+      const userId = JSON.parse(sessionStorage.getItem('user'))._id;
+      const cartData = await fetchCartDetails(userId);
+      if (cartData) {
+        setCart(cartData.items);
+      }
+    };
+    fetchCart();
+  }, []);
 
   const handleProductChange = (event) => {
     const selectedProductId = event.target.value;
@@ -18,16 +31,19 @@ export const Biller = ({ initialData }) => {
       (product) => product._id === selectedProductId
     );
     if (product) {
+      setSelectedProductId(product._id)
       setSelectedProduct(product.title);
       setQuantity(1);
       setSelectedProductQuantity(product.quantity);
       setSelectedProductPrice(product.price);
       setSelectedProductImage(product.image);
     } else {
+      setSelectedProductId("")
       setSelectedProduct("");
-      setQuantity(1);
+      setQuantity(0);
       setSelectedProductQuantity(1);
       setSelectedProductPrice(0);
+      setSelectedProductImage("");
     }
   };
 
@@ -37,7 +53,7 @@ export const Biller = ({ initialData }) => {
 
   const handleAddToCart = async () => {
     const productData = {
-      id: selectedProduct,
+      id: selectedProductId,
       quantity: quantity,
       price: selectedProductPrice,
       name: selectedProduct,
@@ -52,11 +68,24 @@ export const Biller = ({ initialData }) => {
       console.log(result);
     } else {
       // Handle success, update cart state
-      setCart([...cart, ...result.items]); // Assuming result contains updated cart items
+      setCart(result.items); // Assuming result contains updated cart items
       console.log("Product added to cart successfully");
     }
   };
 
+ 
+  const handleClearCart = async () => {
+    const result = await clearCart();
+
+    if (typeof result === 'string') {
+      // Handle error message
+      console.log(result);
+    } else {
+      // Handle success, clear cart state
+      setCart([]);
+      console.log("Cart cleared successfully");
+    }
+  };
   const options = initialData.products.map((product) => (
     <option key={product._id} value={product._id}>
       {product.title}
@@ -87,7 +116,7 @@ export const Biller = ({ initialData }) => {
                 type="number"
                 id="quantityInput"
                 placeholder="Enter Quantity"
-                min="0"
+                min="1"
                 value={quantity}
                 onChange={handleQuantityChange}
               />
@@ -115,10 +144,10 @@ export const Biller = ({ initialData }) => {
         </div>
       </div>
       <div className="biller-cart card shadow-sm rounded">
-        <div className="card-body">
+        
           {/* Pass the cart state to the AdminCart component */}
-          <AdminCart cartItems={cart} />
-        </div>
+          <AdminCart cartItems={cart} onClearCart={handleClearCart}/>
+        
       </div>
     </div>
   );

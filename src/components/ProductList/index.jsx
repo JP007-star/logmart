@@ -32,6 +32,8 @@ const StyledButton = styled('button')(({ theme, variant }) => ({
 }));
 
 const ProductList = ({ products }) => {
+  console.log(products);
+  
   const columns = React.useMemo(
     () => [
       {

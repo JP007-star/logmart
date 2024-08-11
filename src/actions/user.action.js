@@ -2,7 +2,7 @@ import { userDNS } from "../config";
 
 export const userSignIn = async (formData) => {
   try {
-      const response = await fetch('http://localhost:9001/api/v1/signin', {
+      const response = await fetch(userDNS+'/api/v1/signin', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

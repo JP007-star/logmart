@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { AdminCart } from "../AdminCart";
 import './style.css'; // Import the updated CSS file
+import { addToCart } from "../../actions/cart.action";
 
 export const Biller = ({ initialData }) => {
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [selectedProductQuantity, setSelectedProductQuantity] = useState(0);
+  const [selectedProductQuantity, setSelectedProductQuantity] = useState(1);
   const [selectedProductPrice, setSelectedProductPrice] = useState(0);
+  const [selectedProductImage, setSelectedProductImage] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  const [cart, setCart] = useState([]); // State to hold the cart items
 
   const handleProductChange = (event) => {
     const selectedProductId = event.target.value;
@@ -16,11 +19,14 @@ export const Biller = ({ initialData }) => {
     );
     if (product) {
       setSelectedProduct(product.title);
+      setQuantity(1);
       setSelectedProductQuantity(product.quantity);
       setSelectedProductPrice(product.price);
+      setSelectedProductImage(product.image);
     } else {
       setSelectedProduct("");
-      setSelectedProductQuantity(0);
+      setQuantity(1);
+      setSelectedProductQuantity(1);
       setSelectedProductPrice(0);
     }
   };
@@ -29,9 +35,25 @@ export const Biller = ({ initialData }) => {
     setQuantity(Number(event.target.value));
   };
 
-  const handleAddToCart = () => {
-    if (quantity > 0 && selectedProductPrice > 0) {
-      console.log(`Added ${quantity} of ${selectedProduct} to cart at $${selectedProductPrice} each.`);
+  const handleAddToCart = async () => {
+    const productData = {
+      id: selectedProduct,
+      quantity: quantity,
+      price: selectedProductPrice,
+      name: selectedProduct,
+      discount: "20%", // Add actual discount if needed
+      image: selectedProductImage, // Add actual image URL
+    };
+  
+    const result = await addToCart(productData);
+  
+    if (typeof result === 'string') {
+      // Handle error message
+      console.log(result);
+    } else {
+      // Handle success, update cart state
+      setCart([...cart, ...result.items]); // Assuming result contains updated cart items
+      console.log("Product added to cart successfully");
     }
   };
 
@@ -94,7 +116,8 @@ export const Biller = ({ initialData }) => {
       </div>
       <div className="biller-cart card shadow-sm rounded">
         <div className="card-body">
-          <AdminCart />
+          {/* Pass the cart state to the AdminCart component */}
+          <AdminCart cartItems={cart} />
         </div>
       </div>
     </div>

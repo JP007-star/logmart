@@ -45,6 +45,55 @@ export const fetchCartDetails = async () => {
 };
 
 
+export const addToCart = async (product) => {
+    try {
+      // Retrieve user data from session storage
+      const sessionData = JSON.parse(sessionStorage.getItem('user'));
+      const userId = sessionData?._id;
+  
+      if (!userId) {
+        console.error("User ID is missing from session storage.");
+        return "User ID is missing from session storage.";
+      }
+
+      const url=cartApi+'add-cart/'+userId;
+  
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: [
+            {
+              productId: product.id,
+              quantity: product.quantity,
+              price: product.price,
+              productName: product.name,
+              discount: product.discount,
+              image: product.image,
+            },
+          ],
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error:', errorData.message);
+        return `Error: ${errorData.message}`;
+      }
+  
+      const data = await response.json();
+      console.log('Cart updated:', data);
+      return data;  // Return data if needed for further processing
+    } catch (error) {
+      console.error('An unexpected error occurred:', error);
+      return 'An unexpected error occurred';
+    }
+  };
+  
+
+
 
 export const updateCartQuantity = async (cartId, quantityChange) => {
     // API call to update cart item quantity (increment or decrement)

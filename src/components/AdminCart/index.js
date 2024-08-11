@@ -3,26 +3,28 @@ import './style.css';
 import { fetchCartDetails } from '../../actions/cart.action';
 
 export const AdminCart = (props) => {
-  const [cart, setCart] = useState(null); // Initialize cart state to null
+  const [cart, setCart] = useState(''); // Initialize cart state to null
   const [grandTotal, setGrandTotal] = useState(0); // Initialize grand total state
   const [totalDiscount, setTotalDiscount] = useState(0); // Initialize total discount state
+  const [loading, setLoading] = useState(false); // State for loading indicator
 
-  // Function to log and calculate cart details
-  const logCartDetails = async () => {
-    try {
-      const cartDetails = await fetchCartDetails();
-      setCart(cartDetails);
-      calculateGrandTotal(cartDetails.items); // Calculate grand total dynamically
-      console.log("Cart details: " + JSON.stringify(cartDetails));
-    } catch (error) {
-      console.error("Error fetching cart details:", error.message);
-    }
-  };
-
-  // Fetch cart details on component mount
+ 
   useEffect(() => {
+    const logCartDetails = async () => {
+      setLoading(true); // Set loading to true when starting to fetch
+      try {
+        const cartDetails = await fetchCartDetails();
+        setCart(cartDetails);
+        calculateGrandTotal(cartDetails.items); // Calculate grand total dynamically
+        console.log("Cart details: " + JSON.stringify(cartDetails));
+      } catch (error) {
+        console.error("Error fetching cart details:", error.message);
+      } finally {
+        setLoading(false); // Set loading to false when fetch is complete
+      }
+    }; 
     logCartDetails();
-  }, []); // Empty dependency array to fetch cart details only once on component mount
+  }, []); 
 
   // Function to calculate grand total and total discount
   const calculateGrandTotal = (items) => {
@@ -42,8 +44,12 @@ export const AdminCart = (props) => {
     setTotalDiscount(discount);
   };
 
-  if (!cart) {
+  if (loading) {
     return <div>Loading cart details...</div>; // Display a loading state while fetching
+  }
+
+  if (!cart) {
+    return <div>No cart details available.</div>; // Display a message if no cart details are available
   }
 
   return (
@@ -79,8 +85,12 @@ export const AdminCart = (props) => {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan="3">Grand Total:₹{grandTotal.toFixed(2)}</td>
-            <td colSpan="2">Total Discount: ₹{totalDiscount.toFixed(2)}</td>
+            <td colSpan="3">Grand Total:</td>
+            <td colSpan="2">₹{grandTotal.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td colSpan="3">Total Discount:</td>
+            <td colSpan="2">₹{totalDiscount.toFixed(2)}</td>
           </tr>
           <tr>
             <td colSpan="5">

@@ -89,12 +89,12 @@ const Cart = () => {
                         <div
                             className="progress-bar progress-bar-striped active"
                             role="progressbar"
-                            aria-valuenow={(grandTotal / 100).toFixed(0)} // Display dynamic progress percentage
+                            aria-valuenow="40"
                             aria-valuemin="0"
                             aria-valuemax="100"
-                            style={{ width: `${(grandTotal / 1000) * 100}%` }} // Adjust progress bar width dynamically
+                            style={{ width: '40%' }}
                         >
-                            {(grandTotal / 1000 * 100).toFixed(0)}%
+                            {40}
                         </div>
                     </div>
                     

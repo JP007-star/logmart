@@ -85,12 +85,10 @@ export const AdminCart = (props) => {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan="3">Grand Total:</td>
-            <td colSpan="2">₹{grandTotal.toFixed(2)}</td>
-          </tr>
-          <tr>
-            <td colSpan="3">Total Discount:</td>
-            <td colSpan="2">₹{totalDiscount.toFixed(2)}</td>
+            <td colSpan="2">Grand Total:</td>
+            <td colSpan="1">₹{grandTotal.toFixed(2)}</td>
+            <td colSpan="1">Total Discount:</td>
+            <td colSpan="1">₹{totalDiscount.toFixed(2)}</td>
           </tr>
           <tr>
             <td colSpan="5">

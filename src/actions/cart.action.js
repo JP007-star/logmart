@@ -1,3 +1,5 @@
+import { cartApi } from "../config";
+
 export const fetchCartDetails = async () => {
     try {
         // Retrieve the user data from session storage
@@ -8,9 +10,12 @@ export const fetchCartDetails = async () => {
         }
 
         const userId = user._id;
+        const url=cartApi+userId;
+        console.log(url);
+        
 
         // Make the GET API call to fetch cart details
-        const response = await fetch(`http://localhost:9001/api/v1/cart/${userId}`, {
+        const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

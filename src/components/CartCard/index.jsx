@@ -2,7 +2,24 @@ import React from 'react';
 import './style.css';
 
 const CartCard = React.memo(({ product, onAddQuantity, onRemoveQuantity, onDelete }) => {
-    const { productName, productCategory, productQuantity, productPrice, totalPrice, image, cartId } = product;
+    // Destructure product details
+    const {
+        productName,
+        productCategory,
+        quantity,
+        price,
+        discount,
+        image,
+        _id: cartId,
+    } = product;
+
+    // Ensure price and discount are treated as numbers
+    const numericPrice = parseFloat(price) || 0;
+    const numericDiscount = parseFloat(discount) || 0;
+
+    // Calculate total price after discount
+    const totalPrice = numericPrice * quantity;
+    const discountedPrice = totalPrice * (1 - numericDiscount / 100);
 
     return (
         <div className="cart-card">
@@ -25,7 +42,7 @@ const CartCard = React.memo(({ product, onAddQuantity, onRemoveQuantity, onDelet
                         >
                             <i className="fa fa-plus"></i>
                         </button>
-                        <p>{productQuantity}</p>
+                        <p>{quantity}</p>
                         <button
                             onClick={() => onRemoveQuantity(cartId)}
                             className="quantity-btn"
@@ -49,24 +66,21 @@ const CartCard = React.memo(({ product, onAddQuantity, onRemoveQuantity, onDelet
                 <div className="price-item">
                     <span className="price-label">Price:</span>
                     <span className="price-value">
-                    ₹ {productPrice}
+                        ₹{numericPrice.toFixed(2)}
                     </span>
                 </div>
                 <div className="price-item">
-                        <span className="price-label">Discount:</span>
-                        <span className="price-value">
-                        ₹  {100}
-                        </span>
-                    </div>
+                    <span className="price-label">Discount:</span>
+                    <span className="price-value">
+                        {numericDiscount.toFixed(2)}%
+                    </span>
+                </div>
                 <div className="price-item">
                     <span className="price-label">Total Price:</span>
                     <span className="price-value">
-                    ₹ {totalPrice}
+                        ₹{discountedPrice.toFixed(2)}
                     </span>
                 </div>
-               
-                   
-                
             </div>
         </div>
     );

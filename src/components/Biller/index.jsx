@@ -45,8 +45,8 @@ export const Biller = ({ initialData }) => {
     <div className="biller-container">
       <div className="biller-form card shadow-sm rounded">
         <div className="card-body">
-          <Form className="p-3">
-            <Form.Group className="mb-3">
+          <Form className="p-2">
+            <Form.Group className="mb-2">
               <Form.Label htmlFor="productSelect" className="form-label">Product</Form.Label>
               <Form.Select id="productSelect" size="lg" onChange={handleProductChange}>
                 <option value="">Select a product</option>

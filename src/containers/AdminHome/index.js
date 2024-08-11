@@ -32,7 +32,7 @@ const AdminHome = () => {
   return (
     <ThemeProvider>
       <AdminHeader />
-      <div className="d-flex admin-dashboard-container">
+      <div className="admin-dashboard-container">
         <div className={`sidebar-container ${isSidebarMinimized ? 'minimized' : ''}`}>
           <SideBar activeNavLink="home" />
           <button onClick={toggleSidebar} className="toggle-sidebar-btn">
@@ -45,14 +45,13 @@ const AdminHome = () => {
             <Biller initialData={initialData} />
           </div>
         </div>
+        <SideBarMobile isSidebarMinimized={isSidebarMinimized} toggleSidebar={toggleSidebar} />
       </div>
-      <SideBarMobile isSidebarMinimized={isSidebarMinimized} toggleSidebar={toggleSidebar} />
-      <div className="container d-md-block">
-        <p className="text-center text-muted m-2">
-          © 2024 Copyright: JP made with Love 
-          <img src="/images/heart.svg" height="20px" width="20px" alt="" />
-        </p>
-      </div>
+      <footer className="footer">
+      © 2024 Copyright: JP made with Love 
+      <img src="/images/heart.svg" height="20px" width="20px" alt="" />
+      
+      </footer>
     </ThemeProvider>
   );
 };

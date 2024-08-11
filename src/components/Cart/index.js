@@ -1,39 +1,99 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './style.css';
 import CartCard from '../CartCard';
 import CartSummary from '../CartSummary';
+import { fetchCartDetails, updateCartQuantity, deleteCartItem } from '../../actions/cart.action'; // Import necessary actions
 
-const Cart = ({ products, cartCount, grandTotal }) => {
-   
-    const handleAddQuantity = (cartId) => {
-        // Logic to add quantity
-        console.log(`Added quantity for cart ID: ${cartId}`);
+const Cart = () => {
+    const [cart, setCart] = useState(null); // State to hold cart data
+    const [cartCount, setCartCount] = useState(0); // State to hold the count of items in the cart
+    const [grandTotal, setGrandTotal] = useState(0); // State to hold the grand total
+    const [totalDiscount, setTotalDiscount] = useState(0); // State to hold total discount
+
+    // Load cart details from API
+    const loadCart = async () => {
+        try {
+            const cartDetails = await fetchCartDetails(); // Fetch cart details from API
+            setCart(cartDetails);
+            setCartCount(cartDetails.items.length); // Update cart count
+            calculateGrandTotal(cartDetails.items); // Calculate and set grand total
+        } catch (error) {
+            console.error('Error loading cart:', error.message);
+        }
     };
 
-    const handleRemoveQuantity = (cartId) => {
-        // Logic to remove quantity
-        console.log(`Removed quantity for cart ID: ${cartId}`);
+    // Calculate grand total and total discount based on cart items
+    const calculateGrandTotal = (items) => {
+        let total = 0;
+        let discount = 0;
+
+        items.forEach(item => {
+            const itemPrice = parseFloat(item.price);
+            const itemQuantity = item.quantity;
+            const itemDiscount = item.discount ? parseFloat(item.discount) : 0;
+
+            total += itemPrice * itemQuantity;
+            discount += (itemPrice * itemQuantity * itemDiscount / 100);
+        });
+
+        setGrandTotal(total - discount);
+        setTotalDiscount(discount);
     };
 
-    const handleDelete = (cartId) => {
-        // Logic to delete product from cart
-        console.log(`Deleted product with cart ID: ${cartId}`);
+    // Handle quantity addition for an item
+    const handleAddQuantity = async (cartId) => {
+        try {
+            const updatedCart = await updateCartQuantity(cartId, 1); // Increment quantity by 1
+            setCart(updatedCart);
+            setCartCount(updatedCart.items.length); // Update cart count
+            calculateGrandTotal(updatedCart.items); // Recalculate grand total
+        } catch (error) {
+            console.error(`Error adding quantity for cart ID: ${cartId}`, error.message);
+        }
     };
+
+    // Handle quantity removal for an item
+    const handleRemoveQuantity = async (cartId) => {
+        try {
+            const updatedCart = await updateCartQuantity(cartId, -1); // Decrement quantity by 1
+            setCart(updatedCart);
+            setCartCount(updatedCart.items.length); // Update cart count
+            calculateGrandTotal(updatedCart.items); // Recalculate grand total
+        } catch (error) {
+            console.error(`Error removing quantity for cart ID: ${cartId}`, error.message);
+        }
+    };
+
+    // Handle deletion of an item from the cart
+    const handleDelete = async (cartId) => {
+        try {
+            const updatedCart = await deleteCartItem(cartId); // Delete the item from the cart
+            setCart(updatedCart);
+            setCartCount(updatedCart.items.length); // Update cart count
+            calculateGrandTotal(updatedCart.items); // Recalculate grand total
+        } catch (error) {
+            console.error(`Error deleting product with cart ID: ${cartId}`, error.message);
+        }
+    };
+
+    useEffect(() => {
+        loadCart(); // Load cart details when the component mounts
+    }); // Add empty dependency array to run only on component mount
 
     return (
         <div className="cart-container card shadow col-12">
-            {cartCount > 0 ? (
+            {cart && cartCount > 0 ? (
                 <>
                     <div className="progress mb-3">
                         <div
                             className="progress-bar progress-bar-striped active"
                             role="progressbar"
-                            aria-valuenow="40"
+                            aria-valuenow={(grandTotal / 100).toFixed(0)} // Display dynamic progress percentage
                             aria-valuemin="0"
                             aria-valuemax="100"
-                            style={{ width: '40%' }}
+                            style={{ width: `${(grandTotal / 1000) * 100}%` }} // Adjust progress bar width dynamically
                         >
-                            40%
+                            {(grandTotal / 1000 * 100).toFixed(0)}%
                         </div>
                     </div>
                     
@@ -44,19 +104,24 @@ const Cart = ({ products, cartCount, grandTotal }) => {
                         </span>
                     </h4>
                     <div className='d-flex p-2'>
-                    <ul className="list-group mb-3">
-                        {products.map((product) => (
-                            <CartCard
-                                key={product.cartId}
-                                product={product}
-                                onAddQuantity={handleAddQuantity}
-                                onRemoveQuantity={handleRemoveQuantity}
-                                onDelete={handleDelete}
-                            />
-                        ))}
-                    
-                    </ul>
-                    <CartSummary showPlaceOrder={true} />
+                        <ul className="list-group mb-3">
+                            {cart.items.map((product) => (
+                                <CartCard
+                                    key={product._id} // Use unique ID
+                                    product={product}
+                                    onAddQuantity={handleAddQuantity}
+                                    onRemoveQuantity={handleRemoveQuantity}
+                                    onDelete={handleDelete}
+                                />
+                            ))}
+                        </ul>
+                        <CartSummary 
+                            showPlaceOrder={true} 
+                            totalItems={cartCount}
+                            totalPrice={grandTotal}
+                            totalDiscount={totalDiscount}
+                            finalAmount={grandTotal} // Adjust based on discount if needed
+                        />
                     </div>
                 </>
             ) : (

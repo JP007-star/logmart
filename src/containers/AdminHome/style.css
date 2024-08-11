@@ -1,39 +1,90 @@
-/* AdminDashboard.css */
+/* General Styles */
+.admin-dashboard-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background-color: #f4f4f9;
+}
 
-/* Main sidebar styles */
 .sidebar-container {
-    transition: width 0.3s ease;
+  width: 240px;
+  height: 100vh;
+  background-color: #343a40;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.sidebar-container.minimized {
+  width: 80px;
+}
+
+.toggle-sidebar-btn {
+  display: none;
+}
+
+.content-area {
+  flex: 1;
+  margin: 16px;
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+footer {
+  height: 40px;
+  background-color: #fdfeff;
+  padding: 10px 0;
+  color: #3c3b3b;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+footer .container {
+  margin: 0;
+  padding: 0;
+}
+
+footer .text-muted {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .admin-dashboard-container {
+    flex-direction: column;
   }
-  
-  /* Hide the main sidebar on mobile */
-  @media (max-width: 768px) {
-    .sidebar-container {
-      display: none;
-    }
+
+  .sidebar-container {
+    display: none; /* Hide sidebar on mobile */
   }
-  
-  /* Main content area styles */
-  .content-area {
-    flex: 1;
-    transition: margin-left 0.3s ease;
-  }
-  
-  /* Toggle button styles */
+
   .toggle-sidebar-btn {
-    display: none; /* Hide the toggle button on larger screens */
+    display: block;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    background-color: #343a40;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
   }
-  
-  @media (max-width: 768px) {
-    .toggle-sidebar-btn {
-      display: block;
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 1000;
-    }
-  
-    .content-area {
-      margin-left: 0;
-    }
+
+  .content-area {
+    margin: 8px; /* Reduced margin for mobile */
+    padding: 8px; /* Reduced padding for mobile */
+    text-align: center;
+
   }
-  
+
+  footer.footer {
+    padding: 0; /* Reduced padding for mobile */
+    font-size: 10px;
+  }
+}

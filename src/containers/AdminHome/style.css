@@ -1,88 +1,38 @@
-/* General Styles */
-.admin-dashboard-container {
-  display: flex;
-  flex-direction: row;
-  min-height: 100vh;
-  background-color: #f4f4f9;
-}
+/* AdminDashboard.css */
 
+/* Main sidebar styles */
 .sidebar-container {
-  width: 240px;
-  height: 100vh;
-  background-color: #343a40;
   transition: width 0.3s ease;
-  overflow: hidden;
 }
 
-.sidebar-container.minimized {
-  width: 80px;
+/* Hide the main sidebar on mobile */
+@media (max-width: 768px) {
+  .sidebar-container {
+    display: none;
+  }
 }
 
-.toggle-sidebar-btn {
-  display: none;
-}
-
+/* Main content area styles */
 .content-area {
   flex: 1;
-  margin: 16px;
-  padding: 16px;
-  background-color: #ffffff;
-  border-radius: 8px;
+  transition: margin-left 0.3s ease;
 }
 
-footer.footer {
-  background-color: #fdfeff;
-  padding: 10px 0;
-  color: #3c3b3b;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
+/* Toggle button styles */
+.toggle-sidebar-btn {
+  display: none; /* Hide the toggle button on larger screens */
 }
 
-footer .container {
-  margin: 0;
-  padding: 0;
-}
-
-footer .text-muted {
-  margin: 0;
-  text-align: center;
-  font-size: 14px;
-}
-
-/* Mobile Styles */
 @media (max-width: 768px) {
-  .admin-dashboard-container {
-    flex-direction: column;
-  }
-
-  .sidebar-container {
-    display: none; /* Hide sidebar on mobile */
-  }
-
   .toggle-sidebar-btn {
     display: block;
     position: fixed;
     top: 10px;
     left: 10px;
     z-index: 1000;
-    background-color: #343a40;
-    color: #ffffff;
-    border: none;
-    padding: 10px;
-    font-size: 18px;
-    cursor: pointer;
   }
 
   .content-area {
-    margin: 8px; /* Reduced margin for mobile */
-    padding: 8px; /* Reduced padding for mobile */
-    
-  }
-
-  footer.footer {
-    padding: 0; /* Reduced padding for mobile */
-    font-size: 10px;
+    margin-left: 0;
   }
 }

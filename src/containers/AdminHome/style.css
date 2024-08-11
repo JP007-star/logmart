@@ -30,8 +30,7 @@
   border-radius: 8px;
 }
 
-footer {
-  height: 40px;
+footer.footer {
   background-color: #fdfeff;
   padding: 10px 0;
   color: #3c3b3b;
@@ -79,8 +78,7 @@ footer .text-muted {
   .content-area {
     margin: 8px; /* Reduced margin for mobile */
     padding: 8px; /* Reduced padding for mobile */
-    text-align: center;
-
+    
   }
 
   footer.footer {

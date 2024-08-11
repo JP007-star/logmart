@@ -11,17 +11,7 @@ const Cart = () => {
     const [totalDiscount, setTotalDiscount] = useState(0); // State to hold total discount
 
     // Load cart details from API
-    const loadCart = async () => {
-        try {
-            const cartDetails = await fetchCartDetails(); // Fetch cart details from API
-            setCart(cartDetails);
-            setCartCount(cartDetails.items.length); // Update cart count
-            calculateGrandTotal(cartDetails.items); // Calculate and set grand total
-        } catch (error) {
-            console.error('Error loading cart:', error.message);
-        }
-    };
-
+   
     // Calculate grand total and total discount based on cart items
     const calculateGrandTotal = (items) => {
         let total = 0;
@@ -77,8 +67,19 @@ const Cart = () => {
     };
 
     useEffect(() => {
-        loadCart(); // Load cart details when the component mounts
-    }); // Add empty dependency array to run only on component mount
+        const loadCart = async () => {
+            try {
+                const cartDetails = await fetchCartDetails(); // Fetch cart details from API
+                setCart(cartDetails);
+                setCartCount(cartDetails.items.length); // Update cart count
+                calculateGrandTotal(cartDetails.items); // Calculate and set grand total
+            } catch (error) {
+                console.error('Error loading cart:', error.message);
+            }
+        };
+    
+        loadCart(); 
+    },[]); 
 
     return (
         <div className="cart-container card shadow col-12">

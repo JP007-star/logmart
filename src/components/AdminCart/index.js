@@ -22,7 +22,7 @@ export const AdminCart = (props) => {
   // Fetch cart details on component mount
   useEffect(() => {
     logCartDetails();
-  }); // Empty dependency array to fetch cart details only once on component mount
+  }, []); // Empty dependency array to fetch cart details only once on component mount
 
   // Function to calculate grand total and total discount
   const calculateGrandTotal = (items) => {
@@ -79,10 +79,8 @@ export const AdminCart = (props) => {
         </tbody>
         <tfoot>
           <tr>
-          <td colSpan="1">Grand Total: </td>
-          <td colSpan={2}>₹{grandTotal.toFixed(2)}</td>
+            <td colSpan="3">Grand Total:₹{grandTotal.toFixed(2)}</td>
             <td colSpan="2">Total Discount: ₹{totalDiscount.toFixed(2)}</td>
-           
           </tr>
           <tr>
             <td colSpan="5">

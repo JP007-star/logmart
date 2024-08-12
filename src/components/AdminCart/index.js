@@ -70,7 +70,20 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
   }
 
   if (!cart || !cart.items.length) {
-    return <div>No cart details available.</div>; // Display a message if no cart details are available
+    return <div className="container-fluid mt-5 text-center">
+      <img
+        src="https://previews.123rf.com/images/lumut/lumut2007/lumut200700708/151980837-basket-vector-icon-shopping-sign-online-shop-or-e-shop-concept.jpg?fj=1"
+        width="130"
+        height="130"
+        className="img-fluid mb-4"
+        alt="Empty cart"
+      />
+      <h3>
+        <strong>Your Cart is Empty</strong>
+      </h3>
+      <h4>Add something to make me happy :)</h4>
+      
+    </div> // Display a message if no cart details are available
   }
 
   return (
@@ -102,8 +115,8 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
                 <td>{itemDiscount ? itemDiscount + '%' : '0%'}</td>
                 <td>₹{itemDiscountedTotal.toFixed(2)}</td>
                 <td>
-                  <button 
-                    className='btn btn-warning' 
+                  <button
+                    className='btn btn-warning'
                     onClick={() => handleDelete(item.productId)}
                   >
                     X

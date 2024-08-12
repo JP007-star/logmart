@@ -9,6 +9,7 @@ const AddressSummary = ({ address }) => {
       <p><strong>Street Address:</strong> {address.street}</p>
       <p><strong>City:</strong> {address.city}</p>
       <p><strong>State:</strong> {address.state}</p>
+      <p><strong>Country:</strong> {address.country}</p>
       <p><strong>ZIP Code:</strong> {address.zip}</p>
     </div>
   );

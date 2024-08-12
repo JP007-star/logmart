@@ -45,6 +45,16 @@ const AddressForm = ({ address, onChange }) => {
         />
       </label>
       <label>
+        Country:
+        <input
+          type="text"
+          name="country"
+          value={address.country}
+          onChange={onChange}
+          required
+        />
+      </label>
+      <label>
         ZIP Code:
         <input
           type="text"

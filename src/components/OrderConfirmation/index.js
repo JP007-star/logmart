@@ -1,15 +1,14 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import SuccessOrder from '../SuccessOrder';
 
 const OrderConfirmation = () => {
-    // Sample order details
-    const orderDetails = {
-        orderNumber: '123456789',
-        address: '123 Main St, Springfield, IL',
-        paymentMethod: 'Credit Card',
-        totalAmount: '345.67',
-        orderDate: 'August 9, 2024',
-    };
+    const location = useLocation();
+    const orderDetails = location.state?.orderDetails;
+
+    if (!orderDetails) {
+        return <div>No order details available.</div>;
+    }
 
     return (
         <div>

@@ -141,7 +141,7 @@ const OrderList = ({ orders }) => {
         field: 'totalAmount',
         headerName: 'Total Amount',
         width: 120,
-        renderCell: (params) => `$${params.value.toFixed(2)}`,
+        renderCell: (params) => `₹${params.value.toFixed(2)}`,
       },
       {
         field: 'orderDate',
@@ -256,7 +256,7 @@ const OrderList = ({ orders }) => {
               <strong>User Email:</strong> {selectedOrder.userEmail}
             </Typography>
             <Typography variant="body1" gutterBottom>
-              <strong>Total Amount:</strong> ${selectedOrder.totalAmount.toFixed(2)}
+              <strong>Total Amount:</strong> ₹{selectedOrder.totalAmount.toFixed(2)}
             </Typography>
             <Typography variant="body1" gutterBottom>
               <strong>Order Date:</strong> {new Date(selectedOrder.orderDate).toLocaleString()}

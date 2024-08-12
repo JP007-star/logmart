@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './style.css';
 import CartCard from '../CartCard';
 import CartSummary from '../CartSummary';
-import { fetchCartDetails, updateCartQuantity, deleteCartItem } from '../../actions/cart.action'; // Import necessary actions
+import { fetchCartDetails, updateCartQuantity, deleteCartItem } from '../../actions/cart.action';
 
 const Cart = () => {
     const [cart, setCart] = useState(null); // State to hold cart data
@@ -10,8 +10,6 @@ const Cart = () => {
     const [grandTotal, setGrandTotal] = useState(0); // State to hold the grand total
     const [totalDiscount, setTotalDiscount] = useState(0); // State to hold total discount
 
-    // Load cart details from API
-   
     // Calculate grand total and total discount based on cart items
     const calculateGrandTotal = (items) => {
         let total = 0;
@@ -35,8 +33,8 @@ const Cart = () => {
         try {
             const updatedCart = await updateCartQuantity(cartId, 1); // Increment quantity by 1
             setCart(updatedCart);
-            setCartCount(updatedCart.items.length); // Update cart count
-            calculateGrandTotal(updatedCart.items); // Recalculate grand total
+            setCartCount(updatedCart.items ? updatedCart.items.length : 0); // Update cart count
+            calculateGrandTotal(updatedCart.items || []); // Recalculate grand total
         } catch (error) {
             console.error(`Error adding quantity for cart ID: ${cartId}`, error.message);
         }
@@ -47,8 +45,8 @@ const Cart = () => {
         try {
             const updatedCart = await updateCartQuantity(cartId, -1); // Decrement quantity by 1
             setCart(updatedCart);
-            setCartCount(updatedCart.items.length); // Update cart count
-            calculateGrandTotal(updatedCart.items); // Recalculate grand total
+            setCartCount(updatedCart.items ? updatedCart.items.length : 0); // Update cart count
+            calculateGrandTotal(updatedCart.items || []); // Recalculate grand total
         } catch (error) {
             console.error(`Error removing quantity for cart ID: ${cartId}`, error.message);
         }
@@ -57,33 +55,40 @@ const Cart = () => {
     // Handle deletion of an item from the cart
     const handleDelete = async (cartId) => {
         try {
-            const updatedCart = await deleteCartItem(cartId); // Delete the item from the cart
+            // Delete the item from the cart
+            await deleteCartItem(cartId);
+    
+            // Fetch the latest cart details after deletion
+            const updatedCart = await fetchCartDetails();
+    
+            // Update the state with the latest cart details
             setCart(updatedCart);
-            setCartCount(updatedCart.items.length); // Update cart count
-            calculateGrandTotal(updatedCart.items); // Recalculate grand total
+            setCartCount(updatedCart.items ? updatedCart.items.length : 0); // Update cart count
+            calculateGrandTotal(updatedCart.items || []); // Recalculate grand total
         } catch (error) {
             console.error(`Error deleting product with cart ID: ${cartId}`, error.message);
         }
     };
+    
 
     useEffect(() => {
         const loadCart = async () => {
             try {
                 const cartDetails = await fetchCartDetails(); // Fetch cart details from API
                 setCart(cartDetails);
-                setCartCount(cartDetails.items.length); // Update cart count
-                calculateGrandTotal(cartDetails.items); // Calculate and set grand total
+                setCartCount(cartDetails.items ? cartDetails.items.length : 0); // Update cart count
+                calculateGrandTotal(cartDetails.items || []); // Calculate and set grand total
             } catch (error) {
                 console.error('Error loading cart:', error.message);
             }
         };
-    
-        loadCart(); 
-    },[]); 
+
+        loadCart();
+    }, []);
 
     return (
         <div className="cart-container card shadow col-12">
-            {cart && cartCount > 0 ? (
+            {cart && cart.items && cart.items.length > 0 ? (
                 <>
                     <div className="progress mb-3">
                         <div
@@ -97,7 +102,7 @@ const Cart = () => {
                             {40}
                         </div>
                     </div>
-                    
+
                     <h4 className="d-flex justify-content-between align-items-center mb-3">
                         <span className="text-primary">Your cart</span>
                         <span className="badge bg-primary rounded-pill">
@@ -112,12 +117,12 @@ const Cart = () => {
                                     product={product}
                                     onAddQuantity={handleAddQuantity}
                                     onRemoveQuantity={handleRemoveQuantity}
-                                    onDelete={handleDelete}
+                                    onDelete={() => handleDelete(product.productId)} // Use the correct ID
                                 />
                             ))}
                         </ul>
-                        <CartSummary 
-                            showPlaceOrder={true} 
+                        <CartSummary
+                            showPlaceOrder={true}
                             totalItems={cartCount}
                             totalPrice={grandTotal}
                             totalDiscount={totalDiscount}

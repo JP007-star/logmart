@@ -27,6 +27,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
           calculateGrandTotal(cartDetails.items); // Calculate totals based on fetched data
         } catch (error) {
           console.error("Error fetching cart details:", error.message);
+          toast.error('Error fetching cart details.'); // Show error notification
         } finally {
           setLoading(false); // Set loading to false when fetch is complete
         }
@@ -64,8 +65,10 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
       const updatedCart = await fetchCartDetails();
       setCart(updatedCart);
       calculateGrandTotal(updatedCart.items); // Recalculate totals based on updated data
+      toast.success('Item removed from cart successfully'); // Show success notification
     } catch (err) {
       console.error('Error deleting item:', err.message);
+      toast.error('Failed to remove item from cart.'); // Show error notification
     }
   };
 
@@ -75,6 +78,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
   
     if (!user || !user._id) {
       console.error('User not found in session storage.');
+      toast.error('User not found. Please log in.'); // Show error notification
       return;
     }
   
@@ -156,7 +160,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
           <strong>Your Cart is Empty</strong>
         </h3>
         <h4>Add something to make me happy :)</h4>
-      </div> // Display a message if no cart details are available
+      </div>
     );
   }
 

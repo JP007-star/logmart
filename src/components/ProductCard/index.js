@@ -3,21 +3,55 @@ import './style.css'; // Importing plain CSS
 import { useTheme } from '../ThemeContext';
 import * as Unicons from '@iconscout/react-unicons';
 import { useNavigate } from 'react-router-dom';
+import { addToCart } from '../../actions/cart.action';
+import { toast } from 'react-toastify'; // Import toast functions
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
-
   const { isDarkTheme } = useTheme();
   const { title, price, image, rating } = product;
 
-  const handleBuyNow = () => {
-    navigate('/cart'); 
+  const handleAddToCart = async () => {
+    const productData = {
+      id: product._id,
+      quantity: 1,
+      price: product.price,
+      name: product.title,
+      discount: "20%", // Add actual discount if needed
+      image: product.image, // Add actual image URL
+    };
+  
+    const result = await addToCart(productData);
+  
+    if (typeof result === 'string') {
+      // Handle error message
+      toast.error(result); // Show error toast
+    } else {
+      // Handle success
+      toast.success("Product added to cart successfully"); // Show success toast
+    }
   };
 
-  const handleAddToCart = () => {
-    navigate('/cart'); 
-
-    // Add logic for handling the "Add to Cart" action
+  const handleBuyNow = async () => {
+    const productData = {
+      id: product._id,
+      quantity: 1,
+      price: product.price,
+      name: product.title,
+      discount: "20%", // Add actual discount if needed
+      image: product.image, // Add actual image URL
+    };
+  
+    const result = await addToCart(productData);
+  
+    if (typeof result === 'string') {
+      // Handle error message
+      toast.error(result); // Show error toast
+    } else {
+      // Handle success
+      toast.success("Product added to cart successfully"); // Show success toast
+      navigate('/cart'); 
+    }
   };
 
   return (

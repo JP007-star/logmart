@@ -1,11 +1,12 @@
 // actions/order.action.js
 
+import { userDNS } from "../config";
 import { clearCart } from "./cart.action";
 
 // Function to create an order
 export const createOrder = async (orderDetails) => {
     try {
-      const response = await fetch('http://localhost:9001/api/v1/order', {
+      const response = await fetch(userDNS+'api/v1/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

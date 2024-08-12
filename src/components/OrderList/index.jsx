@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import styled from 'styled-components';
+import { Modal, Box, Typography, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import './style.css'; // Import the CSS file
 
+// Styled components for DataGrid and other elements
 const CustomDataGrid = styled(DataGrid)`
   height: 100%;
   width: 100%;
@@ -33,6 +37,7 @@ const OrderListContainer = styled.div`
   padding: 16px;
   box-sizing: border-box;
   overflow-x: auto; /* Horizontal scroll for the whole container */
+  overflow-y: auto; /* Vertical scroll if needed */
 
   @media (max-width: 768px) {
     padding: 8px; /* Reduce padding on medium screens */
@@ -59,6 +64,7 @@ const SearchBar = styled.input`
 const ProductsTableContainer = styled.div`
   width: 100%;
   overflow-x: auto; /* Add horizontal scroll for the table */
+  max-height: 400px; /* Limit height to enable vertical scrolling */
 `;
 
 const ProductsTable = styled.table`
@@ -102,10 +108,35 @@ const ViewButton = styled.button`
 `;
 
 const OrderList = ({ orders }) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
   const columns = React.useMemo(
     () => [
-      { field: '_id', headerName: 'Order ID', width: 150 },
-      { field: 'userId', headerName: 'User ID', width: 150 },
+      {
+        field: 'userName',
+        headerName: 'User Name',
+        width: 150,
+      },
+      {
+        field: 'userEmail',
+        headerName: 'User Email',
+        width: 200,
+      },
+      {
+        field: 'shippingAddress',
+        headerName: 'Shipping Address',
+        width: 300,
+        renderCell: (params) => (
+          <div>
+            {params.value.street === 'Take Away' ? 'Take Away' : (
+              <>
+                {params.value.street}, {params.value.city}, {params.value.state}, {params.value.country}, {params.value.postalCode}
+              </>
+            )}
+          </div>
+        ),
+      },
       {
         field: 'totalAmount',
         headerName: 'Total Amount',
@@ -119,36 +150,11 @@ const OrderList = ({ orders }) => {
         renderCell: (params) => new Date(params.value).toLocaleString(),
       },
       {
-        field: 'products',
-        headerName: 'Products',
-        width: 400,
-        renderCell: (params) => (
-          <ProductsTableContainer>
-            <ProductsTable>
-              <thead>
-                <tr>
-                  <th>Product ID</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {params.value.map((product) => (
-                  <tr key={product._id}>
-                    <td>{product.productId}</td>
-                    <td>{product.quantity}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </ProductsTable>
-          </ProductsTableContainer>
-        ),
-      },
-      {
         field: 'view',
         headerName: 'View',
         width: 100,
         renderCell: (params) => (
-          <ViewButton onClick={() => handleViewDetails(params.row)}>
+          <ViewButton onClick={() => handleOpenModal(params.row)}>
             View
           </ViewButton>
         ),
@@ -157,17 +163,14 @@ const OrderList = ({ orders }) => {
     []
   );
 
-  const handleViewDetails = (order) => {
-    alert(
-      `Order Details:\n\nOrder ID: ${order._id}\nUser ID: ${order.userId}\nTotal Amount: $${order.totalAmount.toFixed(
-        2
-      )}\nOrder Date: ${new Date(order.orderDate).toLocaleString()}\nProducts: ${order.products
-        .map(
-          (product) =>
-            `\n  - Product ID: ${product.productId}, Quantity: ${product.quantity}`
-        )
-        .join('')}`
-    );
+  const handleOpenModal = (order) => {
+    setSelectedOrder(order);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedOrder(null);
   };
 
   const [sortModel, setSortModel] = useState([
@@ -207,7 +210,18 @@ const OrderList = ({ orders }) => {
             onChange={handleSearchChange}
           />
           <CustomDataGrid
-            rows={filteredOrders}
+            rows={filteredOrders.map((order) => ({
+              ...order,
+              userName: 'John Doe', // Replace with actual user name if available
+              userEmail: order.user.email || 'N/A', // Add user email here
+              shippingAddress: order.shippingAddress || {
+                street: '',
+                city: '',
+                state: '',
+                country: '',
+                postalCode: '',
+              },
+            }))}
             columns={columns}
             pageSize={10}
             sortingOrder={['asc', 'desc']}
@@ -218,6 +232,68 @@ const OrderList = ({ orders }) => {
             getRowId={getRowId}
           />
         </>
+      )}
+      {selectedOrder && (
+        <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          className="modal-paper" // Apply custom CSS class
+        >
+          <Box className="modal-content">
+            <IconButton
+              className="modal-close-button" // Apply custom CSS class
+              onClick={handleCloseModal}
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" gutterBottom>
+              Order Details
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              <strong>User Name:</strong> {selectedOrder.userName}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              <strong>User Email:</strong> {selectedOrder.userEmail}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              <strong>Total Amount:</strong> ${selectedOrder.totalAmount.toFixed(2)}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              <strong>Order Date:</strong> {new Date(selectedOrder.orderDate).toLocaleString()}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              <strong>Shipping Address:</strong><br />
+              {selectedOrder.shippingAddress.street === 'Take Away' ? 'Take Away' : (
+                <>
+                  {selectedOrder.shippingAddress.street}, {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state}, {selectedOrder.shippingAddress.country}, {selectedOrder.shippingAddress.postalCode}
+                </>
+              )}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+              Products
+            </Typography>
+            <ProductsTableContainer>
+              <ProductsTable>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedOrder.products.map((product) => (
+                    <tr key={product.productId}>
+                      <td>{product.name}</td>
+                      <td>{product.quantity}</td>
+                      <td>${product.price.toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </ProductsTable>
+            </ProductsTableContainer>
+          </Box>
+        </Modal>
       )}
     </OrderListContainer>
   );

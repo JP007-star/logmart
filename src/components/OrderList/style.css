@@ -1,7 +1,40 @@
-.react-bootstrap-table {
-    font-size: 14px; /* Adjust the font size as needed for better mobile readability */
+/* modalStyles.css */
+
+.modal-paper {
+  background-color: #ffffff; /* Solid white background */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for better separation */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  max-height: 80vh;
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  position: relative; /* For positioning the close button */
+  margin: auto; /* Center the modal horizontally */
+  width: 90%; /* Responsive width */
+  max-width: 600px; /* Maximum width for larger screens */
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1; /* Ensure it appears above the content */
+  color: #000; /* Dark color for better visibility */
+}
+
+.modal-content {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .modal-paper {
+    padding: 15px;
   }
-  
-  .custom-table td {
-    white-space: normal !important;
+}
+
+@media (max-width: 480px) {
+  .modal-paper {
+    padding: 10px;
+    width: 95%; /* Full width for small screens */
   }
+}

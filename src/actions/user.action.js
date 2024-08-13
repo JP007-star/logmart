@@ -26,7 +26,12 @@ export const userSignIn = async (formData) => {
       sessionStorage.setItem('user', JSON.stringify(user));
 
       // Navigate to the desired location
-      window.location.href = '/admin/home';
+      if(user.role === 'admin'){
+        window.location.href = '/admin/home';
+      }
+      else{
+        window.location.href = '/';
+      }
 
       // Return the token and user data (optional)
       return { token, user };

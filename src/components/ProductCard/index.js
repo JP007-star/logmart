@@ -12,6 +12,11 @@ const ProductCard = ({ product }) => {
   const { title, price, image, rating } = product;
 
   const handleAddToCart = async () => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    if (!user || !user._id) {
+       navigate('/admin')
+       return
+    }
     const productData = {
       id: product._id,
       quantity: 1,
@@ -33,6 +38,11 @@ const ProductCard = ({ product }) => {
   };
 
   const handleBuyNow = async () => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    if (!user || !user._id) {
+       navigate('/admin')
+       return
+    }
     const productData = {
       id: product._id,
       quantity: 1,

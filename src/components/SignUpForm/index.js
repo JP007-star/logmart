@@ -22,6 +22,9 @@ const SignUpForm = ({ onSignInClick }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
 
+  console.log(loading);
+  console.log(error);
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

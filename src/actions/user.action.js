@@ -47,6 +47,27 @@ export const userSignIn = async (formData) => {
   }
 };
 
+export const signUpUser = async (formData) => {
+  try {
+    const response = await fetch('http://localhost:9001/api/v1/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const result = await response.json();
+    console.log('Success:', result);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
 
 
   

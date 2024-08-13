@@ -1,6 +1,18 @@
 import * as React from 'react';
-import { useState } from 'react'; // Import useState hook
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from '@mui/material';
+import { useState } from 'react';
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { userSignIn } from '../../actions/user.action';
@@ -8,8 +20,7 @@ import { userSignIn } from '../../actions/user.action';
 const defaultTheme = createTheme();
 
 const SignInForm = ({ onSignUpClick, onForgotPasswordClick }) => {
-  const [error, setError] = useState(null); // State to store error
-  
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,11 +28,16 @@ const SignInForm = ({ onSignUpClick, onForgotPasswordClick }) => {
     const formData = {
       email: data.get('email'),
       password: data.get('password'),
-      remember: data.get('remember'),
+      remember: data.get('remember') === 'on',
     };
-    const res = await userSignIn(formData); // Await userSignIn function call
-    console.log(res.message!=null? res.message : res.error);
-    setError(res.message!=null? res.message : res.error)
+
+    try {
+      const res = await userSignIn(formData);
+      console.log(res.message ? res.message : res.error);
+      setError(res.message ? res.message : res.error);
+    } catch (error) {
+      setError('An error occurred during sign in.');
+    }
   };
 
   return (
@@ -42,7 +58,7 @@ const SignInForm = ({ onSignUpClick, onForgotPasswordClick }) => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          {error && ( // Display error message if error state is not null
+          {error && (
             <Typography variant="body2" color="error" align="center" gutterBottom>
               {error}
             </Typography>
@@ -101,7 +117,3 @@ const SignInForm = ({ onSignUpClick, onForgotPasswordClick }) => {
 };
 
 export default SignInForm;
-
-
-
-

@@ -1,12 +1,28 @@
 import * as React from 'react';
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from '@mui/material';
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { signUpUser } from '../../actions/user.action';
 
 const defaultTheme = createTheme();
 
-const SignUpForm = ({ onSubmit, onSignInClick }) => {
-  const handleSubmit = (event) => {
+const SignUpForm = ({ onSignInClick }) => {
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formData = {
@@ -14,9 +30,20 @@ const SignUpForm = ({ onSubmit, onSignInClick }) => {
       lastName: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
-      allowExtraEmails: data.get('allowExtraEmails'),
+      allowExtraEmails: data.get('allowExtraEmails') === 'on',
     };
-    onSubmit(formData);
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      await signUpUser(formData);
+      onSignInClick(); // Switch to SignInForm after successful sign up
+    } catch (error) {
+      setError(error.message || 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

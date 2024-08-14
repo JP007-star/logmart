@@ -6,13 +6,14 @@ import AdminHeader from "../../components/AdminHeader";
 import { getServerSideProps } from "../../actions/initialData.action";
 import { SideBarMobile } from "../../components/SideBarMobile";
 import './style.css'; // Import the CSS file
-import { userApi } from "../../config";
 import ProductList from "../../components/ProductList";
 import AddProduct from "../../components/AddProduct";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdminProducts = ({ users: initialUsers }) => {
   const [isAddProductVisible, setAddProductVisible] = useState(false);
-  const [products, setProducts] = useState('');
+  const [products, setProducts] = useState([]);
   const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
 
   const toggleSidebar = () => {
@@ -20,42 +21,26 @@ const AdminProducts = ({ users: initialUsers }) => {
   };
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchProducts = async () => {
       try {
         const initial = await getServerSideProps();
-        setProducts(initial.initialData.products);
+        setProducts(initial.initialData.products || []);
       } catch (error) {
         console.error('Error fetching initial data:', error.message);
       }
     };
 
-    fetchUsers();
+    fetchProducts();
   }, []);
 
   const handleAddProductClick = () => {
     setAddProductVisible(true);
   };
 
-  const handleFormSubmit = async (newUserData) => {
-    try {
-      const response = await fetch(userApi, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUserData),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setProducts([...products, data.product]);
-        setAddProductVisible(false);
-      } else {
-        console.error("Failed to add product:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error adding product:", error.message);
-    }
+  const handleFormSubmit = (newProduct) => {
+    setProducts(prevProducts => [...prevProducts, newProduct]);
+    setAddProductVisible(false);
+    toast.success("Product added successfully!");
   };
 
   return (
@@ -90,7 +75,7 @@ const AdminProducts = ({ users: initialUsers }) => {
                     </button>
                   </div>
                   <div className="user-list-container">
-                    {products && products.length > 0 ? (
+                    {products.length > 0 ? (
                       <ProductList products={products} />
                     ) : (
                       <p>No products available.</p>

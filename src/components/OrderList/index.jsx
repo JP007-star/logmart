@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import styled from 'styled-components';
-import { Modal, Box, Typography, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Modal, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css'; // Import the CSS file
 
 // Styled components for DataGrid and other elements
@@ -94,21 +94,8 @@ const ProductsTable = styled.table`
   }
 `;
 
-const ViewButton = styled.button`
-  padding: 4px 8px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
 const OrderList = ({ orders }) => {
-  const [openModal, setOpenModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const columns = React.useMemo(
@@ -149,27 +136,17 @@ const OrderList = ({ orders }) => {
         width: 180,
         renderCell: (params) => new Date(params.value).toLocaleString(),
       },
-      {
-        field: 'view',
-        headerName: 'View',
-        width: 100,
-        renderCell: (params) => (
-          <ViewButton onClick={() => handleOpenModal(params.row)}>
-            View
-          </ViewButton>
-        ),
-      },
     ],
     []
   );
 
-  const handleOpenModal = (order) => {
-    setSelectedOrder(order);
-    setOpenModal(true);
+  const handleRowClick = (params) => {
+    setSelectedOrder(params.row);
+    setShowModal(true);
   };
 
   const handleCloseModal = () => {
-    setOpenModal(false);
+    setShowModal(false);
     setSelectedOrder(null);
   };
 
@@ -229,49 +206,35 @@ const OrderList = ({ orders }) => {
             onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
             checkboxSelection={false}
             disableSelectionOnClick
+            onRowClick={handleRowClick} // Handle row click event
             getRowId={getRowId}
           />
         </>
       )}
       {selectedOrder && (
         <Modal
-          open={openModal}
-          onClose={handleCloseModal}
-          className="modal-paper" // Apply custom CSS class
+          show={showModal}
+          onHide={handleCloseModal}
+          centered
+          size="lg"
+          dialogClassName="modal-90w"
         >
-          <Box className="modal-content">
-            <IconButton
-              className="modal-close-button" // Apply custom CSS class
-              onClick={handleCloseModal}
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography variant="h6" gutterBottom>
-              Order Details
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              <strong>User Name:</strong> {selectedOrder.userName}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              <strong>User Email:</strong> {selectedOrder.userEmail}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              <strong>Total Amount:</strong> ₹{selectedOrder.totalAmount.toFixed(2)}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              <strong>Order Date:</strong> {new Date(selectedOrder.orderDate).toLocaleString()}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              <strong>Shipping Address:</strong><br />
+          <Modal.Header closeButton>
+            <Modal.Title>Order Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p><strong>User Name:</strong> {selectedOrder.userName}</p>
+            <p><strong>User Email:</strong> {selectedOrder.userEmail}</p>
+            <p><strong>Total Amount:</strong> ₹{selectedOrder.totalAmount.toFixed(2)}</p>
+            <p><strong>Order Date:</strong> {new Date(selectedOrder.orderDate).toLocaleString()}</p>
+            <p><strong>Shipping Address:</strong><br />
               {selectedOrder.shippingAddress.street === 'Take Away' ? 'Take Away' : (
                 <>
                   {selectedOrder.shippingAddress.street}, {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state}, {selectedOrder.shippingAddress.country}, {selectedOrder.shippingAddress.postalCode}
                 </>
               )}
-            </Typography>
-            <Typography variant="h6" gutterBottom>
-              Products
-            </Typography>
+            </p>
+            <h6>Products</h6>
             <ProductsTableContainer>
               <ProductsTable>
                 <thead>
@@ -292,7 +255,12 @@ const OrderList = ({ orders }) => {
                 </tbody>
               </ProductsTable>
             </ProductsTableContainer>
-          </Box>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Close
+            </Button>
+          </Modal.Footer>
         </Modal>
       )}
     </OrderListContainer>

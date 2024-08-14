@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/system';
+import { Modal, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+// Styled components
 const CustomDataGrid = styled(DataGrid)({
   '& .MuiDataGrid-root': {
     height: '450px',
@@ -14,10 +17,13 @@ const CustomDataGrid = styled(DataGrid)({
     '& .MuiDataGrid-cell': {
       overflow: 'hidden',
     },
+    '& .MuiDataGrid-row': {
+      height: '120px !important',
+    },
   },
 });
 
-const StyledButton = styled('button')(({ theme, variant }) => ({
+const StyledButton = styled('button')(({ variant }) => ({
   padding: '6px 12px',
   borderRadius: '4px',
   border: 'none',
@@ -31,9 +37,76 @@ const StyledButton = styled('button')(({ theme, variant }) => ({
   },
 }));
 
+const ModalHeader = styled(Modal.Header)({
+  borderBottom: 'none',
+  padding: '16px',
+  backgroundColor: 'transparent',
+});
+
+const ModalBody = styled(Modal.Body)({
+  padding: '20px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+});
+
+const ModalContent = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: '100%',
+  marginBottom: '20px',
+  '@media (max-width: 768px)': {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+});
+
+const ImageContainer = styled('div')({
+  flex: '1',
+  marginRight: '20px',
+  '@media (max-width: 768px)': {
+    marginRight: '0',
+    marginBottom: '20px',
+  },
+});
+
+const ImageAndQRCode = styled('div')({
+  flex: '1',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  '@media (max-width: 768px)': {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+});
+
+const QRCodeImage = styled('img')({
+  width: '300px', // Set to desired QR code size
+  height: '300px', // Set to desired QR code size
+  objectFit: 'cover',
+  '@media (max-width: 768px)': {
+    width: '250px', // Adjust size for mobile screens
+    height: '250px', // Adjust size for mobile screens
+  },
+});
+
+const ProductImage = styled('img')({
+  width: '300px', // Set to the same size as QR code
+  height: '300px', // Set to the same size as QR code
+  objectFit: 'cover',
+  '@media (max-width: 768px)': {
+    width: '250px', // Adjust size for mobile screens
+    height: '250px', // Adjust size for mobile screens
+  },
+});
+
 const ProductList = ({ products }) => {
-  console.log(products);
-  
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   const columns = React.useMemo(
     () => [
       {
@@ -53,10 +126,26 @@ const ProductList = ({ products }) => {
           />
         ),
       },
-      { field: 'title', headerName: 'Title', width: 400 },
+      { field: 'title', headerName: 'Title', width: 200 },
       { field: 'price', headerName: 'Price', width: 150 },
-      
       { field: 'category', headerName: 'Category', width: 150 },
+      {
+        field: 'qrCode',
+        headerName: 'QR Code',
+        width: 150,
+        renderCell: (params) => (
+          <img
+            src={params.value}
+            alt="QR Code"
+            style={{
+              width: '80px',
+              height: '80px',
+              objectFit: 'cover',
+              borderRadius: '8px',
+            }}
+          />
+        ),
+      },
       {
         field: 'edit',
         headerName: 'Edit',
@@ -80,22 +169,6 @@ const ProductList = ({ products }) => {
           </StyledButton>
         ),
       },
-      // {
-      //   field: 'description',
-      //   headerName: 'Description',
-      //   width: 250,
-      //   renderCell: (params) => (
-      //     <div
-      //       style={{
-      //         maxHeight: '100px',
-      //         overflowY: 'auto',
-      //         textOverflow: 'ellipsis',
-      //       }}
-      //     >
-      //       {params.value}
-      //     </div>
-      //   ),
-      // },
     ],
     []
   );
@@ -123,10 +196,16 @@ const ProductList = ({ products }) => {
     // Handle delete action here
   };
 
+  const handleRowClick = (params) => {
+    setSelectedProduct(params.row);
+    setShowModal(true);
+  };
+
   const filteredProducts = products.filter((product) =>
     Object.values(product).some(
       (value) =>
-        value && value.toString().toLowerCase().includes(searchText.toLowerCase())
+        value &&
+        value.toString().toLowerCase().includes(searchText.toLowerCase())
     )
   );
 
@@ -145,6 +224,7 @@ const ProductList = ({ products }) => {
           checkboxSelection={false}
           disableSelectionOnClick
           getRowId={getRowId}
+          onRowClick={handleRowClick}
           components={{
             Toolbar: () => (
               <div style={{ padding: '8px' }}>
@@ -167,6 +247,45 @@ const ProductList = ({ products }) => {
             ),
           }}
         />
+      )}
+
+      {/* Modal for displaying product details */}
+      {selectedProduct && (
+        <Modal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          centered
+          size="lg"
+          dialogClassName="modal-90w" // Increase modal width
+        >
+          <ModalHeader closeButton>
+            <Modal.Title>{selectedProduct.title}</Modal.Title>
+          </ModalHeader>
+          <ModalBody>
+            <ModalContent>
+              <ImageAndQRCode>
+                <ImageContainer>
+                  <ProductImage
+                    src={selectedProduct.image}
+                    alt={selectedProduct.title}
+                  />
+                </ImageContainer>
+                <QRCodeImage
+                  src={selectedProduct.qrCode}
+                  alt="QR Code"
+                />
+              </ImageAndQRCode>
+            </ModalContent>
+            <p><strong>Price:</strong> ${selectedProduct.price}</p>
+            <p><strong>Category:</strong> {selectedProduct.category}</p>
+            <p><strong>Description:</strong> {selectedProduct.description}</p>
+          </ModalBody>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       )}
     </div>
   );

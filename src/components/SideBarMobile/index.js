@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Nav} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTag, faCutlery, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTag, faCutlery, faUsers, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './style.module.css';
+import { useNavigate } from 'react-router-dom';
 
 /**
 * @author
@@ -12,6 +13,12 @@ import styles from './style.module.css';
 
 export const SideBarMobile = ({ activeNavLink }) => {
     const [isSidebarMinimized] = useState(false);
+
+
+    const navigate=useNavigate();
+    const handleLogout=()=>{
+       navigate('/admin')
+    }
 
   return(
    
@@ -52,6 +59,13 @@ export const SideBarMobile = ({ activeNavLink }) => {
               >
                 <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
                   <FontAwesomeIcon icon={faUsers}  />
+                </div>
+              </Nav.Link>
+              <Nav.Link
+                className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'users' ? 'active' : ''}`}
+              >
+                <div className={`d-flex align-items-center justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`} onClick={handleLogout}>
+                  <FontAwesomeIcon icon={faSignOut}  />
                 </div>
               </Nav.Link>
             </Nav>

@@ -4,6 +4,7 @@ import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
 import styles from "./style.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as Unicons from '@iconscout/react-unicons';
+import { useNavigate } from "react-router-dom";
 
 
 const Header = () => {
@@ -17,6 +18,12 @@ const Header = () => {
   const menuStyle = {
     color: isDarkTheme ? "#fff" : "#333",
   };
+  const navigate=useNavigate();
+
+  const handleLogout=()=>{
+    sessionStorage.clear();
+    navigate('/admin');
+  }
 
   return (
     <Navbar
@@ -71,6 +78,10 @@ const Header = () => {
             </Nav.Link>
             <Nav.Link href="/admin" style={menuStyle}>
             <Unicons.UilDashboard/> Admin
+            </Nav.Link>
+            <Nav.Link onClick={handleLogout} style={menuStyle}>
+               <Unicons.UilSignout/>
+               Logout
             </Nav.Link>
           </Nav>
           {/* <Nav className="ml-auto">

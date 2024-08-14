@@ -15,6 +15,7 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { signUpUser } from '../../actions/user.action';
+import { toast } from 'react-toastify';
 
 const defaultTheme = createTheme();
 
@@ -41,6 +42,7 @@ const SignUpForm = ({ onSignInClick }) => {
 
     try {
       await signUpUser(formData);
+      toast.success("user created successfully");
       onSignInClick(); // Switch to SignInForm after successful sign up
     } catch (error) {
       setError(error.message || 'An error occurred');

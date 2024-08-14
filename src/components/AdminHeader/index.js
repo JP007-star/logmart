@@ -4,6 +4,7 @@ import { Navbar, Nav } from "react-bootstrap";
 import { format } from "date-fns";
 import styles from "./style.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from "react-router-dom";
 
 const AdminHeader = () => {
   const { isDarkTheme } = useTheme();
@@ -33,7 +34,13 @@ const AdminHeader = () => {
     hour12: true,
   });
 
+  const navigate=useNavigate();
   const formattedDateWords = format(currentDateTime, "EEEE, MMMM do yyyy");
+
+  const handleLogout=()=>{
+    sessionStorage.clear();
+    navigate('/admin');
+  }
 
   return (
     <Navbar
@@ -74,9 +81,12 @@ const AdminHeader = () => {
           <Nav.Link href="/admin/users" style={menuStyle}>
             Customers
           </Nav.Link>
+          <Nav.Link onClick={handleLogout} style={menuStyle}>
+          Log out
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
-      <div className="d-lg-none text-center mt-2">
+      <div className="d-lg-none">
         <Navbar.Text className={styles.dateText}>
           {formattedDateWords}
         </Navbar.Text>

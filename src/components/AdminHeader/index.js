@@ -50,7 +50,7 @@ const AdminHeader = () => {
       expand="lg"
       style={headerStyle}
     >
-      <Navbar.Brand className="d-flex align-items-center m-3">
+      <Navbar.Brand className="d-flex align-items-center m-2">
         <img
           src="/images/logo.png"
           alt="Logo"
@@ -58,7 +58,7 @@ const AdminHeader = () => {
         />
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
-        <div className="d-none d-lg-block ms-3">
+        <div className="d-none d-lg-block ms-2">
           <Navbar.Text className={styles.dateText}>
             {formattedDateWords}
           </Navbar.Text>
@@ -68,7 +68,7 @@ const AdminHeader = () => {
         </div>
       </Navbar.Brand>
       <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
-        <Nav className="m-3">
+        <Nav className="m-1">
           <Nav.Link href="/admin/home" style={menuStyle}>
             Home
           </Nav.Link>
@@ -88,11 +88,9 @@ const AdminHeader = () => {
       </Navbar.Collapse>
       <div className="d-lg-none">
         <Navbar.Text className={styles.dateText}>
-          {formattedDateWords}
+          {formattedDateWords}   {formattedTime}
         </Navbar.Text>
-        <Navbar.Text className={`sevenSegment ${styles.timeText}`}>
-          {formattedTime}
-        </Navbar.Text>
+        
       </div>
     </Navbar>
   );

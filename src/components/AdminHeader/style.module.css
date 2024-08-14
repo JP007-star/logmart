@@ -1,11 +1,9 @@
-
-
 /* Header Container */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 10px;
+  padding: 10px 15px; /* Increased padding for better spacing */
   transition: background-color 0.3s ease-in-out;
 }
 
@@ -28,15 +26,15 @@
   font-size: 3.5rem; /* Adjusted for desktop */
   font-weight: bold;
   color: #ff4500;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Slightly more pronounced shadow */
+  letter-spacing: 0.2rem; /* Increased letter-spacing for better readability */
 }
 
 .led-font {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif; /* Changed to a more modern font */
   font-size: 2.5rem; /* Adjusted size for better balance */
   color: #ff0000;
-  text-shadow: 0 0 10px rgba(255, 0, 0, 0.8); /* LED glowing effect */
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.8); /* LED glowing effect */
 }
 
 /* Date Text Styling */
@@ -52,6 +50,7 @@
 
 /* Navbar Links */
 .navbar-nav {
+  display: flex; /* Ensure proper alignment */
   flex-direction: row;
   align-items: center;
 }
@@ -60,18 +59,20 @@
   color: #333;
   font-weight: 500;
   font-size: 1rem;
-  padding: 5px 6px;
-  transition: color 0.3s ease;
+  padding: 8px 12px; /* Increased padding for better click targets */
+  transition: color 0.3s ease, background-color 0.3s ease; /* Added background-color transition */
 }
 
 .nav-link:hover {
   color: #007bff;
-  text-decoration: underline;
+  background-color: rgba(0, 123, 255, 0.1); /* Subtle background highlight on hover */
+  text-decoration: none;
 }
 
 .nav-link.active {
   color: #007bff;
   font-weight: bold;
+  background-color: rgba(0, 123, 255, 0.1); /* Background highlight for active link */
 }
 
 /* Responsive Adjustments */
@@ -108,6 +109,7 @@
     flex-direction: column;
     align-items: center;
     padding: 15px 10px;
+    background-color: #f8f9fa; /* Ensure a consistent background color on mobile */
   }
 
   .sevenSegment, .led-font {
@@ -117,17 +119,20 @@
   .navbar-nav {
     flex-direction: column;
     width: 100%;
+    margin-top: 10px; /* Add margin to separate from other elements */
   }
 
   .nav-link {
-    text-align: center;
-    padding: 10px;
+    text-align: right;
+    padding: 20px;
+    margin: 5px;
     width: 100%;
     font-size: 1.1rem;
   }
 
   .logo {
     height: 35px; /* Further resize for mobile */
+    margin-left: 0px;
   }
 
   .dateText {

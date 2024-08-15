@@ -8,7 +8,7 @@ import { SideBarMobile } from "../../components/SideBarMobile";
 import './style.css'; // Import the CSS file
 import ProductList from "../../components/ProductList";
 import AddProduct from "../../components/AddProduct";
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify'; // Import ToastContainer
 import 'react-toastify/dist/ReactToastify.css';
 import { userDNS } from "../../config";
 
@@ -69,14 +69,12 @@ const AdminProducts = ({ users: initialUsers }) => {
     }
   };
   
-
   return (
     <ThemeProvider>
       <AdminHeader />
       <div className="d-flex admin-products-container">
         <div className={`sidebar-container ${isSidebarMinimized ? 'minimized' : ''}`}>
           <SideBar activeNavLink="products" onLogoClick={toggleSidebar} />
-    
         </div>
         <div className={`main-content ${isSidebarMinimized ? 'expanded' : ''}`}>
           <div className="card shadow-sm rounded mt-3">
@@ -91,24 +89,22 @@ const AdminProducts = ({ users: initialUsers }) => {
                   <div className="d-flex justify-content-between mb-3">
                     <h2>Products</h2>
                     <button
-                      id="add-user"
+                      id="add-product"
                       className="w-25 btn btn-primary"
                       type="button"
                       onClick={handleAddProductClick}
                     >
                       <Unicons.UilPlus /> Add Product
                     </button>
-                    
                   </div>
                   <div className="user-list-container">
-                    
-                  <button
-                      id="add-user"
-                      className="w-25 btn btn-secondary"
+                    <button
+                      id="export-pdf"
+                      className="w-25 btn btn-secondary mb-3"
                       type="button"
                       onClick={handleExports}
                     >
-                       Export PDF
+                      Export PDF
                     </button>
                     {products.length > 0 ? (
                       <ProductList products={products} />
@@ -122,11 +118,12 @@ const AdminProducts = ({ users: initialUsers }) => {
           </div>
         </div>
       </div>
-      <SideBarMobile />
+      <SideBarMobile isSidebarMinimized={isSidebarMinimized} toggleSidebar={toggleSidebar} />
       <footer className="text-center text-muted mt-3 mb-2">
         © 2024 Copyright: JP made with Love 
         <img src="/images/heart.svg" height="20px" width="20px" alt="" />
       </footer>
+      <ToastContainer /> {/* Include ToastContainer */}
     </ThemeProvider>
   );
 };

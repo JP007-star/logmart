@@ -12,10 +12,11 @@
   border-right: 1px solid #dee2e6;
   position: relative;
   transition: all 0.3s ease;
+  height: 100vh; /* Ensure full viewport height */
 }
 
 .sidebar-container.minimized {
-  width: 60px; /* Adjust this based on your design */
+  width: 80px; /* Adjust this based on your design */
 }
 
 .sidebar-container.minimized .sidebar-content {
@@ -79,7 +80,7 @@
   margin-right: 0.5rem;
 }
 
-/* product list container */
+/* Product list container */
 .product-list-container {
   max-height: 400px;
   overflow-y: auto;
@@ -104,6 +105,7 @@ footer {
     border-right: none;
     border-bottom: 1px solid #dee2e6;
     position: static;
+    height: auto; /* Ensure height is auto for mobile view */
   }
 
   .toggle-sidebar-btn {
@@ -118,6 +120,7 @@ footer {
 @media (max-width: 991px) {
   .sidebar-container {
     width: 100%;
+    height: auto; /* Ensure height is auto for mobile view */
   }
 
   .main-content {
@@ -146,5 +149,9 @@ footer {
 
   .main-content {
     padding: 0.25rem;
+  }
+
+  .sidebar-container {
+    height: 100vh; /* Ensure full viewport height */
   }
 }

@@ -8,10 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { updateProduct, deleteProduct } from '../../actions/product.action'; // Import actions
 
 // Styled components
-const CustomDataGrid = styled(DataGrid)({
+const CustomDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-root': {
-    height: '450px',
-    width: '100%', // Ensure it takes full width of its container
+    height: 'auto',
+    width: '100%',
     '& .MuiDataGrid-columnsContainer': {
       backgroundColor: '#212529',
       color: '#fff',
@@ -20,10 +20,13 @@ const CustomDataGrid = styled(DataGrid)({
       overflow: 'hidden',
     },
     '& .MuiDataGrid-row': {
-      height: '120px !important',
+      height: 'auto',
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '0.75rem', // Reduce font size on small screens
     },
   },
-});
+}));
 
 const StyledButton = styled('button')(({ variant }) => ({
   padding: '6px 12px',
@@ -89,11 +92,10 @@ const QRCodeImage = styled('img')({
   maxWidth: '300px',
   maxHeight: '300px',
   objectFit: 'cover',
-  width: '100%', // Ensures the QR code scales with its container
-  height: 'auto', // Maintains aspect ratio
+  width: '100%',
+  height: 'auto',
   '@media (max-width: 768px)': {
-    width: '250px', // Adjusted for responsiveness
-    height: 'auto',
+    width: '250px',
   },
 });
 
@@ -101,11 +103,10 @@ const ProductImage = styled('img')({
   maxWidth: '200px',
   maxHeight: '200px',
   objectFit: 'cover',
-  width: '100%', // Ensures the product image scales with its container
-  height: 'auto', // Maintains aspect ratio
+  width: '100%',
+  height: 'auto',
   '@media (max-width: 768px)': {
-    width: '250px',
-    height: 'auto',
+    width: '150px',
   },
 });
 
@@ -125,6 +126,7 @@ const Overlay = styled('div')({
 // Form styling
 const FormGroup = styled(Form.Group)({
   marginBottom: '1rem',
+  width: '100%',
 });
 
 const ProductList = ({ products: initialProducts }) => {
@@ -212,7 +214,7 @@ const ProductList = ({ products: initialProducts }) => {
     { field: 'price', headerName: 'Price', width: 100 },
     { field: 'category', headerName: 'Category', width: 150 },
     { field: 'rating', headerName: 'Rating', width: 100 },
-    { field: 'count', headerName: 'Count', width: 100 }, // Ensure this is included
+    { field: 'count', headerName: 'Count', width: 100 },
     {
       field: 'qrCode',
       headerName: 'QR Code',

@@ -324,7 +324,7 @@ const ProductList = ({ products: initialProducts }) => {
             size="lg"
           >
             <ModalHeader closeButton>
-              <Modal.Title>Product Details</Modal.Title>
+              <Modal.Title>{selectedProduct.title}</Modal.Title>
             </ModalHeader>
             <ModalBody>
               <ModalContent>

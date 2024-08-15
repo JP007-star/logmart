@@ -1,13 +1,33 @@
 /* Main sidebar styles */
 .sidebar-container {
   flex: 0 0 250px; /* Default width for sidebar */
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, margin-left 0.3s ease; /* Smooth transitions for resizing */
   background-color: #f8f9fa; /* Light background for the sidebar */
   border-right: 1px solid #dee2e6; /* Border to separate from content */
   height: 100vh; /* Full viewport height */
   position: fixed; /* Fixed position for sidebar */
   top: 0; /* Align with the top of the viewport */
   left: 0; /* Align with the left edge */
+  z-index: 1000; /* Ensure sidebar is above other content */
+}
+
+/* Sidebar minimized styles */
+.sidebar-container.minimized {
+  flex: 0 0 80px; /* Reduced width when minimized */
+  overflow: hidden; /* Hide content when sidebar is minimized */
+}
+
+/* Main content area styles */
+.content-area {
+  flex: 1;
+  margin-left: 250px; /* Default margin when sidebar is visible */
+  transition: margin-left 0.3s ease; /* Smooth transition for resizing */
+  padding: 1rem; /* Padding inside content area */
+}
+
+/* Adjust content area when sidebar is minimized */
+.content-area.expanded {
+  margin-left: 80px; /* Adjust margin when sidebar is minimized */
 }
 
 /* Hide the main sidebar on mobile */
@@ -15,22 +35,7 @@
   .sidebar-container {
     display: none; /* Hide sidebar on smaller screens */
   }
-}
 
-/* Main content area styles */
-.content-area {
-  flex: 1;
-  margin-left: 250px; /* Default margin when sidebar is visible */
-  transition: margin-left 0.3s ease;
-  padding: 1rem; /* Padding inside content area */
-}
-
-/* Toggle button styles */
-.toggle-sidebar-btn {
-  display: none; /* Hide the toggle button on larger screens */
-}
-
-@media (max-width: 768px) {
   .toggle-sidebar-btn {
     display: block;
     position: fixed;
@@ -47,5 +52,12 @@
 
   .content-area {
     margin-left: 0; /* No margin needed on smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .toggle-sidebar-btn {
+    font-size: 0.75rem; /* Smaller font size on very small screens */
+    padding: 0.5rem; /* Smaller padding */
   }
 }

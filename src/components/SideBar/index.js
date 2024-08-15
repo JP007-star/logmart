@@ -1,3 +1,4 @@
+// SideBar.js
 import React, { useState, useEffect } from 'react';
 import { Nav, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -34,7 +35,7 @@ const SideBar = ({ activeNavLink }) => {
     <div className={`${styles.sidebar} shadow-lg rounded bg-dark ${isSidebarMinimized ? styles.minimized : ''}`}>
       <div className={styles.logo} onClick={handleLogoClick}>
         <img
-          src={`${isSidebarMinimized ? '/images/logo_light_mini.png' : '/images/logo_light.png'}`}
+          src={isSidebarMinimized ? '/images/logo_light_mini.png' : '/images/logo_light.png'}
           alt="Logo"
         />
       </div>

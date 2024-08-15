@@ -121,8 +121,8 @@ export const Biller = ({ initialData }) => {
   ));
 
   return (
-    <div className="biller-container row col-12">
-      <div className={`biller-card col-6 ${isFlipped ? 'flipped' : ''}`}>
+    <div className="biller-container">
+      <div className={`biller-card ${isFlipped ? 'flipped' : ''}`}>
         {/* Form card (Front) */}
         <div className="biller-form front">
           <div className="card-body">
@@ -189,7 +189,7 @@ export const Biller = ({ initialData }) => {
               <QRCodeScanner onScan={handleScan} onError={handleError} />
             </div>
             <button
-              className="btn btn-secondary form-control shadow-sm rounded mt-2"
+              className="btn btn-secondary  shadow-sm rounded mt-2"
               type="button"
               onClick={() => setIsFlipped(false)}
             >
@@ -201,7 +201,7 @@ export const Biller = ({ initialData }) => {
         {/* Cart container */}
 
       </div>
-      <div className="col-6 admin-cart-container">
+      <div className="admin-cart-container">
         <AdminCart cartItems={cart} onClearCart={handleClearCart} />
       </div>
     </div>

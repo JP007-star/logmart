@@ -1,38 +1,37 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import jsQR from 'jsqr';
 
 const QRCodeScanner = ({ onScan, onError }) => {
-  const [scanning, setScanning] = useState(false);
   const webcamRef = useRef(null);
 
   const capture = useCallback(() => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    if (imageSrc) {
-      const image = new Image();
-      image.src = imageSrc;
-      image.onload = () => {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = image.width;
-        canvas.height = image.height;
-        context.drawImage(image, 0, 0, image.width, image.height);
-        const imageData = context.getImageData(0, 0, image.width, image.height);
-        const code = jsQR(imageData.data, image.width, image.height);
-        if (code) {
-          onScan(code.data);
-        }
-      };
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      if (imageSrc) {
+        const image = new Image();
+        image.src = imageSrc;
+        image.onload = () => {
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.width = image.width;
+          canvas.height = image.height;
+          context.drawImage(image, 0, 0, image.width, image.height);
+          const imageData = context.getImageData(0, 0, image.width, image.height);
+          const code = jsQR(imageData.data, image.width, image.height);
+          if (code) {
+            onScan(code.data); // Trigger the onScan callback with QR code data
+          }
+        };
+      }
     }
   }, [onScan]);
 
   useEffect(() => {
-    let intervalId;
-    if (scanning) {
-      intervalId = setInterval(capture, 1000);
-    }
-    return () => clearInterval(intervalId);
-  }, [scanning, capture]);
+    const intervalId = setInterval(capture, 1000); // Capture frame every second
+
+    return () => clearInterval(intervalId); // Clean up interval on component unmount
+  }, [capture]);
 
   const videoConstraints = {
     facingMode: 'environment', // Use back camera by default
@@ -51,9 +50,7 @@ const QRCodeScanner = ({ onScan, onError }) => {
         height="auto" // Adjust height to maintain aspect ratio
         className="webcam"
       />
-      <button className="btn btn-primary toggle-scanning-btn" onClick={() => setScanning(!scanning)}>
-        {scanning ? 'Stop Scanning' : 'Start Scanning'}
-      </button>
+      {/* Removed the scanning button */}
     </div>
   );
 };

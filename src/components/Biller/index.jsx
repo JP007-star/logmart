@@ -205,5 +205,6 @@ export const Biller = ({ initialData }) => {
         <AdminCart cartItems={cart} onClearCart={handleClearCart} />
       </div>
     </div>
+    
   );
 };

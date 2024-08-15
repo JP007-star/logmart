@@ -85,7 +85,31 @@
 }
 
 @media (max-width: 576px) {
+  .biller-card {
+    height: 400px; /* Adjust height to fit content */
+    position: relative;
+    width: 100%; /* Full width on mobile */
+    border-radius: 0; /* Remove border radius on small screens if necessary */
+  }
+
   .biller-form, .admin-cart-container {
     padding: 0.5rem; /* Reduced padding for smaller screens */
+  }
+
+  .qr-scanner-container {
+    width: 100%; /* Full width on mobile */
+    padding: 0.5rem; /* Reduced padding to fit mobile view */
+  }
+
+  .webcam {
+    max-height: 200px; /* Adjust webcam height for mobile */
+  }
+
+  .admin-cart-container {
+    margin-top: 1rem; /* Space above the cart for mobile view */
+  }
+
+  .biller-card .card-body {
+    padding: 0.5rem; /* Ensure consistent padding inside the card */
   }
 }

@@ -206,8 +206,8 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan="2">Grand Total:</td>
-            <td colSpan="2">₹{grandTotal.toFixed(2)}</td>
+            <td colSpan="3">Grand Total:</td>
+            <td colSpan="1">₹{grandTotal.toFixed(2)}</td>
             <td colSpan="1">Discount:</td>
             <td colSpan="1">₹{totalDiscount.toFixed(2)}</td>
           </tr>

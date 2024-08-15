@@ -1,9 +1,11 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
 import jsQR from 'jsqr';
 
 const QRCodeScanner = ({ onScan, onError }) => {
   const webcamRef = useRef(null);
+  const [devices, setDevices] = useState([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState('');
 
   const capture = useCallback(() => {
     if (webcamRef.current) {
@@ -29,14 +31,33 @@ const QRCodeScanner = ({ onScan, onError }) => {
 
   useEffect(() => {
     const intervalId = setInterval(capture, 1000); // Capture frame every second
-
     return () => clearInterval(intervalId); // Clean up interval on component unmount
   }, [capture]);
 
+  useEffect(() => {
+    const getDevices = async () => {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        setDevices(videoDevices);
+        if (videoDevices.length > 0) {
+          setSelectedDeviceId(videoDevices[0].deviceId);
+        }
+      } catch (error) {
+        onError && onError(error);
+      }
+    };
+    getDevices();
+  }, [onError]);
+
+  const handleDeviceChange = (event) => {
+    setSelectedDeviceId(event.target.value);
+  };
+
   const videoConstraints = {
-    facingMode: 'environment', // Use back camera by default
+    deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
     width: 1280,
-    height: 720
+    height: 720,
   };
 
   return (
@@ -47,10 +68,16 @@ const QRCodeScanner = ({ onScan, onError }) => {
         screenshotFormat="image/jpeg"
         videoConstraints={videoConstraints}
         width="100%"
-        height="auto" // Adjust height to maintain aspect ratio
+        height="auto"
         className="webcam"
       />
-      {/* Removed the scanning button */}
+      <select onChange={handleDeviceChange} value={selectedDeviceId}>
+        {devices.map((device, index) => (
+          <option key={index} value={device.deviceId}>
+            {device.label || `Camera ${index + 1}`}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };

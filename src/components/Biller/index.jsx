@@ -93,7 +93,7 @@ export const Biller = ({ initialData }) => {
     }
   };
 
-  const handleScan = (scannedData) => {
+  const handleScan = async (scannedData) => {
     const product = initialData.products.find(
       (product) => product._id === scannedData
     );
@@ -104,7 +104,25 @@ export const Biller = ({ initialData }) => {
       setSelectedProductQuantity(product.quantity);
       setSelectedProductPrice(product.price);
       setSelectedProductImage(product.image);
-      setIsFlipped(false); // Flip back to the form view
+
+      // Add the product to the cart automatically
+      const productData = {
+        id: product._id,
+        quantity: 1,
+        price: product.price,
+        name: product.title,
+        discount: "20%", // Add actual discount if needed
+        image: product.image, // Add actual image URL
+      };
+
+      const result = await addToCart(productData);
+
+      if (typeof result === 'string') {
+        console.log(result);
+      } else {
+        setCart(result.items);
+        console.log("Product added to cart successfully");
+      }
     } else {
       console.log("Product not found for QR code:", scannedData);
     }

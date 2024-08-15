@@ -6,11 +6,12 @@ import { faHome, faTag, faCutlery, faUsers } from '@fortawesome/free-solid-svg-i
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './style.module.css';
 
-const SideBar = ({ activeNavLink }) => {
+const SideBar = ({ activeNavLink ,onLogoClick}) => {
   const [isSidebarMinimized, setSidebarMinimized] = useState(false);
 
   const handleLogoClick = () => {
     setSidebarMinimized(!isSidebarMinimized);
+    onLogoClick();
   };
 
   useEffect(() => {

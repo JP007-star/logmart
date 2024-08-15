@@ -63,10 +63,7 @@ const AdminUsers = ({ users: initialUsers }) => {
       <AdminHeader />
       <div className="d-flex admin-users-container">
         <div className={`sidebar-container ${isSidebarMinimized ? 'minimized' : ''}`}>
-          <SideBar activeNavLink="users" />
-          <button onClick={toggleSidebar} className="toggle-sidebar-btn">
-            {isSidebarMinimized ? '>' : '<'}
-          </button>
+          <SideBar activeNavLink="users" onLogoClick={toggleSidebar} />
         </div>
         <div className={`main-content ${isSidebarMinimized ? 'expanded' : ''}`}>
           <div className="card shadow-sm rounded mt-3">

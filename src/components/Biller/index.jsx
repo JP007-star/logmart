@@ -111,7 +111,7 @@ export const Biller = ({ initialData }) => {
         quantity: 1,
         price: product.price,
         name: product.title,
-        discount: "20%", // Add actual discount if needed
+        discount: product.discount, // Add actual discount if needed
         image: product.image, // Add actual image URL
       };
 

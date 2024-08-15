@@ -21,14 +21,14 @@
 }
 
 .logo img {
-  max-width: 80%;  /* Scale the logo to take up 80% of its container width */
+  max-width: 90%;  /* Scale the logo to take up 80% of its container width */
   max-height: 80px; /* Set a max height to ensure it’s not too large */
   transition: all 0.3s ease-in-out;
   object-fit: contain;
 }
 
 .sidebar.minimized .logo img {
-  max-width: 50%; /* Scale down further when minimized */
+  max-width: 100%; /* Scale down further when minimized */
   max-height: 50px; /* Adjust the height for the minimized state */
 }
 

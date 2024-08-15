@@ -10,6 +10,7 @@ import ProductList from "../../components/ProductList";
 import AddProduct from "../../components/AddProduct";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { userDNS } from "../../config";
 
 const AdminProducts = ({ users: initialUsers }) => {
   const [isAddProductVisible, setAddProductVisible] = useState(false);
@@ -43,6 +44,32 @@ const AdminProducts = ({ users: initialUsers }) => {
     toast.success("Product added successfully!");
   };
 
+  const handleExports = async () => {
+    try {
+      const response = await fetch(userDNS+'api/v1/generate-pdf', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/pdf',
+        },
+      });
+  
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'products.pdf';
+        link.click();
+        URL.revokeObjectURL(url); // Clean up
+      } else {
+        console.error('Failed to generate PDF');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+
   return (
     <ThemeProvider>
       <AdminHeader />
@@ -73,8 +100,18 @@ const AdminProducts = ({ users: initialUsers }) => {
                     >
                       <Unicons.UilPlus /> Add Product
                     </button>
+                    
                   </div>
                   <div className="user-list-container">
+                    
+                  <button
+                      id="add-user"
+                      className="w-25 btn btn-secondary"
+                      type="button"
+                      onClick={handleExports}
+                    >
+                       Export PDF
+                    </button>
                     {products.length > 0 ? (
                       <ProductList products={products} />
                     ) : (

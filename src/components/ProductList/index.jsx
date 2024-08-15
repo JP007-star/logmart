@@ -209,7 +209,7 @@ const ProductList = ({ products: initialProducts }) => {
       ),
     },
     { field: 'title', headerName: 'Title', width: 200 },
-    { field: 'price', headerName: 'Price', width: 150 },
+    { field: 'price', headerName: 'Price', width: 100 },
     { field: 'category', headerName: 'Category', width: 150 },
     { field: 'rating', headerName: 'Rating', width: 100 },
     { field: 'count', headerName: 'Count', width: 100 }, // Ensure this is included

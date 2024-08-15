@@ -29,7 +29,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
        
         <Nav className={`nav nav-pills`}>
               <Nav.Link
-                href="/admin"
+                href="/admin/home"
                 className={` text-white ${styles.link} ${styles.line} ${activeNavLink === 'home' ? 'active' : ''}`}
               >
                 <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
@@ -37,7 +37,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
                 </div>
               </Nav.Link>
               <Nav.Link
-                href="/admin/order/orders"
+                href="/admin/orders"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'orders' ? 'active' : ''}`}
               >
                 <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
@@ -45,7 +45,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
                 </div>
               </Nav.Link>
               <Nav.Link
-                href="/admin/product/products"
+                href="/admin/products"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'products' ? 'active' : ''}`}
               >
                 <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
@@ -54,7 +54,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
               </Nav.Link>
               
               <Nav.Link
-                href="/admin/user/users"
+                href="/admin/users"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'users' ? 'active' : ''}`}
               >
                 <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>

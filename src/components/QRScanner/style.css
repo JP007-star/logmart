@@ -9,7 +9,7 @@
 /* Webcam Styles */
 .webcam {
   width: 100%; /* Full width of the container */
-  height: auto; /* Maintain aspect ratio */
+  height: 300px; /* Maintain aspect ratio */
   max-width: 100%; /* Ensure webcam does not exceed container width */
   max-height: 300px; /* Default max height for larger screens */
 }
@@ -35,7 +35,7 @@
 
 @media (max-width: 576px) {
   .webcam {
-    max-height: 150px; /* Smaller max height on very small screens */
+    height: 150px; /* Smaller max height on very small screens */
   }
 
   .toggle-scanning-btn {

@@ -14,6 +14,8 @@
   flex: 0 0 auto; /* Prevent cards from shrinking or growing */
   width: 200px; /* Set a fixed width for each card */
   margin: 0.5rem; /* Margin around each card */
+  text-decoration: none;
+
 }
 
 .card-dash:hover {
@@ -70,9 +72,10 @@
 
   .card-dash {
     flex: 0 0 35%; /* Each card will take up most of the screen width */
-    max-width: 60px; /* Optional: set a max width to prevent cards from being too large */
+    max-width: 200px; /* Optional: set a max width to prevent cards from being too large */
     margin: 1rem;
     margin-left: 1.2rem;
+    text-decoration: none;
   }
 
   .card-body {

@@ -93,12 +93,12 @@
   }
 
   .biller-form, .admin-cart-container {
-    padding: 0.5rem; /* Reduced padding for smaller screens */
+    padding: 0.3rem; /* Reduced padding for smaller screens */
   }
 
   .qr-scanner-container {
     width: 100%; /* Full width on mobile */
-    padding: 0.5rem; /* Reduced padding to fit mobile view */
+    padding: 0.3rem; /* Reduced padding to fit mobile view */
   }
 
   .webcam {
@@ -111,6 +111,6 @@
   }
 
   .biller-card .card-body {
-    padding: 0.5rem; /* Ensure consistent padding inside the card */
+    padding: 0.3rem; /* Ensure consistent padding inside the card */
   }
 }

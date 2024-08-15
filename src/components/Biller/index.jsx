@@ -58,7 +58,7 @@ export const Biller = ({ initialData }) => {
       console.log("Please select a product and specify quantity");
       return;
     }
-    
+
     const productData = {
       id: selectedProductId,
       quantity: quantity,
@@ -185,7 +185,9 @@ export const Biller = ({ initialData }) => {
         {/* QR Code Scanner card (Back) */}
         <div className="biller-form back">
           <div className="card-body">
-            <QRCodeScanner onScan={handleScan} onError={handleError} />
+            <div className="qr-scanner-container">
+              <QRCodeScanner onScan={handleScan} onError={handleError} />
+            </div>
             <button
               className="btn btn-secondary form-control shadow-sm rounded mt-2"
               type="button"
@@ -195,9 +197,9 @@ export const Biller = ({ initialData }) => {
             </button>
           </div>
         </div>
-       
+
         {/* Cart container */}
-       
+
       </div>
       <div className="col-6 admin-cart-container">
         <AdminCart cartItems={cart} onClearCart={handleClearCart} />

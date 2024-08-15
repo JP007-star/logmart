@@ -11,7 +11,7 @@
   width: 100%; /* Full width of the container */
   height: auto; /* Maintain aspect ratio */
   max-width: 100%; /* Ensure webcam does not exceed container width */
-  max-height: 400px; /* Limit height for larger screens */
+  max-height: 300px; /* Default max height for larger screens */
 }
 
 /* Button Styles */
@@ -25,7 +25,7 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .webcam {
-    max-height: 100px; /* Smaller max height on tablets */
+    max-height: 200px; /* Smaller max height on tablets */
   }
 
   .toggle-scanning-btn {
@@ -35,10 +35,15 @@
 
 @media (max-width: 576px) {
   .webcam {
-    max-height: 100px; /* Smaller max height on very small screens */
+    max-height: 150px; /* Smaller max height on very small screens */
   }
 
   .toggle-scanning-btn {
     font-size: 0.75rem; /* Even smaller text on very small screens */
   }
+}
+
+/* Ensure QR scanner container doesn't overlap with other components */
+.qr-scanner-container {
+  margin-bottom: 2rem; /* Space below the QR scanner to prevent overlap */
 }

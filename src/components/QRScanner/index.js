@@ -34,14 +34,22 @@ const QRCodeScanner = ({ onScan, onError }) => {
     return () => clearInterval(intervalId);
   }, [scanning, capture]);
 
+  const videoConstraints = {
+    facingMode: 'environment', // Use back camera by default
+    width: 1280,
+    height: 720
+  };
+
   return (
     <div className="qr-scanner-container">
       <Webcam
         audio={false}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
+        videoConstraints={videoConstraints}
         width="100%"
         height="auto" // Adjust height to maintain aspect ratio
+        className="webcam"
       />
       <button className="btn btn-primary toggle-scanning-btn" onClick={() => setScanning(!scanning)}>
         {scanning ? 'Stop Scanning' : 'Start Scanning'}

@@ -35,15 +35,15 @@ const QRCodeScanner = ({ onScan, onError }) => {
   }, [scanning, capture]);
 
   return (
-    <div>
+    <div className="qr-scanner-container">
       <Webcam
         audio={false}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
         width="100%"
-        height="100%"
+        height="auto" // Adjust height to maintain aspect ratio
       />
-      <button className="btn btn-primary" onClick={() => setScanning(!scanning)}>
+      <button className="btn btn-primary toggle-scanning-btn" onClick={() => setScanning(!scanning)}>
         {scanning ? 'Stop Scanning' : 'Start Scanning'}
       </button>
     </div>

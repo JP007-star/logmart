@@ -11,7 +11,7 @@ export const Biller = ({ initialData }) => {
   const [selectedProductQuantity, setSelectedProductQuantity] = useState(0);
   const [selectedProductPrice, setSelectedProductPrice] = useState(0);
   const [selectedProductImage, setSelectedProductImage] = useState("");
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [cart, setCart] = useState([]); // State to hold the cart items
   const [isFlipped, setIsFlipped] = useState(false); // State to manage the card flip
 
@@ -35,17 +35,17 @@ export const Biller = ({ initialData }) => {
     if (product) {
       setSelectedProductId(product._id);
       setSelectedProduct(product.title);
-      setQuantity(1);
       setSelectedProductQuantity(product.quantity);
       setSelectedProductPrice(product.price);
       setSelectedProductImage(product.image);
+      setQuantity(1); // Reset quantity to 1 on new product selection
     } else {
       setSelectedProductId("");
       setSelectedProduct("");
-      setQuantity(0);
-      setSelectedProductQuantity(1);
+      setSelectedProductQuantity(0);
       setSelectedProductPrice(0);
       setSelectedProductImage("");
+      setQuantity(0);
     }
   };
 
@@ -54,6 +54,11 @@ export const Biller = ({ initialData }) => {
   };
 
   const handleAddToCart = async () => {
+    if (!selectedProductId || quantity <= 0) {
+      console.log("Please select a product and specify quantity");
+      return;
+    }
+    
     const productData = {
       id: selectedProductId,
       quantity: quantity,
@@ -124,7 +129,7 @@ export const Biller = ({ initialData }) => {
             <Form className="p-2">
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="productSelect" className="form-label">Product</Form.Label>
-                <Form.Select id="productSelect" size="lg" onChange={handleProductChange}>
+                <Form.Select id="productSelect" size="lg" onChange={handleProductChange} value={selectedProductId}>
                   <option value="">Select a product</option>
                   {options}
                 </Form.Select>
@@ -195,8 +200,8 @@ export const Biller = ({ initialData }) => {
        
       </div>
       <div className="col-6 admin-cart-container">
-          <AdminCart cartItems={cart} onClearCart={handleClearCart} />
-        </div>
+        <AdminCart cartItems={cart} onClearCart={handleClearCart} />
+      </div>
     </div>
   );
 };

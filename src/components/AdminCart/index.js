@@ -212,7 +212,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
             <td colSpan="1">₹{totalDiscount.toFixed(2)}</td>
           </tr>
           <tr>
-            <td colSpan="3">
+            <td colSpan="4">
               <button className='btn btn-warning' style={{ color: "black" }} onClick={handleCheckout}>Check out</button>
             </td>
             <td colSpan="3">

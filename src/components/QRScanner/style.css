@@ -35,7 +35,7 @@
 
 @media (max-width: 576px) {
   .webcam {
-    height: 150px; /* Smaller max height on very small screens */
+    max-height: 150px; /* Smaller max height on very small screens */
   }
 
   .toggle-scanning-btn {

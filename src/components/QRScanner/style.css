@@ -25,7 +25,7 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .webcam {
-    max-height: 300px; /* Smaller max height on tablets */
+    max-height: 100px; /* Smaller max height on tablets */
   }
 
   .toggle-scanning-btn {

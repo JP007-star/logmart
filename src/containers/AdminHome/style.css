@@ -1,21 +1,28 @@
-/* AdminDashboard.css */
-
 /* Main sidebar styles */
 .sidebar-container {
+  flex: 0 0 250px; /* Default width for sidebar */
   transition: width 0.3s ease;
+  background-color: #f8f9fa; /* Light background for the sidebar */
+  border-right: 1px solid #dee2e6; /* Border to separate from content */
+  height: 100vh; /* Full viewport height */
+  position: fixed; /* Fixed position for sidebar */
+  top: 0; /* Align with the top of the viewport */
+  left: 0; /* Align with the left edge */
 }
 
 /* Hide the main sidebar on mobile */
 @media (max-width: 768px) {
   .sidebar-container {
-    display: none;
+    display: none; /* Hide sidebar on smaller screens */
   }
 }
 
 /* Main content area styles */
 .content-area {
   flex: 1;
+  margin-left: 250px; /* Default margin when sidebar is visible */
   transition: margin-left 0.3s ease;
+  padding: 1rem; /* Padding inside content area */
 }
 
 /* Toggle button styles */
@@ -30,9 +37,15 @@
     top: 10px;
     left: 10px;
     z-index: 1000;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
   }
 
   .content-area {
-    margin-left: 0;
+    margin-left: 0; /* No margin needed on smaller screens */
   }
 }

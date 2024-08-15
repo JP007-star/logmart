@@ -5,11 +5,11 @@ import { DashboardCounter } from "../../components/DashboardCounter";
 import AdminHeader from "../../components/AdminHeader";
 import { ThemeProvider } from "../../components/ThemeContext";
 import { getServerSideProps } from "../../actions/initialData.action";
-import './style.css'; // Import the CSS file
+import './style.css'; // Import the updated CSS file
 import { SideBarMobile } from "../../components/SideBarMobile";
 
 const AdminHome = () => {
-  const [initialData, setInitialData] = useState({ products: [], users: [] });
+  const [initialData, setInitialData] = useState({ products: [], users: [] , orders:[]});
   const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
 
   useEffect(() => {

@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/system';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { updateProduct, deleteProduct } from '../../actions/product.action'; // Import actions
 
 // Styled components
 const CustomDataGrid = styled(DataGrid)({
   '& .MuiDataGrid-root': {
     height: '450px',
+    width: '100%', // Ensure it takes full width of its container
     '& .MuiDataGrid-columnsContainer': {
       backgroundColor: '#212529',
       color: '#fff',
@@ -84,94 +86,177 @@ const ImageAndQRCode = styled('div')({
 });
 
 const QRCodeImage = styled('img')({
-  width: '300px', // Set to desired QR code size
-  height: '300px', // Set to desired QR code size
+  maxWidth: '300px',
+  maxHeight: '300px',
   objectFit: 'cover',
+  width: '100%', // Ensures the QR code scales with its container
+  height: 'auto', // Maintains aspect ratio
   '@media (max-width: 768px)': {
-    width: '250px', // Adjust size for mobile screens
-    height: '250px', // Adjust size for mobile screens
+    width: '250px', // Adjusted for responsiveness
+    height: 'auto',
   },
 });
 
 const ProductImage = styled('img')({
-  width: '300px', // Set to the same size as QR code
-  height: '300px', // Set to the same size as QR code
+  maxWidth: '200px',
+  maxHeight: '200px',
   objectFit: 'cover',
+  width: '100%', // Ensures the product image scales with its container
+  height: 'auto', // Maintains aspect ratio
   '@media (max-width: 768px)': {
-    width: '250px', // Adjust size for mobile screens
-    height: '250px', // Adjust size for mobile screens
+    width: '250px',
+    height: 'auto',
   },
 });
 
-const ProductList = ({ products }) => {
+// Modal overlay styling
+const Overlay = styled('div')({
+  '.modal-backdrop': {
+    opacity: 0.5,
+  },
+  '.modal-content': {
+    '@media (min-width: 992px)': {
+      maxWidth: '90vw',
+      margin: '1.75rem auto',
+    },
+  },
+});
+
+// Form styling
+const FormGroup = styled(Form.Group)({
+  marginBottom: '1rem',
+});
+
+const ProductList = ({ products: initialProducts }) => {
+  const [products, setProducts] = useState(initialProducts);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editProduct, setEditProduct] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const columns = React.useMemo(
-    () => [
-      {
-        field: 'image',
-        headerName: 'Image',
-        width: 250,
-        renderCell: (params) => (
-          <img
-            src={params.value}
-            alt="Product"
-            style={{
-              width: '80px',
-              height: '100px',
-              objectFit: 'cover',
-              borderRadius: '8px',
-            }}
-          />
-        ),
-      },
-      { field: 'title', headerName: 'Title', width: 200 },
-      { field: 'price', headerName: 'Price', width: 150 },
-      { field: 'category', headerName: 'Category', width: 150 },
-      {
-        field: 'qrCode',
-        headerName: 'QR Code',
-        width: 150,
-        renderCell: (params) => (
-          <img
-            src={params.value}
-            alt="QR Code"
-            style={{
-              width: '80px',
-              height: '80px',
-              objectFit: 'cover',
-              borderRadius: '8px',
-            }}
-          />
-        ),
-      },
-      {
-        field: 'edit',
-        headerName: 'Edit',
-        width: 100,
-        renderCell: (params) => (
-          <StyledButton variant="edit" onClick={() => handleEdit(params.value)}>
-            <FontAwesomeIcon icon={faEdit} />
-          </StyledButton>
-        ),
-      },
-      {
-        field: 'delete',
-        headerName: 'Delete',
-        width: 100,
-        renderCell: (params) => (
-          <StyledButton
-            variant="delete"
-            onClick={() => handleDelete(params.value)}
-          >
-            <FontAwesomeIcon icon={faTrash} />
-          </StyledButton>
-        ),
-      },
-    ],
-    []
-  );
+  const handleEdit = useCallback((event, product) => {
+    event.stopPropagation();
+    setEditProduct(product);
+    setShowEditModal(true);
+  }, []);
+
+  const handleDelete = useCallback((event, productId) => {
+    event.stopPropagation();
+    deleteProduct(productId)
+      .then(() => {
+        setProducts(products.filter((product) => product._id !== productId));
+      })
+      .catch((error) => {
+        console.error('Failed to delete product:', error);
+      });
+  }, [products]);
+
+  const handleUpdateProduct = () => {
+    setLoading(true);
+    setError(null);
+
+    // Simple validation
+    if (!editProduct.title || !editProduct.price || !editProduct.category) {
+      setError('Please fill in all required fields.');
+      setLoading(false);
+      return;
+    }
+
+    updateProduct(editProduct._id, editProduct)
+      .then((updatedProduct) => {
+        setProducts(
+          products.map((p) => (p._id === updatedProduct._id ? updatedProduct : p))
+        );
+        setShowEditModal(false);
+      })
+      .catch((error) => {
+        setError('Failed to update product. Please try again.');
+        console.error('Failed to update product:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleRowClick = (params) => {
+    setSelectedProduct(params.row);
+    setShowModal(true);
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setEditProduct({ ...editProduct, [name]: value });
+  };
+
+  const columns = useMemo(() => [
+    {
+      field: 'image',
+      headerName: 'Image',
+      width: 100,
+      renderCell: (params) => (
+        <img
+          src={params.value}
+          alt="Product"
+          style={{
+            width: '80px',
+            height: '100px',
+            objectFit: 'cover',
+            borderRadius: '8px',
+          }}
+        />
+      ),
+    },
+    { field: 'title', headerName: 'Title', width: 200 },
+    { field: 'price', headerName: 'Price', width: 150 },
+    { field: 'category', headerName: 'Category', width: 150 },
+    { field: 'rating', headerName: 'Rating', width: 100 },
+    { field: 'count', headerName: 'Count', width: 100 }, // Ensure this is included
+    {
+      field: 'qrCode',
+      headerName: 'QR Code',
+      width: 150,
+      renderCell: (params) => (
+        <img
+          src={params.value}
+          alt="QR Code"
+          style={{
+            width: '80px',
+            height: '80px',
+            objectFit: 'cover',
+            borderRadius: '8px',
+          }}
+        />
+      ),
+    },
+    {
+      field: 'edit',
+      headerName: 'Edit',
+      width: 100,
+      renderCell: (params) => (
+        <StyledButton
+          variant="edit"
+          onClick={(e) => handleEdit(e, params.row)}
+        >
+          <FontAwesomeIcon icon={faEdit} />
+        </StyledButton>
+      ),
+    },
+    {
+      field: 'delete',
+      headerName: 'Delete',
+      width: 100,
+      renderCell: (params) => (
+        <StyledButton
+          variant="delete"
+          onClick={(e) => handleDelete(e, params.row._id)}
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </StyledButton>
+      ),
+    },
+  ], [handleDelete, handleEdit]);
 
   const [sortModel, setSortModel] = useState([
     {
@@ -188,19 +273,6 @@ const ProductList = ({ products }) => {
     setSearchText(event.target.value);
   };
 
-  const handleEdit = (id) => {
-    // Handle edit action here
-  };
-
-  const handleDelete = (id) => {
-    // Handle delete action here
-  };
-
-  const handleRowClick = (params) => {
-    setSelectedProduct(params.row);
-    setShowModal(true);
-  };
-
   const filteredProducts = products.filter((product) =>
     Object.values(product).some(
       (value) =>
@@ -210,82 +282,191 @@ const ProductList = ({ products }) => {
   );
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ padding: '20px' }}>
       {products.length === 0 ? (
-        <div className="text-center">No products available.</div>
+        <p>No products available</p>
       ) : (
-        <CustomDataGrid
-          rows={filteredProducts}
-          columns={columns}
-          pageSize={10}
-          sortingOrder={['asc', 'desc']}
-          sortModel={sortModel}
-          onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
-          checkboxSelection={false}
-          disableSelectionOnClick
-          getRowId={getRowId}
-          onRowClick={handleRowClick}
-          components={{
-            Toolbar: () => (
-              <div style={{ padding: '8px' }}>
-                {/* Search bar */}
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchText}
-                  onChange={handleSearchChange}
-                  style={{
-                    padding: '8px',
-                    marginRight: '8px',
-                    borderRadius: '4px',
-                    border: '1px solid #ced4da',
-                    width: '100%',
-                    maxWidth: '400px',
-                  }}
-                />
-              </div>
-            ),
-          }}
-        />
+        <>
+          <input
+            type="text"
+            value={searchText}
+            onChange={handleSearchChange}
+            placeholder="Search..."
+            style={{
+              marginBottom: '10px',
+              padding: '8px',
+              width: '100%',
+              maxWidth: '400px',
+              borderRadius: '4px',
+              border: '1px solid #ddd',
+            }}
+          />
+          <CustomDataGrid
+            rows={filteredProducts}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5, 10]}
+            sortModel={sortModel}
+            onSortModelChange={(model) => setSortModel(model)}
+            onRowClick={handleRowClick}
+            getRowId={getRowId}
+          />
+        </>
       )}
 
-      {/* Modal for displaying product details */}
-      {selectedProduct && (
-        <Modal
-          show={showModal}
-          onHide={() => setShowModal(false)}
-          centered
-          size="lg"
-          dialogClassName="modal-90w" // Increase modal width
-        >
-          <ModalHeader closeButton>
-            <Modal.Title>{selectedProduct.title}</Modal.Title>
-          </ModalHeader>
-          <ModalBody>
-            <ModalContent>
-              <ImageAndQRCode>
-                <ImageContainer>
-                  <ProductImage
-                    src={selectedProduct.image}
-                    alt={selectedProduct.title}
+      {/* Modal for displaying selected product */}
+      {showModal && (
+        <Overlay>
+          <Modal
+            show={showModal}
+            onHide={() => setShowModal(false)}
+            centered
+            size="lg"
+          >
+            <ModalHeader closeButton>
+              <Modal.Title>Product Details</Modal.Title>
+            </ModalHeader>
+            <ModalBody>
+              <ModalContent>
+                <ImageAndQRCode>
+                  <ImageContainer>
+                    <ProductImage
+                      src={selectedProduct.image}
+                      alt={selectedProduct.title}
+                    />
+                  </ImageContainer>
+                  <QRCodeImage
+                    src={selectedProduct.qrCode}
+                    alt="QR Code"
                   />
-                </ImageContainer>
-                <QRCodeImage
-                  src={selectedProduct.qrCode}
-                  alt="QR Code"
-                />
-              </ImageAndQRCode>
-            </ModalContent>
-            <p><strong>Price:</strong> ${selectedProduct.price}</p>
-            <p><strong>Category:</strong> {selectedProduct.category}</p>
-            <p><strong>Description:</strong> {selectedProduct.description}</p>
-          </ModalBody>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
+                </ImageAndQRCode>
+              </ModalContent>
+              <p>
+                <strong>Price:</strong> ${selectedProduct.price}
+              </p>
+              <p>
+                <strong>Category:</strong> {selectedProduct.category}
+              </p>
+              <p>
+                <strong>Description:</strong> {selectedProduct.description}
+              </p>
+              <p>
+                <strong>Count:</strong> {selectedProduct.count}
+              </p>
+            </ModalBody>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setShowModal(false)}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Overlay>
+      )}
+
+      {/* Edit Modal for updating product */}
+      {showEditModal && (
+        <Overlay>
+          <Modal
+            show={showEditModal}
+            onHide={() => setShowEditModal(false)}
+            centered
+            size="lg"
+          >
+            <ModalHeader closeButton>
+              <Modal.Title>Edit Product</Modal.Title>
+            </ModalHeader>
+            <ModalBody>
+              {loading && (
+                <div className="text-center">
+                  <Spinner animation="border" />
+                  <p>Updating...</p>
+                </div>
+              )}
+              {error && <Alert variant="danger">{error}</Alert>}
+              {!loading && (
+                <Form>
+                  <FormGroup controlId="formProductTitle">
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="title"
+                      value={editProduct.title || ''}
+                      onChange={handleInputChange}
+                      isInvalid={!editProduct.title}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Please enter a title.
+                    </Form.Control.Feedback>
+                  </FormGroup>
+                  <FormGroup controlId="formProductPrice">
+                    <Form.Label>Price</Form.Label>
+                    <Form.Control
+                      type="number"
+                      name="price"
+                      value={editProduct.price || ''}
+                      onChange={handleInputChange}
+                      isInvalid={!editProduct.price}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Please enter a price.
+                    </Form.Control.Feedback>
+                  </FormGroup>
+                  <FormGroup controlId="formProductCategory">
+                    <Form.Label>Category</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="category"
+                      value={editProduct.category || ''}
+                      onChange={handleInputChange}
+                      isInvalid={!editProduct.category}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Please enter a category.
+                    </Form.Control.Feedback>
+                  </FormGroup>
+                  <FormGroup controlId="formProductDescription">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      name="description"
+                      value={editProduct.description || ''}
+                      onChange={handleInputChange}
+                    />
+                  </FormGroup>
+                  <FormGroup controlId="formProductRating">
+                    <Form.Label>Rating</Form.Label>
+                    <Form.Control
+                      type="number"
+                      name="rating"
+                      value={editProduct.rating || ''}
+                      onChange={handleInputChange}
+                    />
+                  </FormGroup>
+                  <FormGroup controlId="formProductCount">
+                    <Form.Label>Count</Form.Label>
+                    <Form.Control
+                      type="number"
+                      name="count"
+                      value={editProduct.count || ''}
+                      onChange={handleInputChange}
+                    />
+                  </FormGroup>
+                </Form>
+              )}
+            </ModalBody>
+            <Modal.Footer>
+              <Button
+                variant="secondary"
+                onClick={() => setShowEditModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleUpdateProduct}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Overlay>
       )}
     </div>
   );

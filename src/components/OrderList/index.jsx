@@ -249,7 +249,7 @@ const OrderList = ({ orders }) => {
                     <tr key={product.productId}>
                       <td>{product.name}</td>
                       <td>{product.quantity}</td>
-                      <td>${product.price.toFixed(2)}</td>
+                      <td>₹{product.price.toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>

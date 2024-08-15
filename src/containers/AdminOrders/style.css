@@ -9,18 +9,20 @@
   
   /* Sidebar styles */
   .sidebar-container {
-    border-right: 1px solid #dee2e6;
-    position: relative;
-    transition: all 0.3s ease;
+    flex: 0 0 240px; /* Default width for sidebar */
+    transition: width 0.3s ease, margin-left 0.3s ease; /* Smooth transitions for resizing */
+    background-color: #f8f9fa; /* Light background for the sidebar */
+    border-right: 1px solid #dee2e6; /* Border to separate from content */
+    height: 100vh; /* Full viewport height */
+    position: fixed; /* Fixed position for sidebar */
+    top: 0; /* Align with the top of the viewport */
+    left: 0; /* Align with the left edge */
+    z-index: 1000; /* Ensure sidebar is above other content */
   }
   
   .sidebar-container.minimized {
-    width: 60px; /* Adjust this based on your design */
-  }
-  
-  .sidebar-container.minimized .sidebar-content {
-    opacity: 0;
-    visibility: hidden;
+    flex: 0 0 80px; /* Reduced width when minimized */
+    overflow: hidden; /* Hide content when sidebar is minimized */
   }
   
   .toggle-sidebar-btn {

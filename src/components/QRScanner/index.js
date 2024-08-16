@@ -2,6 +2,8 @@ import React, { useRef, useCallback, useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
 import jsQR from 'jsqr';
 
+// Utility function to detect mobile devices
+
 const QRCodeScanner = ({ onScan, onError }) => {
   const webcamRef = useRef(null);
   const [devices, setDevices] = useState([]);
@@ -40,8 +42,11 @@ const QRCodeScanner = ({ onScan, onError }) => {
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter(device => device.kind === 'videoinput');
         setDevices(videoDevices);
+
         if (videoDevices.length > 0) {
-          setSelectedDeviceId(videoDevices[0].deviceId);
+          // If on mobile, prefer the back camera
+          const backCamera = videoDevices.find(device => device.label.toLowerCase().includes('back'));
+          setSelectedDeviceId(backCamera ? backCamera.deviceId : videoDevices[0].deviceId);
         }
       } catch (error) {
         onError && onError(error);
@@ -56,8 +61,9 @@ const QRCodeScanner = ({ onScan, onError }) => {
 
   const videoConstraints = {
     deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
-    width: 1280,
+    width: 720,
     height: 720,
+    aspectRatio: 1,
   };
 
   return (
@@ -67,11 +73,10 @@ const QRCodeScanner = ({ onScan, onError }) => {
         ref={webcamRef}
         screenshotFormat="image/jpeg"
         videoConstraints={videoConstraints}
-        width="100%"
-        height="auto"
+        style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
         className="webcam"
       />
-      <select onChange={handleDeviceChange} value={selectedDeviceId}>
+      <select className='form-control' onChange={handleDeviceChange} value={selectedDeviceId}>
         {devices.map((device, index) => (
           <option key={index} value={device.deviceId}>
             {device.label || `Camera ${index + 1}`}

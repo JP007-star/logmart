@@ -61,8 +61,8 @@ const QRCodeScanner = ({ onScan, onError }) => {
 
   const videoConstraints = {
     deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
-    width: 720,
-    height: 720,
+    width: 500,
+    height: 500,
     aspectRatio: 1,
   };
 
@@ -73,7 +73,7 @@ const QRCodeScanner = ({ onScan, onError }) => {
         ref={webcamRef}
         screenshotFormat="image/jpeg"
         videoConstraints={videoConstraints}
-        style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+        style={{ width: '100%', height: '30vh', objectFit: 'cover' }}
         className="webcam"
       />
       <select className='form-control' onChange={handleDeviceChange} value={selectedDeviceId}>

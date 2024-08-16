@@ -2,7 +2,7 @@
 .sidebar {
   transition: width 0.3s ease-in-out;
   width: 240px;
-  height: 100vh;
+  height: 80vh;
   background-color: #343a40;
   color: #ffffff;
   overflow: hidden;

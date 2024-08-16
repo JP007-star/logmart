@@ -9,9 +9,9 @@
 /* Webcam Styles */
 .webcam {
   width: 100%; /* Full width of the container */
-  height: 300px; /* Maintain aspect ratio */
+  height: 200px; /* Maintain aspect ratio */
   max-width: 100%; /* Ensure webcam does not exceed container width */
-  max-height: 300px; /* Default max height for larger screens */
+  max-height: 200px; /* Default max height for larger screens */
 }
 
 /* Button Styles */

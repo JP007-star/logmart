@@ -4,9 +4,11 @@ import { AdminCart } from '../AdminCart';
 import './style.css'; // Import the updated CSS file
 import { addToCart, clearCart, fetchCartDetails } from '../../actions/cart.action';
 import QRCodeScanner from '../QRScanner'; // Import the QRCodeScanner component
+import { UilCameraChange } from '@iconscout/react-unicons'
 
 export const Biller = ({ initialData }) => {
   const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedProductDiscount, setSelectedProductDiscount] = useState("");
   const [selectedProductId, setSelectedProductId] = useState("");
   const [selectedProductQuantity, setSelectedProductQuantity] = useState(0);
   const [selectedProductPrice, setSelectedProductPrice] = useState(0);
@@ -35,6 +37,7 @@ export const Biller = ({ initialData }) => {
     if (product) {
       setSelectedProductId(product._id);
       setSelectedProduct(product.title);
+      setSelectedProductDiscount(product.discount);
       setSelectedProductQuantity(product.quantity);
       setSelectedProductPrice(product.price);
       setSelectedProductImage(product.image);
@@ -42,6 +45,7 @@ export const Biller = ({ initialData }) => {
     } else {
       setSelectedProductId("");
       setSelectedProduct("");
+      setSelectedProductDiscount(0);
       setSelectedProductQuantity(0);
       setSelectedProductPrice(0);
       setSelectedProductImage("");
@@ -64,7 +68,7 @@ export const Biller = ({ initialData }) => {
       quantity: quantity,
       price: selectedProductPrice,
       name: selectedProduct,
-      discount: "20%", // Add actual discount if needed
+      discount: selectedProductDiscount, // Add actual discount if needed
       image: selectedProductImage, // Add actual image URL
     };
 
@@ -101,6 +105,7 @@ export const Biller = ({ initialData }) => {
       setSelectedProductId(product._id);
       setSelectedProduct(product.title);
       setQuantity(1);
+      setSelectedProductDiscount(product.discount)
       setSelectedProductQuantity(product.quantity);
       setSelectedProductPrice(product.price);
       setSelectedProductImage(product.image);
@@ -139,90 +144,89 @@ export const Biller = ({ initialData }) => {
   ));
 
   return (
+
     <div className="biller-container">
-      <div className={`biller-card ${isFlipped ? 'flipped' : ''}`}>
+      <div className={`biller-card m-3 ${isFlipped ? 'flipped' : ''}`}>
         {/* Form card (Front) */}
         <div className="biller-form front">
-          <div className="card-body">
-            <Form className="p-2">
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="productSelect" className="form-label">Product</Form.Label>
-                <Form.Select id="productSelect" size="lg" onChange={handleProductChange} value={selectedProductId}>
-                  <option value="">Select a product</option>
-                  {options}
-                </Form.Select>
-              </Form.Group>
+          <Form >
+            <UilCameraChange className="float-end" onClick={() => setIsFlipped(true)} />
+            <Form.Group className="mb-3">
 
-              <Form.Group className="mb-3">
-                <div className="d-flex justify-content-between">
-                  <Form.Label htmlFor="quantityInput" className="form-label">Quantity</Form.Label>
-                  <small className="form-text">
-                    Stock: {selectedProductQuantity}
-                  </small>
-                </div>
-                <Form.Control
-                  type="number"
-                  id="quantityInput"
-                  placeholder="Enter Quantity"
-                  min="1"
-                  value={quantity}
-                  onChange={handleQuantityChange}
-                />
-              </Form.Group>
+              <Form.Label htmlFor="productSelect" className="form-label">Product</Form.Label>
+              <Form.Select id="productSelect" size="lg" onChange={handleProductChange} value={selectedProductId}>
+                <option value="">Select a product</option>
+                {options}
+              </Form.Select>
+            </Form.Group>
 
-              <Form.Group className="mb-3">
+            <Form.Group >
+              <div className="d-flex justify-content-between">
+                <Form.Label htmlFor="quantityInput" className="form-label">Quantity</Form.Label>
+                <small className="form-text">
+                  Stock: {selectedProductQuantity}
+                </small>
+              </div>
+              <Form.Control
+                type="number"
+                id="quantityInput"
+                placeholder="Enter Quantity"
+                min="1"
+
+                value={quantity}
+                onChange={handleQuantityChange}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <div className="d-flex justify-content-between">
                 <Form.Label htmlFor="priceInput" className="form-label">Price</Form.Label>
-                <Form.Control
-                  type="number"
-                  id="priceInput"
-                  value={selectedProductPrice}
-                  placeholder="Product Price"
-                  disabled
-                />
-              </Form.Group>
+                <small className="form-text">
+                  Discount: {selectedProductDiscount}%
+                </small>
+              </div>
+              <Form.Control
+                type="number"
+                id="priceInput"
+                value={selectedProductPrice}
+                placeholder="Product Price"
+                disabled
+              />
 
-              <button
-                className="btn btn-primary form-control shadow-sm rounded"
-                type="button"
-                onClick={handleAddToCart}
-              >
-                Add to Cart
-              </button>
+            </Form.Group>
 
-              <button
-                className="btn btn-secondary form-control shadow-sm rounded mt-2"
-                type="button"
-                onClick={() => setIsFlipped(true)}
-              >
-                Scan QR Code
-              </button>
-            </Form>
-          </div>
+
+
+            <button
+              className="btn btn-primary form-control shadow-sm rounded"
+              type="button"
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </button>
+
+          </Form>
         </div>
 
         {/* QR Code Scanner card (Back) */}
         <div className="biller-form back">
-          <div className="card-body">
-            <div className="qr-scanner-container">
-              <QRCodeScanner onScan={handleScan} onError={handleError} />
-            </div>
-            <button
-              className="btn btn-secondary  shadow-sm rounded mt-2"
-              type="button"
-              onClick={() => setIsFlipped(false)}
-            >
-              Back to Form
-            </button>
+
+
+          <UilCameraChange className="float-end" onClick={() => setIsFlipped(false)} />
+          <div className="qr-scanner-container">
+            <QRCodeScanner onScan={handleScan} onError={handleError} />
           </div>
+
+
         </div>
 
         {/* Cart container */}
 
       </div>
-      <div className="admin-cart-container">
+      <div className="admin-cart-container m-3">
         <AdminCart cartItems={cart} onClearCart={handleClearCart} />
       </div>
     </div>
-    
+
   );
 };

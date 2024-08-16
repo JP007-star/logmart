@@ -11,6 +11,13 @@
   z-index: 1000; /* Ensure sidebar is above other content */
 }
 
+
+.home-div{
+  height: 100vh;
+  margin: 0;
+
+}
+
 /* Sidebar minimized styles */
 .sidebar-container.minimized {
   flex: 0 0 80px; /* Reduced width when minimized */
@@ -20,6 +27,8 @@
 /* Main content area styles */
 .content-area {
   flex: 1;
+  height: 100vh;
+  margin-bottom: 100px;
   margin-left: 200px; /* Default margin when sidebar is visible */
   transition: margin-left 0.3s ease; /* Smooth transition for resizing */
   padding: 0.5rem; /* Padding inside content area */
@@ -52,6 +61,12 @@
 
   .content-area {
     margin-left: 0; /* No margin needed on smaller screens */
+  }
+
+  .home-div{
+    height: 100vh;
+    margin: 10px;
+  
   }
 }
 

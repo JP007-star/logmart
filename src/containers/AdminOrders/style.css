@@ -44,7 +44,12 @@
   }
 
   .order-card-div{
-    max-height: 80vh;
+    max-height: 60vh;
+  }
+
+  .order-list-container {
+    max-height: 100vh;
+    margin:  5px;
   }
   
   /* Main content styles */
@@ -147,6 +152,10 @@
 
     .order-card-div{
       max-height: 65vh;
+    }
+    .order-list-container {
+      max-height: 90vh;
+      margin:  5px;
     }
   
     .toggle-sidebar-btn {

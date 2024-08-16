@@ -67,14 +67,14 @@
 
 @media (max-width: 768px) {
   .dashboard-counter-container {
-    justify-content: flex-start; /* Align cards to the start for scrolling */
+    justify-content: space-between; /* Align cards to the start for scrolling */
   }
 
   .card-dash {
     flex: 0 0 35%; /* Each card will take up most of the screen width */
     max-width: 200px; /* Optional: set a max width to prevent cards from being too large */
     margin: 1rem;
-    margin-left: 1.2rem;
+    margin-left: 2rem;
     text-decoration: none;
   }
 

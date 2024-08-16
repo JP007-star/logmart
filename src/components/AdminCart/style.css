@@ -77,7 +77,7 @@ h2 {
   }
 
   .cart-table-wrapper {
-    max-height: 300px; /* Adjust height for smaller screens */
+    max-height: auto; /* Adjust height for smaller screens */
   }
 }
 

@@ -36,7 +36,7 @@ const AdminHome = () => {
         <div className={`sidebar-container ${isSidebarMinimized ? 'minimized' : ''}`}>
           <SideBar activeNavLink="home" onLogoClick={toggleSidebar} />
         </div>
-        <div className={`content-area card m-1 mb-5 ${isSidebarMinimized ? 'expanded' : ''}`}>
+        <div className={`content-area card  ${isSidebarMinimized ? 'expanded' : ''}`}>
           <div className="home-div">
             <DashboardCounter initialData={initialData} />
             <Biller initialData={initialData} />

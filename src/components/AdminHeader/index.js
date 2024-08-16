@@ -56,7 +56,7 @@ const AdminHeader = () => {
           alt="Logo"
           className={styles.logo}
         />
-              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+              {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
 
         <div className="d-none d-lg-block ms-2">
           <Navbar.Text className={styles.dateText}>

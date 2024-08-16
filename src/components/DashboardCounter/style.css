@@ -74,7 +74,7 @@
     flex: 0 0 35%; /* Each card will take up most of the screen width */
     max-width: 200px; /* Optional: set a max width to prevent cards from being too large */
     margin: 1rem;
-    margin-left: 2rem;
+    margin-left: 1rem;
     text-decoration: none;
   }
 

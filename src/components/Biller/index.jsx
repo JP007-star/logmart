@@ -196,14 +196,16 @@ export const Biller = ({ initialData }) => {
             </Form.Group>
 
 
+            <div className='m-3'>
+              <button
+                className="btn btn-primary form-control shadow-sm rounded"
+                type="button"
+                onClick={handleAddToCart}
+              >
+                Add to Cart
+              </button>
+            </div>
 
-            <button
-              className="btn btn-primary form-control shadow-sm rounded"
-              type="button"
-              onClick={handleAddToCart}
-            >
-              Add to Cart
-            </button>
 
           </Form>
         </div>

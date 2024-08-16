@@ -1,4 +1,9 @@
 /* Main sidebar styles */
+
+.admin-home-container{
+  height: auto; /* Full viewport height */
+
+}
 .sidebar-container {
   flex: 0 0 240px; /* Default width for sidebar */
   transition: width 0.3s ease, margin-left 0.3s ease; /* Smooth transitions for resizing */
@@ -13,8 +18,7 @@
 
 
 .home-div{
-  height: 100vh;
-  margin: 0;
+  height: auto;
 
 }
 
@@ -27,8 +31,7 @@
 /* Main content area styles */
 .content-area {
   flex: 1;
-  height: 100vh;
-  margin-bottom: 100px;
+  height: auto;
   margin-left: 200px; /* Default margin when sidebar is visible */
   transition: margin-left 0.3s ease; /* Smooth transition for resizing */
   padding: 0.5rem; /* Padding inside content area */
@@ -64,8 +67,7 @@
   }
 
   .home-div{
-    height: 100vh;
-    margin: 10px;
+    height: auto;
   
   }
 }

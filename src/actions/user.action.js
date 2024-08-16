@@ -99,4 +99,13 @@ const addUser = async (user) => {
 
 export default addUser;
 
+
+
+export const updateUser= ()=>{
+
+}
+export const deleteUser= ()=>{
+
+}
+
   

@@ -158,7 +158,7 @@ footer {
   }
 
   .product-list-container {
-    max-height: 800px;
+    max-height: auto;
   }
 
   .sidebar-container {

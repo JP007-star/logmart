@@ -6,39 +6,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css'; // Import the CSS file
 
 // Styled components for DataGrid and other elements
-const CustomDataGrid = styled(DataGrid)`
-  height: 100%;
-  width: 100%;
-  min-height: 400px;
-
-  .MuiDataGrid-root {
-    font-size: 0.9rem; /* Default font size */
-  }
-
-  @media (max-width: 768px) {
-    .MuiDataGrid-root {
-      font-size: 0.8rem; /* Smaller font size for medium screens */
-    }
-  }
-
-  @media (max-width: 480px) {
-    .MuiDataGrid-root {
-      font-size: 0.7rem; /* Even smaller font size for small screens */
-    }
-
-    .MuiDataGrid-columnHeader {
-      display: none; /* Hide headers on very small screens */
-    }
-  }
-`;
-
-const OrderListContainer = styled.div`
+const FixedContainer = styled.div`
+  position: relative;
   width: 100%;
   padding: 16px;
   box-sizing: border-box;
-  overflow-x: auto; /* Horizontal scroll for the whole container */
-  overflow-y: auto; /* Vertical scroll if needed */
-
+  height: 100vh; /* Full viewport height for the container */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Hide overflow to control scrolling manually */
+  
   @media (max-width: 768px) {
     padding: 8px; /* Reduce padding on medium screens */
   }
@@ -48,12 +25,58 @@ const OrderListContainer = styled.div`
   }
 `;
 
+const Header = styled.div`
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  color: #111;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd; /* Add border for headers */
+  z-index: 1; /* Ensure the header stays on top */
+`;
+
+const Footer = styled.div`
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd; /* Border on top of footer */
+`;
+
+const CustomDataGrid = styled(DataGrid)`
+  flex: 1; /* Allow grid to take up available space */
+  overflow: hidden; /* Hide overflow within the grid container */
+
+  .MuiDataGrid-columnHeader {
+    background-color: #fff;
+    color: #111;
+  }
+
+  .MuiDataGrid-cell {
+    border-bottom: 1px solid #ddd; /* Add border for cells */
+    padding: 8px; /* Adjust padding for cells */
+    overflow: hidden;
+  }
+
+  .MuiDataGrid-row {
+    border-bottom: 1px solid #ddd; /* Add border between rows */
+  }
+
+  .MuiDataGrid-footerContainer {
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd; /* Border on top of footer */
+  }
+`;
+
 const SearchBar = styled.input`
   padding: 8px;
   margin-bottom: 16px;
   width: 100%;
   max-width: 300px;
   box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 
   @media (max-width: 480px) {
     width: 100%; /* Full width on small screens */
@@ -101,12 +124,12 @@ const OrderList = ({ orders }) => {
   const columns = React.useMemo(
     () => [
       {
-        field: 'userName',
+        field: 'name',
         headerName: 'User Name',
         width: 150,
       },
       {
-        field: 'userEmail',
+        field: 'email',
         headerName: 'User Email',
         width: 200,
       },
@@ -165,52 +188,67 @@ const OrderList = ({ orders }) => {
     setSearchText(event.target.value);
   };
 
-  const filteredOrders = orders.filter((order) =>
-    Object.values(order).some(
-      (value) =>
-        value &&
-        (typeof value === 'string' || typeof value === 'number') &&
-        value.toString().toLowerCase().includes(searchText.toLowerCase())
-    )
-  );
+  const filteredOrders = orders.filter((order) => {
+    const { user, shippingAddress, totalAmount, orderDate, products } = order;
+    const userName = user.name || '';
+    const userEmail = user.email || '';
+    const address = [
+      shippingAddress.street || '',
+      shippingAddress.city || '',
+      shippingAddress.state || '',
+      shippingAddress.country || '',
+      shippingAddress.postalCode || '',
+    ].join(' ');
+
+    const productsList = products.map(product => `${product.name} ${product.quantity} ${product.price}`).join(' ');
+
+    return (
+      userName.toLowerCase().includes(searchText.toLowerCase()) ||
+      userEmail.toLowerCase().includes(searchText.toLowerCase()) ||
+      address.toLowerCase().includes(searchText.toLowerCase()) ||
+      totalAmount.toString().includes(searchText) ||
+      new Date(orderDate).toLocaleString().toLowerCase().includes(searchText.toLowerCase()) ||
+      productsList.toLowerCase().includes(searchText.toLowerCase())
+    );
+  });
 
   return (
-    <OrderListContainer className='order-card-div'>
-      {orders.length === 0 ? (
-        <div className="text-center">No orders available.</div>
-      ) : (
-        <>
-          <SearchBar
-            type="text"
-            placeholder="Search..."
-            value={searchText}
-            onChange={handleSearchChange}
-          />
-          <CustomDataGrid
-            rows={filteredOrders.map((order) => ({
-              ...order,
-              userName: 'John Doe', // Replace with actual user name if available
-              userEmail: order.user.email || 'N/A', // Add user email here
-              shippingAddress: order.shippingAddress || {
-                street: '',
-                city: '',
-                state: '',
-                country: '',
-                postalCode: '',
-              },
-            }))}
-            columns={columns}
-            pageSize={10}
-            sortingOrder={['asc', 'desc']}
-            sortModel={sortModel}
-            onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
-            checkboxSelection={false}
-            disableSelectionOnClick
-            onRowClick={handleRowClick} // Handle row click event
-            getRowId={getRowId}
-          />
-        </>
-      )}
+    <FixedContainer className='order-card-div'>
+      <Header>
+        <SearchBar
+          type="text"
+          placeholder="Search..."
+          value={searchText}
+          onChange={handleSearchChange}
+        />
+      </Header>
+      <CustomDataGrid
+        rows={filteredOrders.map((order) => ({
+          ...order,
+          name: order.user.name || 'N/A',
+          email: order.user.email || 'N/A',
+          shippingAddress: order.shippingAddress || {
+            street: '',
+            city: '',
+            state: '',
+            country: '',
+            postalCode: '',
+          },
+        }))}
+        columns={columns}
+        pageSize={10}
+        sortingOrder={['asc', 'desc']}
+        sortModel={sortModel}
+        onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
+        checkboxSelection={false}
+        disableSelectionOnClick
+        onRowClick={handleRowClick} // Handle row click event
+        getRowId={getRowId}
+      />
+      <Footer>
+        {/* This is where the pagination controls will be placed */}
+        {/* You can customize this based on DataGrid pagination component */}
+      </Footer>
       {selectedOrder && (
         <Modal
           show={showModal}
@@ -223,8 +261,8 @@ const OrderList = ({ orders }) => {
             <Modal.Title>Order Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p><strong>User Name:</strong> {selectedOrder.userName}</p>
-            <p><strong>User Email:</strong> {selectedOrder.userEmail}</p>
+            <p><strong>User Name:</strong> {selectedOrder.user.name}</p>
+            <p><strong>User Email:</strong> {selectedOrder.user.email}</p>
             <p><strong>Total Amount:</strong> ₹{selectedOrder.totalAmount.toFixed(2)}</p>
             <p><strong>Order Date:</strong> {new Date(selectedOrder.orderDate).toLocaleString()}</p>
             <p><strong>Shipping Address:</strong><br />
@@ -245,7 +283,7 @@ const OrderList = ({ orders }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedOrder.products.map((product) => (
+                  {selectedOrder.products && selectedOrder.products.map((product) => (
                     <tr key={product.productId}>
                       <td>{product.name}</td>
                       <td>{product.quantity}</td>
@@ -263,7 +301,7 @@ const OrderList = ({ orders }) => {
           </Modal.Footer>
         </Modal>
       )}
-    </OrderListContainer>
+    </FixedContainer>
   );
 };
 

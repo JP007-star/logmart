@@ -1,7 +1,11 @@
 /* style.css */
 
 /* General container styles */
-
+.admin-users-container {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+}
 
 /* Sidebar styles */
 .sidebar-container {
@@ -74,12 +78,13 @@
 .btn-primary .uil-plus {
   margin-right: 0.5rem;
 }
-
+.user-card-div{
+  height: 55vh;
+}
 /* User list container */
 .user-list-container {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-top: 1rem;
+  max-height: auto;
+
 }
 
 /* Footer styling */
@@ -121,7 +126,7 @@ footer {
   }
 
   .user-list-container {
-    max-height: 300px;
+    height: auto;
   }
 
   .card {
@@ -133,6 +138,16 @@ footer {
   .btn-primary {
     font-size: 0.875rem;
     padding: 0.5rem;
+  }
+
+ 
+
+  .user-card-div{
+    max-height:100vh;
+  }
+
+  .user-list-container {
+    max-height: auto;
   }
 
   .toggle-sidebar-btn {

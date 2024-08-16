@@ -1,11 +1,7 @@
 /* style.css */
 
 /* General container styles */
-.admin-users-container {
-  display: flex;
-  flex-direction: row;
-  padding: 0;
-}
+
 
 /* Sidebar styles */
 .sidebar-container {

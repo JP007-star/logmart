@@ -175,7 +175,7 @@ const OrderList = ({ orders }) => {
   );
 
   return (
-    <OrderListContainer>
+    <OrderListContainer className='order-card-div'>
       {orders.length === 0 ? (
         <div className="text-center">No orders available.</div>
       ) : (

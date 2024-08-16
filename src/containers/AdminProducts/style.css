@@ -58,6 +58,7 @@
 /* Card styling */
 .card {
   border: none;
+  height: 80vh;
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -69,6 +70,9 @@
   border-radius: 0.25rem;
   display: flex;
   align-items: center;
+}
+.product-card-div{
+  height: 55vh;
 }
 
 .btn-primary:hover {
@@ -82,9 +86,8 @@
 
 /* Product list container */
 .product-list-container {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-top: 1rem;
+  max-height: 100vh;
+  margin:  5px;
 }
 
 /* Footer styling */
@@ -128,7 +131,7 @@ footer {
   }
 
   .product-list-container {
-    max-height: 300px;
+    max-height: 800px;
   }
 
   .card {
@@ -141,6 +144,9 @@ footer {
     font-size: 0.875rem;
     padding: 0.5rem;
   }
+  .product-card-div{
+    max-height: 90vh;
+  }
 
   .toggle-sidebar-btn {
     display: block;
@@ -149,6 +155,10 @@ footer {
 
   .main-content {
     padding: 0.25rem;
+  }
+
+  .product-list-container {
+    max-height: 800px;
   }
 
   .sidebar-container {

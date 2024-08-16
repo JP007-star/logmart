@@ -85,9 +85,10 @@ const AdminProducts = ({ users: initialUsers }) => {
                   onSubmit={handleFormSubmit}
                 />
               ) : (
-                <div className="user-list-section">
+                
+                <div className="product-list-section">
                   <div className="d-flex justify-content-between mb-3">
-                    <h2>Products</h2>
+                    <h2 onClick={handleExports} >Products</h2>
                     <button
                       id="add-product"
                       className="w-25 btn btn-primary"
@@ -97,15 +98,8 @@ const AdminProducts = ({ users: initialUsers }) => {
                       <Unicons.UilPlus /> Add Product
                     </button>
                   </div>
-                  <div className="user-list-container">
-                    <button
-                      id="export-pdf"
-                      className="w-25 btn btn-secondary mb-3"
-                      type="button"
-                      onClick={handleExports}
-                    >
-                      Export PDF
-                    </button>
+                  <div className="product-list-container">
+                   
                     {products.length > 0 ? (
                       <ProductList products={products} />
                     ) : (
@@ -115,11 +109,12 @@ const AdminProducts = ({ users: initialUsers }) => {
                 </div>
               )}
             </div>
+           
           </div>
         </div>
       </div>
       <SideBarMobile isSidebarMinimized={isSidebarMinimized} toggleSidebar={toggleSidebar} />
-      <footer className="text-center text-muted mt-3 mb-2">
+      <footer className="text-center d-none text-muted mt-3 mb-2">
         © 2024 Copyright: JP made with Love 
         <img src="/images/heart.svg" height="20px" width="20px" alt="" />
       </footer>

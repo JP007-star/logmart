@@ -10,7 +10,7 @@ import { updateProduct, deleteProduct } from '../../actions/product.action'; // 
 // Styled components
 const CustomDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-root': {
-    height: 'auto',
+    height:'90vh',
     width: '100%',
     '& .MuiDataGrid-columnsContainer': {
       backgroundColor: '#212529',
@@ -19,9 +19,7 @@ const CustomDataGrid = styled(DataGrid)(({ theme }) => ({
     '& .MuiDataGrid-cell': {
       overflow: 'hidden',
     },
-    '& .MuiDataGrid-row': {
-      height: 'auto',
-    },
+   
     [theme.breakpoints.down('sm')]: {
       fontSize: '0.75rem', // Reduce font size on small screens
     },
@@ -49,7 +47,7 @@ const ModalHeader = styled(Modal.Header)({
 });
 
 const ModalBody = styled(Modal.Body)({
-  padding: '20px',
+  padding: '10px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -284,7 +282,7 @@ const ProductList = ({ products: initialProducts }) => {
   );
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className='product-card-div' >
       {products.length === 0 ? (
         <p>No products available</p>
       ) : (
@@ -350,10 +348,16 @@ const ProductList = ({ products: initialProducts }) => {
                 <strong>Category:</strong> {selectedProduct.category}
               </p>
               <p>
+                <strong>Quantity:</strong> {selectedProduct.quantity}
+              </p>
+              <p>
+                <strong>Discount:</strong> {selectedProduct.discount}
+              </p>
+              <p>
                 <strong>Description:</strong> {selectedProduct.description}
               </p>
               <p>
-                <strong>Count:</strong> {selectedProduct.count}
+                <strong>Rating:</strong> {selectedProduct.rating}
               </p>
             </ModalBody>
             <Modal.Footer>

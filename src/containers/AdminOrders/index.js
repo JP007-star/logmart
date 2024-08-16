@@ -71,12 +71,12 @@ const AdminOrders = ({ users: initialUsers }) => {
                   onSubmit={handleFormSubmit}
                 />
               ) : (
-                <div className="user-list-section">
+                <div className="orders-list-section">
                   <div className="d-flex justify-content-between mb-3">
                     <h2>Orders</h2>
                   
                   </div>
-                  <div className="user-list-container">
+                  <div className="orders-list-container">
                     {orders && orders.length > 0 ? (
                       <OrderList orders={orders} />
                     ) : (

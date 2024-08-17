@@ -20,10 +20,13 @@ import { userSignIn } from '../../actions/user.action';
 const defaultTheme = createTheme();
 
 const SignInForm = ({ onSignUpClick, onForgotPasswordClick }) => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
+    setError(null);
     const data = new FormData(event.currentTarget);
     const formData = {
       email: data.get('email'),
@@ -33,10 +36,16 @@ const SignInForm = ({ onSignUpClick, onForgotPasswordClick }) => {
 
     try {
       const res = await userSignIn(formData);
-      console.log(res.message ? res.message : res.error);
-      setError(res.message ? res.message : res.error);
+      if (res.error) {
+        setError(res.error);
+      } else {
+        // Handle successful sign-in here, e.g., redirect or show a success message
+        console.log(res.message ? res.message : 'Sign-in successful');
+      }
     } catch (error) {
-      setError('An error occurred during sign in.');
+      setError('An error occurred during sign-in.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,8 +103,9 @@ const SignInForm = ({ onSignUpClick, onForgotPasswordClick }) => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={loading}
             >
-              Sign In
+              {loading ? 'Signing In...' : 'Sign In'}
             </Button>
             <Grid container>
               <Grid item xs>

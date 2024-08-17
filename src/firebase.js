@@ -1,6 +1,6 @@
-// firebase.js
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -15,7 +15,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase services
 const storage = getStorage(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 /**
  * Uploads an image to Firebase Storage and returns the URL of the uploaded image.
@@ -28,3 +32,41 @@ export const uploadImage = async (imageFile) => {
   const imageUrl = await getDownloadURL(storageRef);
   return imageUrl;
 };
+
+/**
+ * Signs in the user using Google Sign-In and returns the user information.
+ * @returns {Promise<Object>} - A promise that resolves to the user object containing user information.
+ */
+export const signInWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    // Extract and return user information
+    return {
+      uid: user.uid,
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+    };
+  } catch (error) {
+    console.error("Error during Google sign-in:", error);
+    throw error;
+  }
+};
+
+/**
+ * Signs out the current user.
+ * @returns {Promise<void>} - A promise that resolves when the user is signed out.
+ */
+export const signOutUser = async () => {
+  try {
+    await signOut(auth);
+    console.log("User signed out successfully");
+  } catch (error) {
+    console.error("Error during sign-out:", error);
+    throw error;
+  }
+};
+
+export { auth, provider };

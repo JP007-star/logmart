@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Form, Button, Row, Col, Alert } from 'react-bootstrap';
+import { Card, Form, Button, Row, Col, Alert, Image } from 'react-bootstrap';
 import { uploadImage } from '../../firebase'; // Adjust the path as necessary
 import { createProduct, updateProduct } from '../../actions/product.action'; // Adjust the path as necessary
 import { toast } from 'react-toastify'; // Import toast
@@ -17,22 +17,21 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
     status: 'available'
   });
   const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (productId) {
-      // Fetch product data if editing
-      // Replace with actual fetch logic
       fetchProductById(productId);
     }
   }, [productId]);
 
   const fetchProductById = async (id) => {
-    // Replace with actual fetch logic
     try {
       const response = await fetch(`/api/products/${id}`);
       const data = await response.json();
       setProduct(data);
+      setImagePreview(data.image);
     } catch (err) {
       console.error(err);
       toast.error('Failed to fetch product details');
@@ -40,10 +39,12 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, files } = e.target;
 
-    if (name === "image") {
-      setImageFile(e.target.files[0]);
+    if (type === 'file') {
+      const file = files[0];
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file)); // Preview the image
     } else if (name in product.rating) {
       setProduct(prevProduct => ({
         ...prevProduct,
@@ -69,27 +70,21 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
     }
 
     try {
-      // Upload image and get URL
       const imageUrl = await uploadImage(imageFile);
-      
-      // Update product with image URL
       const updatedProduct = { ...product, image: imageUrl };
       
       let response;
       if (productId) {
-        // Update existing product
         response = await updateProduct(productId, updatedProduct);
       } else {
-        // Create new product
         response = await createProduct(updatedProduct);
       }
 
-      toast.success('Product saved successfully'); // Display success toast
-
+      toast.success('Product saved successfully');
       setError(null);
 
       if (onSubmit) {
-        onSubmit(response); // Pass updated/new product back to parent component
+        onSubmit(response);
       }
     } catch (error) {
       setError(error.message);
@@ -97,7 +92,7 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
   };
 
   return (
-    <Card className='col-md-12'>
+    <Card className='col-md-12 mb-3'>
       <Card.Body>
         <Card.Title>{productId ? 'Update Product' : 'Add Product'}</Card.Title>
 
@@ -137,7 +132,7 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
                 <Form.Label>Description:</Form.Label>
                 <Form.Control
                   as="textarea"
-                  rows={2}
+                  rows={3}
                   name="description"
                   value={product.description}
                   onChange={handleChange}
@@ -236,22 +231,24 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
                   onChange={handleChange}
                   required
                 />
+                {imagePreview && (
+                  <div className="mt-2">
+                    <Image src={imagePreview} rounded style={{ maxWidth: '200px' }} />
+                  </div>
+                )}
               </Form.Group>
             </Col>
           </Row>
 
           <Row className="mt-3">
-            <Col md={6}>
+            <Col className="d-flex justify-content-between">
               <Button
-                className="form-control"
                 variant="secondary"
                 onClick={onCancel}
               >
                 Cancel
               </Button>
-            </Col>
-            <Col md={6}>
-              <Button className="form-control" variant="warning" type="submit">
+              <Button variant="primary" type="submit">
                 {productId ? 'Update' : 'Submit'}
               </Button>
             </Col>

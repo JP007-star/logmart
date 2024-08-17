@@ -58,7 +58,9 @@
 /* Card styling */
 .card {
   border: none;
-  height: 80vh;
+  height: auto;
+  max-height: auto;
+  margin-bottom: 200px;
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

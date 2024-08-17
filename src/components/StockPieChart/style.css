@@ -1,0 +1,15 @@
+/* src/components/style.css */
+
+.pie-chart-container {
+    width: 100%; /* Take up the full width of the parent container */
+    max-width: 200px; /* Set a maximum width for the chart */
+    height: 200px; /* Set a fixed height */
+    margin: 0 auto; /* Center the chart horizontally */
+}
+
+@media (max-width: 768px) {
+    .pie-chart-container {
+        max-width: 100%; /* Adjust max-width for smaller screens */
+        height: 250px; /* Adjust height for smaller screens */
+    }
+}

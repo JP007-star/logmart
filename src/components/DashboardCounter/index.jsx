@@ -3,6 +3,28 @@ import * as Unicons from "@iconscout/react-unicons";
 import './style.css'; // Import the updated CSS file
 
 export const DashboardCounter = ({ initialData }) => {
+  const formatIndianCurrency = (amount) => {
+    // Convert the number to a string
+    let amountStr = amount.toString();
+    
+    // Split the number into integer and decimal parts
+    let [integerPart, decimalPart] = amountStr.split('.');
+
+    // Format the integer part
+    let lastThree = integerPart.slice(-3);
+    let otherParts = integerPart.slice(0, -3);
+    if (otherParts !== '') {
+        lastThree = ',' + lastThree;
+    }
+    let formatted = otherParts.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + lastThree;
+
+    // Combine integer and decimal parts if any
+    return decimalPart ? `₹${formatted}.${decimalPart}` : `₹${formatted}`;
+  };
+
+  // Default to zero if totalRevenue is undefined or null
+  const revenue = initialData.totalRevenue != null ? initialData.totalRevenue : 0;
+
   return (
     <div className="dashboard-counter-container row">
       <a href="/admin/products" className="card-dash text-white bg-primary shadow-sm rounded">
@@ -27,7 +49,7 @@ export const DashboardCounter = ({ initialData }) => {
         <div className="card-header h4 text-center">
           <Unicons.UilMoneyBill /> Revenue
         </div>
-        <div className="card-body h3 text-center">₹10,000</div>
+        <div className="card-body h3 text-center">{formatIndianCurrency(revenue)}</div>
       </a>
     </div>
   );

@@ -12,11 +12,15 @@
   padding: 10px;
 }
 .active {
-  background-color: #007bff; /* Change this color to the desired blue color */
+  background-color: #007bff;
+  border-radius: 0.25rem;
 }
+
 .line:hover {
-  background-color: #007bff; /* Change this color to the desired blue color */
+  background-color: #0056b3;
+  border-radius: 0.25rem;
 }
+
 
 
 

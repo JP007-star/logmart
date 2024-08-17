@@ -1,0 +1,38 @@
+/* src/styles/dashboard.css */
+.dashboard-counter {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+
+
+
+  .charts {
+    margin: auto;
+    padding: auto;
+
+}
+
+/* src/style.css */
+
+
+@media (min-width: 768px) {
+    .charts {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .chart {
+        flex: 1 1 calc(50% - 2rem);
+        margin: 1rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .chart-container {
+        height: 400px; /* Increase height for larger screens */
+    }
+}
+
+

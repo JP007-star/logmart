@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTag, faCutlery, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTag, faCutlery, faUsers, faDashboard } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './style.module.css';
 
@@ -78,6 +78,15 @@ const SideBar = ({ activeNavLink ,onLogoClick}) => {
                 <FontAwesomeIcon icon={faUsers} size={isSidebarMinimized ? '2x' : 'lg'} />
               </div>
               {!isSidebarMinimized && <span className="ms-2">Customers</span>}
+            </Nav.Link>
+            <Nav.Link
+              href="/admin/dashboard"
+              className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'dashboard' ? 'active' : ''}`}
+            >
+              <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
+                <FontAwesomeIcon icon={faDashboard} size={isSidebarMinimized ? '2x' : 'lg'} />
+              </div>
+              {!isSidebarMinimized && <span className="ms-2">Dashboard</span>}
             </Nav.Link>
           </Nav>
         </Col>

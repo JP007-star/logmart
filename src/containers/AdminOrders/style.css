@@ -13,7 +13,7 @@
     transition: width 0.3s ease, margin-left 0.3s ease; /* Smooth transitions for resizing */
     background-color: #f8f9fa; /* Light background for the sidebar */
     border-right: 1px solid #dee2e6; /* Border to separate from content */
-    height: 100vh; /* Full viewport height */
+    height: auto; /* Full viewport height */
     position: fixed; /* Fixed position for sidebar */
     top: 0; /* Align with the top of the viewport */
     left: 0; /* Align with the left edge */

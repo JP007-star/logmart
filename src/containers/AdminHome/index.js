@@ -32,7 +32,7 @@ const AdminHome = () => {
   return (
     <ThemeProvider>
       <AdminHeader />
-      <div className="d-flex admin-home-container">
+      <div className="d-flex admin-dashboard-container">
         <div className={`sidebar-container ${isSidebarMinimized ? 'minimized' : ''}`}>
           <SideBar activeNavLink="home" onLogoClick={toggleSidebar} />
         </div>

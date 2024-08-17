@@ -23,7 +23,7 @@ const routes = [
     element: <AdminLoginPage /> // Login page accessible by everyone
   },
   {
-    path: '/admin/dash',
+    path: '/admin/dashboard',
     element: <AdminDashboardPage /> // Login page accessible by everyone
   },
   {

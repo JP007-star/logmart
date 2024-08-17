@@ -11,11 +11,15 @@ export async function getServerSideProps() {
       const resp = await fetch(orderApi);
       const orders = await resp.json();
       console.log(orders);
-    
+
+      const totalRevenue = orders.orders.reduce((accumulator, order) => {
+        return accumulator + order.totalAmount;
+    }, 0);    
       const initialdata ={
         'products' : products.products,
         'users' : users.users,
-        'orders' : orders.orders
+        'orders' : orders.orders,
+        'totalRevenue' :totalRevenue
        }
       return {
        

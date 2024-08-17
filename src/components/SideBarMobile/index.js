@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Nav} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTag, faUsers, faSignOut, faBox } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTag, faUsers, faSignOut, faBox, faDashboard } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './style.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -45,6 +45,14 @@ export const SideBarMobile = ({ activeNavLink }) => {
                 </div>
               </Nav.Link>
               <Nav.Link
+               href="/admin/dashboard"
+                className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'dashboard' ? 'active' : ''}`}
+              >
+                <div className={`d-flex align-items-center justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`} onClick={handleLogout}>
+                  <FontAwesomeIcon icon={faDashboard}  />
+                </div>
+              </Nav.Link>
+              <Nav.Link
                 href="/admin/products"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'products' ? 'active' : ''}`}
               >
@@ -61,13 +69,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
                   <FontAwesomeIcon icon={faUsers}  />
                 </div>
               </Nav.Link>
-              <Nav.Link
-                className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'users' ? 'active' : ''}`}
-              >
-                <div className={`d-flex align-items-center justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`} onClick={handleLogout}>
-                  <FontAwesomeIcon icon={faSignOut}  />
-                </div>
-              </Nav.Link>
+             
             </Nav>
         </ul>
       </div>

@@ -21,7 +21,7 @@ const Footer = () => {
   const navigate=useNavigate();
   const handleLogout=()=>{
     sessionStorage.clear();
-     navigate('/admin')
+     navigate('/login')
   }
 
   return (

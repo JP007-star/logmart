@@ -22,7 +22,7 @@ const Header = () => {
 
   const handleLogout=()=>{
     sessionStorage.clear();
-    navigate('/admin');
+    navigate('/login');
   }
 
   return (

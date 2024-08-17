@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
   const handleAddToCart = async () => {
     const user = JSON.parse(sessionStorage.getItem('user'));
     if (!user || !user._id) {
-       navigate('/admin')
+       navigate('/login')
        return
     }
     const productData = {
@@ -40,7 +40,7 @@ const ProductCard = ({ product }) => {
   const handleBuyNow = async () => {
     const user = JSON.parse(sessionStorage.getItem('user'));
     if (!user || !user._id) {
-       navigate('/admin')
+       navigate('/login')
        return
     }
     const productData = {

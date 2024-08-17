@@ -10,7 +10,7 @@ const PrivateRoute = ({ element: Component, roles, ...rest }) => {
 
   // If no user data is present and the route requires authentication, redirect to login page
   if (!user && roles) {
-    return <Navigate to="/admin" />;
+    return <Navigate to="/login" />;
   }
 
   // If the user's role is not allowed, redirect to home or a specific page

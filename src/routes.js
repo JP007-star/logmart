@@ -10,6 +10,7 @@ import HomePage from './containers/HomePage';
 import UserProfile from './containers/ProfilePage';
 import OrderConfirmationPage from './containers/OrderConfirmationPage';
 import PrivateRoute from './privateRoutes';
+import AdminDashboardPage from './containers/AdminDashboardPage';
 
 // Routes configuration
 const routes = [
@@ -18,8 +19,12 @@ const routes = [
     element: <HomePage /> // Accessible by all users
   },
   {
-    path: '/admin',
+    path: '/login',
     element: <AdminLoginPage /> // Login page accessible by everyone
+  },
+  {
+    path: '/admin/dash',
+    element: <AdminDashboardPage /> // Login page accessible by everyone
   },
   {
     path: '/admin/home',

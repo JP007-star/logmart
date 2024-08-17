@@ -17,7 +17,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
 
     const navigate=useNavigate();
     const handleLogout=()=>{
-       navigate('/admin')
+       navigate('/login')
     }
 
   return(

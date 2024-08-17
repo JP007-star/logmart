@@ -22,7 +22,7 @@ const CartCard = React.memo(({ product, onAddQuantity, onRemoveQuantity, onDelet
     const discountedPrice = totalPrice * (1 - numericDiscount / 100);
 
     return (
-        <div className="cart-card">
+        <div className="cart-card m-2">
             {/* Product Image and Details */}
             <div className="product-info">
                 <img

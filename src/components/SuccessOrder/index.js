@@ -12,11 +12,11 @@ const SuccessOrder = ({ orderDetails }) => {
                 <h2>Order Summary</h2>
                 <div className="summary-item">
                     <span>Order Number:</span>
-                    <span>{orderDetails.orderNumber}</span>
+                    <span>{orderDetails._id}</span>
                 </div>
                 <div className="summary-item">
                     <span>Delivery Address:</span>
-                    <span>{orderDetails.address}</span>
+                    <span>{ orderDetails.shippingAddress.street + orderDetails.shippingAddress.city +orderDetails.shippingAddress.postalCode}</span>
                 </div>
                 <div className="summary-item">
                     <span>Payment Method:</span>

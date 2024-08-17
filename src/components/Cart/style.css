@@ -10,21 +10,31 @@
     position: relative; /* Ensure the container can handle absolute positioned elements */
 }
 
+/* Progress Bar Container */
 .cart-container .progress {
     margin-top: 2rem;
+    height: 20px;
     border-radius: 10px;
     background-color: #f3f3f3; /* Light background for progress bar track */
-    overflow: hidden; /* Ensure that the progress bar doesn’t overflow its container */
+    overflow: hidden; /* Ensure progress bar doesn’t overflow its container */
+    width: 100%; /* Ensure full width of its container */
 }
 
+/* Progress Bar */
 .cart-container .progress-bar {
     font-size: 0.875rem;
     font-weight: 600;
-    background-color: #007bff;
-    height: 100%; /* Full height of the progress bar */
+    background-color: #007bff; /* Background color of the progress bar */
+    height: 100%; /* Full height of the progress container */
+    line-height: 20px; /* Center text vertically */
+    color: #ffffff; /* Text color */
     transition: width 0.6s ease; /* Smooth transition for width changes */
+    text-align: center; /* Center text horizontally */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
 }
 
+/* Header and Summary Styles */
 .cart-container h4 {
     font-size: 1.5rem;
     color: #333333;
@@ -61,6 +71,7 @@
     color: #ffffff;
 }
 
+/* Empty Cart Styles */
 .cart-container .empty-cart-container {
     padding: 2rem;
     text-align: center;
@@ -68,6 +79,7 @@
 
 .cart-container .empty-cart-container img {
     max-width: 100%;
+    height: auto;
     margin-bottom: 2rem;
 }
 

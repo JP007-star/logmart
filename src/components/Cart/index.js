@@ -90,14 +90,14 @@ const Cart = () => {
                 <>
                     <div className="progress mb-3">
                         <div
-                            className="progress-bar progress-bar-striped active"
+                            className="progress-bar"
                             role="progressbar"
                             aria-valuenow="40"
                             aria-valuemin="0"
                             aria-valuemax="100"
                             style={{ width: '40%' }}
                         >
-                            {40}%
+                            40%
                         </div>
                     </div>
 
@@ -107,7 +107,7 @@ const Cart = () => {
                             {cartCount}
                         </span>
                     </h4>
-                    <div className='d-flex p-2'>
+                    <div className='d-flex flex-column flex-md-row p-2'>
                         <ul className="list-group mb-3">
                             {cart.items.map((product) => (
                                 <CartCard
@@ -129,7 +129,7 @@ const Cart = () => {
                     </div>
                 </>
             ) : (
-                <div className="container-fluid mt-5 text-center">
+                <div className="empty-cart-container">
                     <img
                         src="https://previews.123rf.com/images/lumut/lumut2007/lumut200700708/151980837-basket-vector-icon-shopping-sign-online-shop-or-e-shop-concept.jpg?fj=1"
                         width="130"

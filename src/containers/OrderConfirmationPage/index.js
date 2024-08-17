@@ -16,9 +16,8 @@ const OrderConfirmationPage = () => {
         <ThemeProvider>
               
             <Header />
-            <div className='contentWrapper'>
+            
             <OrderConfirmation/>
-            </div>
             <Footer />
           
             </ThemeProvider>

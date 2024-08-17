@@ -24,7 +24,7 @@ const Footer = () => {
     >
       <div className="container d-md-none">
         {/* Hide container on medium and larger screens */}
-        <ul className="nav justify-content-between border-bottom m-3 pb-0 mb-0">
+        <ul className="nav justify-content-between border-bottom  pb-0 mb-0">
           <li className="nav-item">
             <Link to="/" className="nav-link px-2 text-muted">
               <Unicons.UilEstate />

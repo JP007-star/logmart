@@ -193,7 +193,7 @@ const CheckOut = () => {
   }, 0);
 
   return (
-    <div className="checkout-page cart-container card shadow col-12">
+    <div className="checkout-page cart-container card shadow">
       <div className="form-container">
         <div className="progress mb-3">
           <div
@@ -229,14 +229,15 @@ const CheckOut = () => {
               finalAmount={grandTotal} // Adjust based on discount if needed
             />
           </div>
-        </div>
-        <button
+          <button
           onClick={handleCheckout}
-          className="btn-primary mt-4"
+          className="btn-primary"
           disabled={loading} // Disable button while loading
         >
           {loading ? 'Processing...' : 'Payment'}
         </button>
+        </div>
+       
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/system';
 import { Modal, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { updateUser, deleteUser } from '../../actions/user.action'; // Import actions
 
@@ -79,11 +79,11 @@ const UserList = ({ users: initialUsers }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleEdit = useCallback((event, user) => {
-    event.stopPropagation();
-    setEditUser(user);
-    setShowEditModal(true);
-  }, []);
+  // const handleEdit = useCallback((event, user) => {
+  //   event.stopPropagation();
+  //   setEditUser(user);
+  //   setShowEditModal(true);
+  // }, []);
 
   const handleDelete = useCallback((event, userId) => {
     event.stopPropagation();
@@ -137,37 +137,38 @@ const UserList = ({ users: initialUsers }) => {
     {
       field: 'profilePicture',
       headerName: 'Profile Picture',
-      width: 100,
+      width: 150,
       renderCell: (params) => (
         <img
-          src={params.value}
+          src={params.value ? params.value : "https://placehold.co/50x50.jpg"}
           alt="User"
+          loading="lazy"
           style={{
-            width: '80px',
-            height: '80px',
+            width: '50px',
+            height: '50px',
             objectFit: 'cover',
             borderRadius: '50%',
           }}
         />
       ),
     },
-    { field: 'firstName', headerName: 'First Name', width: 150 },
-    { field: 'lastName', headerName: 'Last Name', width: 150 },
-    { field: 'email', headerName: 'Email', width: 200 },
+    { field: 'firstName', headerName: 'First Name', width: 200 },
+    { field: 'lastName', headerName: 'Last Name', width: 200 },
+    { field: 'email', headerName: 'Email', width: 300 },
     { field: 'role', headerName: 'Role', width: 100 },
-    {
-      field: 'edit',
-      headerName: 'Edit',
-      width: 100,
-      renderCell: (params) => (
-        <StyledButton
-          variant="edit"
-          onClick={(e) => handleEdit(e, params.row)}
-        >
-          <FontAwesomeIcon icon={faEdit} />
-        </StyledButton>
-      ),
-    },
+    // {
+    //   field: 'edit',
+    //   headerName: 'Edit',
+    //   width: 100,
+    //   renderCell: (params) => (
+    //     <StyledButton
+    //       variant="edit"
+    //       onClick={(e) => handleEdit(e, params.row)}
+    //     >
+    //       <FontAwesomeIcon icon={faEdit} />
+    //     </StyledButton>
+    //   ),
+    // },
     {
       field: 'delete',
       headerName: 'Delete',
@@ -181,7 +182,7 @@ const UserList = ({ users: initialUsers }) => {
         </StyledButton>
       ),
     },
-  ], [handleDelete, handleEdit]);
+  ], [handleDelete]);
 
   const [sortModel, setSortModel] = useState([
     {

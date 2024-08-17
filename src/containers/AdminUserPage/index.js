@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "../../components/ThemeContext";
-import * as Unicons from "@iconscout/react-unicons";
+// import * as Unicons from "@iconscout/react-unicons";
 import SideBar from "../../components/SideBar";
 import AddUser from "../../components/AddUser";
 import UserList from "../../components/UserList";
@@ -32,9 +32,9 @@ const AdminUsers = ({ users: initialUsers }) => {
     fetchUsers();
   }, []);
 
-  const handleAddUserClick = () => {
-    setAddUserVisible(true);
-  };
+  // const handleAddUserClick = () => {
+  //   setAddUserVisible(true);
+  // };
 
   const handleFormSubmit = async (newUserData) => {
     try {
@@ -77,14 +77,14 @@ const AdminUsers = ({ users: initialUsers }) => {
                 <div className="user-list-section">
                   <div className="d-flex justify-content-between mb-3">
                     <h2>Customers</h2>
-                    <button
+                    {/* <button
                       id="add-user"
                       className="w-25 btn btn-primary"
                       type="button"
                       onClick={handleAddUserClick}
                     >
                       <Unicons.UilPlus /> Add User
-                    </button>
+                    </button> */}
                   </div>
                   <div className="user-list-container">
                     {users && users.length > 0 ? (

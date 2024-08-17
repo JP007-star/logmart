@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Nav} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTag, faCutlery, faUsers, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTag, faUsers, faSignOut, faBox } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './style.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -49,7 +49,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'products' ? 'active' : ''}`}
               >
                 <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
-                  <FontAwesomeIcon icon={faCutlery}  />
+                  <FontAwesomeIcon icon={faBox}  />
                 </div>
               </Nav.Link>
               

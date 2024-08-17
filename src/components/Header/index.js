@@ -76,7 +76,7 @@ const Header = () => {
             <Nav.Link href="/notifications" style={menuStyle}>
             <Unicons.UilBell/> Notification
             </Nav.Link>
-            <Nav.Link href="/admin" style={menuStyle}>
+            <Nav.Link href="/admin/home" style={menuStyle}>
             <Unicons.UilDashboard/> Admin
             </Nav.Link>
             <Nav.Link onClick={handleLogout} style={menuStyle}>

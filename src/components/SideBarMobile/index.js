@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Nav} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTag, faUsers, faSignOut, faBox, faDashboard } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTag, faUsers, faBox, faDashboard } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './style.module.css';
 import { useNavigate } from 'react-router-dom';

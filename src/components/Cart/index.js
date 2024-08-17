@@ -55,8 +55,7 @@ const Cart = () => {
     // Handle deletion of an item from the cart
     const handleDelete = async (cartId) => {
         try {
-            // Delete the item from the cart
-            await deleteCartItem(cartId);
+            await deleteCartItem(cartId); // Delete the item from the cart
     
             // Fetch the latest cart details after deletion
             const updatedCart = await fetchCartDetails();
@@ -70,7 +69,6 @@ const Cart = () => {
         }
     };
     
-
     useEffect(() => {
         const loadCart = async () => {
             try {
@@ -87,7 +85,7 @@ const Cart = () => {
     }, []);
 
     return (
-        <div className="cart-container card shadow col-12">
+        <div className="cart-container card shadow">
             {cart && cart.items && cart.items.length > 0 ? (
                 <>
                     <div className="progress mb-3">
@@ -99,7 +97,7 @@ const Cart = () => {
                             aria-valuemax="100"
                             style={{ width: '40%' }}
                         >
-                            {40}
+                            {40}%
                         </div>
                     </div>
 
@@ -115,8 +113,8 @@ const Cart = () => {
                                 <CartCard
                                     key={product._id} // Use unique ID
                                     product={product}
-                                    onAddQuantity={()=>handleAddQuantity(product.productId)}
-                                    onRemoveQuantity={()=>handleRemoveQuantity(product.productId)}
+                                    onAddQuantity={() => handleAddQuantity(product.productId)}
+                                    onRemoveQuantity={() => handleRemoveQuantity(product.productId)}
                                     onDelete={() => handleDelete(product.productId)} // Use the correct ID
                                 />
                             ))}

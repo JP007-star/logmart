@@ -4,22 +4,25 @@
     border-radius: 8px;
     padding: 30px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
+    margin-bottom: 120px;
     max-width: 1200px;
     width: 100%;
+    position: relative; /* Ensure the container can handle absolute positioned elements */
 }
 
 .cart-container .progress {
-    margin-bottom: 2rem;
-    height: 20px;
+    margin-top: 2rem;
     border-radius: 10px;
-    overflow: hidden;
+    background-color: #f3f3f3; /* Light background for progress bar track */
+    overflow: hidden; /* Ensure that the progress bar doesn’t overflow its container */
 }
 
 .cart-container .progress-bar {
     font-size: 0.875rem;
     font-weight: 600;
     background-color: #007bff;
+    height: 100%; /* Full height of the progress bar */
+    transition: width 0.6s ease; /* Smooth transition for width changes */
 }
 
 .cart-container h4 {
@@ -65,7 +68,6 @@
 
 .cart-container .empty-cart-container img {
     max-width: 100%;
-    height: auto;
     margin-bottom: 2rem;
 }
 
@@ -91,6 +93,7 @@
 @media (max-width: 768px) {
     .cart-container {
         padding: 20px 10px;
+        height: auto;
     }
 
     .cart-container h4 {

@@ -1,4 +1,4 @@
-/* style.module.css */
+/* Base Styles */
 .darkContainer {
   background-color: #000; /* Dark theme background color */
   color: #fff; /* Dark theme text color */
@@ -11,6 +11,25 @@
 
 .contentWrapper {
   margin-top: 120px; /* Adjust this value based on your header height */
-  margin-bottom: 120px;
-
+  padding: 0 2rem; /* Add padding for better spacing */
+  padding-bottom: 5rem; /* Add space for footer */
 }
+
+/* Mobile View Adjustments */
+@media (max-width: 768px) {
+  .contentWrapper {
+    margin-top: 80px; /* Reduced margin-top for smaller screens */
+    padding: 1rem; /* Add padding for better spacing on mobile */
+    padding-bottom: 5rem; /* Add space for footer */
+  }
+}
+
+@media (max-width: 480px) {
+  .contentWrapper {
+    margin-top: 60px; /* Further reduced margin-top for very small screens */
+    padding: 0.5rem; /* Less padding for very small screens */
+    padding-bottom: 6rem; /* Add space for footer */
+  }
+}
+
+

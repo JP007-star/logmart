@@ -10,6 +10,6 @@
 @media (max-width: 768px) {
     .line-chart-container {
         max-width: 100%; /* Adjust max-width for smaller screens */
-        height: 250px; /* Adjust height for smaller screens */
+        height: 350px; /* Adjust height for smaller screens */
     }
 }

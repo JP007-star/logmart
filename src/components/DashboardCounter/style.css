@@ -1,38 +1,48 @@
-/* DashboardCounter.css */
-
 .dashboard-counter-container {
   display: flex;
   flex-wrap: nowrap; /* Prevent wrapping */
   overflow-x: auto; /* Enable horizontal scrolling */
   gap: 1rem; /* Increased gap between cards for better spacing */
   justify-content: center; /* Center the cards horizontally */
-  padding: 0;
+  padding: 0.5rem; /* Added padding to the container for better spacing */
+  scrollbar-width: thin; /* Firefox scrollbar width */
+}
+
+.dashboard-counter-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.dashboard-counter-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2); /* Scrollbar thumb color */
+  border-radius: 4px;
 }
 
 .card-dash {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   flex: 0 0 auto; /* Prevent cards from shrinking or growing */
-  width: 200px; /* Set a fixed width for each card */
+  width: 220px; /* Slightly increased width for better content fit */
   margin: 0.5rem; /* Margin around each card */
   text-decoration: none;
-
+  border-radius: 8px; /* Slightly rounded corners */
 }
 
 .card-dash:hover {
-  transform: scale(1.05); /* Slightly larger on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+  transform: scale(1.07); /* Slightly larger on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
 }
 
 .card-header {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.05); /* Slightly lighter background */
   border-bottom: 0;
   padding: 1rem 1.5rem; /* Consistent padding */
+  border-radius: 8px 8px 0 0; /* Rounded corners on the top */
 }
 
 .card-body {
   background: #ffffff;
-  color: black;
+  color: #333; /* Slightly darker text for contrast */
   padding: 1.5rem; /* Consistent padding */
+  border-radius: 0 0 8px 8px; /* Rounded corners on the bottom */
 }
 
 .card-body h3 {
@@ -71,21 +81,17 @@
   }
 
   .card-dash {
-    flex: 0 0 35%; /* Each card will take up most of the screen width */
-    max-width: 220px; /* Optional: set a max width to prevent cards from being too large */
+    flex: 0 0 40%; /* Each card takes up a good portion of the screen */
+    max-width: 220px; /* Prevent cards from being too wide */
     margin: 1rem;
-    margin-left: 1.3rem;
     text-decoration: none;
   }
 
   .card-body {
-    background: #ffffff;
-    color: black;
-    padding: 0.5rem; /* Consistent padding */
+    padding: 1rem; /* Adjusted padding for smaller screens */
   }
   
   .card-body h3 {
-    margin: 0;
-    font-size: 3rem; /* Larger font size for better readability */
+    font-size: 2.5rem; /* Adjust font size for smaller screens */
   }
 }

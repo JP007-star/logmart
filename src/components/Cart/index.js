@@ -115,8 +115,8 @@ const Cart = () => {
                                 <CartCard
                                     key={product._id} // Use unique ID
                                     product={product}
-                                    onAddQuantity={handleAddQuantity}
-                                    onRemoveQuantity={handleRemoveQuantity}
+                                    onAddQuantity={()=>handleAddQuantity(product.productId)}
+                                    onRemoveQuantity={()=>handleRemoveQuantity(product.productId)}
                                     onDelete={() => handleDelete(product.productId)} // Use the correct ID
                                 />
                             ))}

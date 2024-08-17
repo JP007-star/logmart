@@ -2,6 +2,7 @@
 
 .admin-home-container{
   height: auto; /* Full viewport height */
+  width: auto;
 
 }
 .sidebar-container {
@@ -32,7 +33,7 @@
 .content-area {
   flex: 1;
   height: auto;
-  margin-left: 200px; /* Default margin when sidebar is visible */
+  width: auto;
   transition: margin-left 0.3s ease; /* Smooth transition for resizing */
   padding: 0.5rem; /* Padding inside content area */
 }

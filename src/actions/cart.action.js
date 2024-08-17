@@ -96,9 +96,35 @@ export const addToCart = async (product) => {
 
 
 export const updateCartQuantity = async (cartId, quantityChange) => {
-  // API call to update cart item quantity (increment or decrement)
-  // Return updated cart data
+  const sessionData = JSON.parse(sessionStorage.getItem('user'));
+  const userId = sessionData?._id;
+
+  if (!userId) {
+    console.error("User ID is missing from session storage.");
+    return "User ID is missing from session storage.";
+  }
+
+  try {
+      const response = await fetch(userDNS+`api/v1/cart/${userId}/item/${cartId}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ quantityChange }), // Send quantity change to the server
+      });
+
+      if (!response.ok) {
+          throw new Error(`Failed to update cart. Status: ${response.status}`);
+      }
+
+      const updatedCart = await response.json(); // Parse the JSON response
+      return updatedCart; // Return the updated cart data
+  } catch (error) {
+      console.error('Error updating cart quantity:', error.message);
+      throw error; // Re-throw the error to be handled by the calling function
+  }
 };
+
 
 export const deleteCartItem = async (productId) => {
   const sessionData = JSON.parse(sessionStorage.getItem('user'));

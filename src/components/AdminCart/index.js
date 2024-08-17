@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './style.css';
-import { deleteCartItem, fetchCartDetails } from '../../actions/cart.action';
+import { deleteCartItem, fetchCartDetails, updateCartQuantity } from '../../actions/cart.action';
 import { createOrder } from '../../actions/order.action'; // Import createOrder function
 import { toast, ToastContainer } from 'react-toastify'; // Import react-toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
@@ -72,27 +72,49 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
     }
   };
 
+
+  const handleAddQuantity = async (cartId) => {
+    try {
+      const updatedCart = await updateCartQuantity(cartId, 1); // Increment quantity by 1
+      setCart(updatedCart);
+      calculateGrandTotal(updatedCart.items || []); // Recalculate grand total
+    } catch (error) {
+      console.error(`Error adding quantity for cart ID: ${cartId}`, error.message);
+    }
+  };
+
+  // Handle quantity removal for an item
+  const handleRemoveQuantity = async (cartId) => {
+    try {
+      const updatedCart = await updateCartQuantity(cartId, -1); // Decrement quantity by 1
+      setCart(updatedCart);
+      calculateGrandTotal(updatedCart.items || []); // Recalculate grand total
+    } catch (error) {
+      console.error(`Error removing quantity for cart ID: ${cartId}`, error.message);
+    }
+  };
+
   // Function to handle order creation
   const handleCheckout = async () => {
     const user = JSON.parse(sessionStorage.getItem('user'));
-  
+
     if (!user || !user._id) {
       console.error('User not found in session storage.');
       toast.error('User not found. Please log in.'); // Show error notification
       return;
     }
-  
+
     // Set default shipping address if not provided
     const shippingAddress = cart.items.length && cart.items[0].shippingAddress
       ? cart.items[0].shippingAddress
       : {
-          street: "Take Away",
-          city: "N/A",
-          state: "N/A",
-          country: "N/A",
-          postalCode: "N/A"
-        };
-  
+        street: "Take Away",
+        city: "N/A",
+        state: "N/A",
+        country: "N/A",
+        postalCode: "N/A"
+      };
+
     const orderDetails = {
       userId: user._id,
       user: {
@@ -110,7 +132,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
       shippingAddress,
       totalAmount: grandTotal
     };
-  
+
     try {
       const result = await createOrder(orderDetails);
       console.log('Order created successfully:', result);
@@ -131,7 +153,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
   if (checkoutSuccess) {
     return (
       <div className="container-fluid mt-5 text-center">
-         <img
+        <img
           src="https://previews.123rf.com/images/lumut/lumut2007/lumut200700708/151980837-basket-vector-icon-shopping-sign-online-shop-or-e-shop-concept.jpg?fj=1"
           width="130"
           height="130"
@@ -189,7 +211,25 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
               <tr key={item._id}>
                 <td>{item.productName}</td>
                 <td>₹{itemPrice.toFixed(2)}</td>
-                <td>{itemQuantity}</td>
+                <td>
+                  <div className="quantity-container">
+                    <button
+                      onClick={() => handleAddQuantity(item.productId)}
+                      className="quantity-btn"
+                      aria-label="Increase quantity"
+                    >
+                      <i className="fa fa-plus"></i>
+                    </button>
+                    <span>{itemQuantity}</span>
+                    <button
+                      onClick={() => handleRemoveQuantity(item.productId)}
+                      className="quantity-btn"
+                      aria-label="Decrease quantity"
+                    >
+                      <i className="fa fa-minus"></i>
+                    </button>
+                  </div>
+                </td>
                 <td>{itemDiscount ? itemDiscount + '%' : '0%'}</td>
                 <td>₹{itemDiscountedTotal.toFixed(2)}</td>
                 <td>

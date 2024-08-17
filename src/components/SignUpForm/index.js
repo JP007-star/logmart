@@ -4,8 +4,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Link,
   Grid,
   Box,
@@ -28,9 +26,29 @@ const SignUpForm = ({ onSignInClick }) => {
     lastName: '',
     email: '',
     password: '',
+    confirmPassword: '',
     allowExtraEmails: false,
     profilePicture: '', // Initialize profile picture field
   });
+
+  const [formErrors, setFormErrors] = React.useState({});
+
+  const validateForm = () => {
+    const errors = {};
+
+    if (!formData.firstName.trim()) errors.firstName = 'First name is required';
+    if (!formData.lastName.trim()) errors.lastName = 'Last name is required';
+    if (!formData.email.trim()) {
+      errors.email = 'Email address is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = 'Email address is invalid';
+    }
+    if (!formData.password) errors.password = 'Password is required';
+    if (formData.password !== formData.confirmPassword) errors.confirmPassword = 'Passwords must match';
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleGoogleSignIn = async () => {
     try {
@@ -59,6 +77,8 @@ const SignUpForm = ({ onSignInClick }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!validateForm()) return;
+
     setLoading(true);
     setError(null);
 
@@ -86,8 +106,12 @@ const SignUpForm = ({ onSignInClick }) => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+          <Avatar
+          sx={{ width: 56, height: 56, mb: 2 , bgcolor: !formData.profilePicture ? 'secondary.main' : 'transparent' }}
+            src={formData.profilePicture || ''} // Display profile picture if available
+            
+          >
+            {!formData.profilePicture && <LockOutlinedIcon />}
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
@@ -114,6 +138,8 @@ const SignUpForm = ({ onSignInClick }) => {
                   autoFocus
                   value={formData.firstName}
                   onChange={handleChange}
+                  error={Boolean(formErrors.firstName)}
+                  helperText={formErrors.firstName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -126,6 +152,8 @@ const SignUpForm = ({ onSignInClick }) => {
                   autoComplete="family-name"
                   value={formData.lastName}
                   onChange={handleChange}
+                  error={Boolean(formErrors.lastName)}
+                  helperText={formErrors.lastName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -138,6 +166,8 @@ const SignUpForm = ({ onSignInClick }) => {
                   autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
+                  error={Boolean(formErrors.email)}
+                  helperText={formErrors.email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -151,21 +181,27 @@ const SignUpForm = ({ onSignInClick }) => {
                   autoComplete="new-password"
                   value={formData.password}
                   onChange={handleChange}
+                  error={Boolean(formErrors.password)}
+                  helperText={formErrors.password}
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="allowExtraEmails"
-                      color="primary"
-                      checked={formData.allowExtraEmails}
-                      onChange={handleChange}
-                    />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                <TextField
+                  required
+                  fullWidth
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirmPassword"
+                  autoComplete="new-password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  error={Boolean(formErrors.confirmPassword)}
+                  helperText={formErrors.confirmPassword}
                 />
               </Grid>
+              
+             
             </Grid>
             <Button
               type="submit"

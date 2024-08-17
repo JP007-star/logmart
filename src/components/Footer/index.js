@@ -3,7 +3,9 @@ import { useTheme } from "../ThemeContext";
 import styles from "./style.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as Unicons from '@iconscout/react-unicons';
-import { Link } from "react-router-dom"; // Import Link from React Router
+import { Link, useNavigate } from "react-router-dom"; // Import Link from React Router
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOut } from "@fortawesome/free-solid-svg-icons";
 
 const Footer = () => {
   const { isDarkTheme } = useTheme();
@@ -15,6 +17,12 @@ const Footer = () => {
     textAlign: 'center', // Center text inside the container
     padding: '10px 0', // Add some padding for spacing
   };
+
+  const navigate=useNavigate();
+  const handleLogout=()=>{
+    sessionStorage.clear();
+     navigate('/admin')
+  }
 
   return (
     <footer
@@ -31,13 +39,8 @@ const Footer = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/apps" className="nav-link px-2 text-muted">
+            <Link to="/" className="nav-link px-2 text-muted">
               <Unicons.UilApps />
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/notifications" className="nav-link px-2 text-muted">
-              <Unicons.UilBell />
             </Link>
           </li>
           <li className="nav-item">
@@ -49,6 +52,12 @@ const Footer = () => {
             <Link to="/cart" className="nav-link px-2 text-muted">
               <Unicons.UilShoppingCartAlt />
             </Link>
+          </li>
+          <li className="nav-item">
+            <div onClick={handleLogout}  className="nav-link px-2 text-muted">
+            <FontAwesomeIcon icon={faSignOut}  />
+            
+            </div>
           </li>
         </ul>
       </div>

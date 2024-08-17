@@ -1,7 +1,5 @@
-// AdminLoginPage.js
-
 import { useState } from "react";
-import { Container, Grid, Paper} from "@mui/material";
+import { Container, Grid, Paper } from "@mui/material";
 import SignInForm from "../../components/SignInForm";
 import SignUpForm from "../../components/SignUpForm";
 import ForgotPasswordForm from "../../components/ForgetPasswordForm";
@@ -39,12 +37,18 @@ const AdminLoginPage = () => {
       >
         <Grid item xs={12} sm={8}>
           <Paper elevation={3} style={{ padding: "20px" }}>
-          <img
-            className="m-5"
-            src="/images/logo.png"
-            alt="Logo"
-            style={{ display: "block", margin: "auto", marginBottom: "20px" }}
-          /> 
+            <div style={{ textAlign: "center", marginBottom: "20px" }}>
+              <img
+                src="/images/logo.png"
+                alt="Logo"
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  display: "inline-block",
+                  margin: "auto",
+                }}
+              />
+            </div>
             {isSignIn && (
               <SignInForm
                 onSignUpClick={handleSignUpClick}

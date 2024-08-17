@@ -7,6 +7,7 @@ import AdminUsers from './containers/AdminUserPage';
 import CartPage from './containers/CartPage';
 import CheckOutPage from './containers/CheckOutPage';
 import HomePage from './containers/HomePage';
+import UserProfile from './containers/ProfilePage';
 import OrderConfirmationPage from './containers/OrderConfirmationPage';
 import PrivateRoute from './privateRoutes';
 
@@ -43,6 +44,10 @@ const routes = [
   {
     path: '/checkout',
     element: <PrivateRoute element={CheckOutPage} roles={['user', 'admin']} /> // User or Admin role required
+  },
+  {
+    path: '/profile',
+    element: <PrivateRoute element={UserProfile} roles={['user', 'admin']} /> // User or Admin role required
   },
   {
     path: '/success',

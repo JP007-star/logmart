@@ -10,6 +10,7 @@
 }
 
 .contentWrapper {
+  height: auto;
   margin-top: 120px; /* Adjust this value based on your header height */
   padding: 0 2rem; /* Add padding for better spacing */
   padding-bottom: 5rem; /* Add space for footer */
@@ -26,6 +27,7 @@
 
 @media (max-width: 480px) {
   .contentWrapper {
+    height: auto;
     margin-top: 60px; /* Further reduced margin-top for very small screens */
     padding: 0.5rem; /* Less padding for very small screens */
     padding-bottom: 6rem; /* Add space for footer */

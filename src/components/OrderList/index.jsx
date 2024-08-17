@@ -4,8 +4,38 @@ import styled from 'styled-components';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css'; // Import the CSS file
+import { downloadInvoicePdf } from '../../actions/order.action'; // Correct import path
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// Styled components for DataGrid and other elements
+// Function to handle the download
+const handleDownload = async (orderId, event) => {
+  event.stopPropagation(); // Prevent triggering other events
+  try {
+    console.log("Order ID:", orderId);
+
+    // Trigger the API request
+    const blob = await downloadInvoicePdf(orderId);
+
+    // Create a URL for the Blob
+    const url = window.URL.createObjectURL(blob);
+
+    // Create an anchor element and click it to trigger the download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'invoice.pdf'; // Filename for the downloaded PDF
+    document.body.appendChild(a);
+    a.click();
+
+    // Clean up
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Error downloading the PDF:', error);
+  }
+};
+
+// Styled components
 const FixedContainer = styled.div`
   position: relative;
   width: 100%;
@@ -159,6 +189,19 @@ const OrderList = ({ orders }) => {
         width: 180,
         renderCell: (params) => new Date(params.value).toLocaleString(),
       },
+      {
+        field: 'invoice',
+        headerName: 'Invoice',
+        width: 100,
+        renderCell: (params) => (
+          <button
+           className='btn btn-warning'
+            onClick={(e) => handleDownload(params.row._id, e)} // Pass event to prevent modal
+          >
+            <FontAwesomeIcon icon={faDownload} />
+          </button>
+        ),
+      },
     ],
     []
   );
@@ -246,8 +289,7 @@ const OrderList = ({ orders }) => {
         getRowId={getRowId}
       />
       <Footer>
-        {/* This is where the pagination controls will be placed */}
-        {/* You can customize this based on DataGrid pagination component */}
+        {/* Pagination or footer content */}
       </Footer>
       {selectedOrder && (
         <Modal

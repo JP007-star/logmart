@@ -33,5 +33,31 @@ export const createOrder = async (orderDetails) => {
   export const deleteOrder= ()=>{
   
   }
+
+
+  // src/services/apiService.js
+
+  export const downloadInvoicePdf = async (orderId) => {
+    try {
+      const response = await fetch(`${userDNS}api/v1/invoice/${orderId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/pdf',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+  
+      // Convert the response to a Blob
+      const blob = await response.blob();
+      return blob;
+    } catch (error) {
+      console.error('Error downloading the PDF:', error);
+      throw error;
+    }
+  };
+
   
   

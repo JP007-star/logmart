@@ -1,16 +1,16 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/system';
-import { Modal, Button, Form, Alert, Spinner } from 'react-bootstrap';
+import { Modal, Button, Form, Alert, Spinner, Card, ListGroup } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { updateProduct, deleteProduct } from '../../actions/product.action'; // Import actions
+import './style.css'
 
-// Styled components
+// Styled components (as defined earlier)
 const CustomDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-root': {
-    height:'90vh',
+    height: '55vh',
     width: '100%',
     '& .MuiDataGrid-columnsContainer': {
       backgroundColor: '#212529',
@@ -19,7 +19,6 @@ const CustomDataGrid = styled(DataGrid)(({ theme }) => ({
     '& .MuiDataGrid-cell': {
       overflow: 'hidden',
     },
-   
     [theme.breakpoints.down('sm')]: {
       fontSize: '0.75rem', // Reduce font size on small screens
     },
@@ -108,7 +107,6 @@ const ProductImage = styled('img')({
   },
 });
 
-// Modal overlay styling
 const Overlay = styled('div')({
   '.modal-backdrop': {
     opacity: 0.5,
@@ -121,13 +119,15 @@ const Overlay = styled('div')({
   },
 });
 
-// Form styling
 const FormGroup = styled(Form.Group)({
   marginBottom: '1rem',
   width: '100%',
 });
 
 const ProductList = ({ products: initialProducts }) => {
+  // Replace initialProducts with your provided JSON data
+
+
   const [products, setProducts] = useState(initialProducts);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -185,6 +185,27 @@ const ProductList = ({ products: initialProducts }) => {
     setShowModal(true);
   };
 
+  const handleInputRateChange = (event) => {
+    const { name, value } = event.target;
+
+    // Check for nested properties
+    if (name.startsWith('rating.')) {
+      // Handle nested rating properties
+      const key = name.split('.')[1]; // Extract the key ('rate' or 'count')
+      setEditProduct({
+        ...editProduct,
+        rating: {
+          ...editProduct.rating,
+          [key]: value,
+        },
+      });
+    } else {
+      // Handle non-nested properties
+      setEditProduct({ ...editProduct, [name]: value });
+    }
+  };
+
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setEditProduct({ ...editProduct, [name]: value });
@@ -211,8 +232,10 @@ const ProductList = ({ products: initialProducts }) => {
     { field: 'title', headerName: 'Title', width: 200 },
     { field: 'price', headerName: 'Price', width: 100 },
     { field: 'category', headerName: 'Category', width: 150 },
-    { field: 'rating', headerName: 'Rating', width: 100 },
-    { field: 'count', headerName: 'Count', width: 100 },
+    { field: 'quantity', headerName: 'Quantity', width: 100 },
+    { field: 'sgst', headerName: 'SGST (%)', width: 70 },
+    { field: 'cgst', headerName: 'CGST (%)', width: 70 },
+    { field: 'discount', headerName: 'Discount (%)', width: 70 },
     {
       field: 'qrCode',
       headerName: 'QR Code',
@@ -231,250 +254,213 @@ const ProductList = ({ products: initialProducts }) => {
       ),
     },
     {
-      field: 'edit',
-      headerName: 'Edit',
-      width: 100,
+      field: 'actions',
+      headerName: 'Actions',
+      width: 150,
       renderCell: (params) => (
-        <StyledButton
-          variant="edit"
-          onClick={(e) => handleEdit(e, params.row)}
-        >
-          <FontAwesomeIcon icon={faEdit} />
-        </StyledButton>
+        <>
+          <StyledButton
+            variant="edit"
+            onClick={(event) => handleEdit(event, params.row)}
+          >
+            <FontAwesomeIcon icon={faEdit} />
+          </StyledButton>
+          <StyledButton
+            variant="delete"
+            onClick={(event) => handleDelete(event, params.row._id)}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </StyledButton>
+        </>
       ),
     },
-    {
-      field: 'delete',
-      headerName: 'Delete',
-      width: 100,
-      renderCell: (params) => (
-        <StyledButton
-          variant="delete"
-          onClick={(e) => handleDelete(e, params.row._id)}
-        >
-          <FontAwesomeIcon icon={faTrash} />
-        </StyledButton>
-      ),
-    },
-  ], [handleDelete, handleEdit]);
-
-  const [sortModel, setSortModel] = useState([
-    {
-      field: 'title',
-      sort: 'asc',
-    },
-  ]);
-
-  const getRowId = (row) => row._id;
-
-  const [searchText, setSearchText] = useState('');
-
-  const handleSearchChange = (event) => {
-    setSearchText(event.target.value);
-  };
-
-  const filteredProducts = products.filter((product) =>
-    Object.values(product).some(
-      (value) =>
-        value &&
-        value.toString().toLowerCase().includes(searchText.toLowerCase())
-    )
-  );
+  ], [handleEdit, handleDelete]);
 
   return (
-    <div className='product-card-div' >
-      {products.length === 0 ? (
-        <p>No products available</p>
-      ) : (
-        <>
-          <input
-            type="text"
-            value={searchText}
-            onChange={handleSearchChange}
-            placeholder="Search..."
-            style={{
-              marginBottom: '10px',
-              padding: '8px',
-              width: '100%',
-              maxWidth: '400px',
-              borderRadius: '4px',
-              border: '1px solid #ddd',
-            }}
-          />
-          <CustomDataGrid
-            rows={filteredProducts}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5, 10]}
-            sortModel={sortModel}
-            onSortModelChange={(model) => setSortModel(model)}
-            onRowClick={handleRowClick}
-            getRowId={getRowId}
-          />
-        </>
-      )}
+    <>
+      <CustomDataGrid
+        className='product-card-div'
+        rows={products}
+        columns={columns}
+        getRowId={(row) => row._id}
+        onRowClick={handleRowClick}
+        disableSelectionOnClick
+        pagination
+        pageSize={10}
+      />
 
-      {/* Modal for displaying selected product */}
-      {showModal && (
-        <Overlay>
-          <Modal
-            show={showModal}
-            onHide={() => setShowModal(false)}
-            centered
-            size="lg"
-          >
-            <ModalHeader closeButton>
-              <Modal.Title>{selectedProduct.title}</Modal.Title>
-            </ModalHeader>
-            <ModalBody>
-              <ModalContent>
-                <ImageAndQRCode>
+      {/* View Product Modal */}
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        dialogClassName="modal-lg"
+        centered
+        backdropClassName="modal-backdrop"
+      >
+        <Overlay />
+        <ModalHeader closeButton />
+        <ModalBody>
+          {selectedProduct && (
+            <Card>
+              <Card.Body>
+                <ModalContent>
                   <ImageContainer>
-                    <ProductImage
-                      src={selectedProduct.image}
-                      alt={selectedProduct.title}
-                    />
+                    <ProductImage src={selectedProduct.image} alt="Product Image" />
                   </ImageContainer>
-                  <QRCodeImage
-                    src={selectedProduct.qrCode}
-                    alt="QR Code"
-                  />
-                </ImageAndQRCode>
-              </ModalContent>
-              <p>
-                <strong>Price:</strong> ${selectedProduct.price}
-              </p>
-              <p>
-                <strong>Category:</strong> {selectedProduct.category}
-              </p>
-              <p>
-                <strong>Quantity:</strong> {selectedProduct.quantity}
-              </p>
-              <p>
-                <strong>Discount:</strong> {selectedProduct.discount}
-              </p>
-              <p>
-                <strong>Description:</strong> {selectedProduct.description}
-              </p>
-              <p>
-                <strong>Rating:</strong> {selectedProduct.rating}
-              </p>
-            </ModalBody>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShowModal(false)}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </Overlay>
-      )}
+                  <ImageAndQRCode>
+                    <QRCodeImage src={selectedProduct.qrCode} alt="QR Code" />
+                  </ImageAndQRCode>
+                </ModalContent>
+                <ListGroup variant="flush">
+                  <ListGroup.Item><strong>Title:</strong> {selectedProduct.title}</ListGroup.Item>
+                  <ListGroup.Item><strong>Price:</strong> ₹{selectedProduct.price}</ListGroup.Item>
+                  <ListGroup.Item><strong>Category:</strong> {selectedProduct.category}</ListGroup.Item>
+                  <ListGroup.Item><strong>Quantity:</strong> {selectedProduct.quantity}</ListGroup.Item>
+                  <ListGroup.Item><strong>SGST (%):</strong> {selectedProduct.sgst}</ListGroup.Item>
+                  <ListGroup.Item><strong>CGST (%):</strong> {selectedProduct.cgst}</ListGroup.Item>
+                  <ListGroup.Item><strong>Discount (%):</strong> {selectedProduct.discount}</ListGroup.Item>
+                  <ListGroup.Item><strong>Rating:</strong> {selectedProduct.rating?.rate} (based on {selectedProduct.rating?.count} reviews)</ListGroup.Item>
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          )}
+        </ModalBody>
+      </Modal>
 
-      {/* Edit Modal for updating product */}
-      {showEditModal && (
-        <Overlay>
-          <Modal
-            show={showEditModal}
-            onHide={() => setShowEditModal(false)}
-            centered
-            size="lg"
-          >
-            <ModalHeader closeButton>
-              <Modal.Title>Edit Product</Modal.Title>
-            </ModalHeader>
-            <ModalBody>
-              {loading && (
-                <div className="text-center">
-                  <Spinner animation="border" />
-                  <p>Updating...</p>
-                </div>
-              )}
-              {error && <Alert variant="danger">{error}</Alert>}
-              {!loading && (
-                <Form>
-                  <FormGroup controlId="formProductTitle">
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="title"
-                      value={editProduct.title || ''}
-                      onChange={handleInputChange}
-                      isInvalid={!editProduct.title}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Please enter a title.
-                    </Form.Control.Feedback>
-                  </FormGroup>
-                  <FormGroup controlId="formProductPrice">
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control
-                      type="number"
-                      name="price"
-                      value={editProduct.price || ''}
-                      onChange={handleInputChange}
-                      isInvalid={!editProduct.price}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Please enter a price.
-                    </Form.Control.Feedback>
-                  </FormGroup>
-                  <FormGroup controlId="formProductCategory">
-                    <Form.Label>Category</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="category"
-                      value={editProduct.category || ''}
-                      onChange={handleInputChange}
-                      isInvalid={!editProduct.category}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Please enter a category.
-                    </Form.Control.Feedback>
-                  </FormGroup>
-                  <FormGroup controlId="formProductDescription">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      name="description"
-                      value={editProduct.description || ''}
-                      onChange={handleInputChange}
-                    />
-                  </FormGroup>
-                  <FormGroup controlId="formProductRating">
-                    <Form.Label>Rating</Form.Label>
-                    <Form.Control
-                      type="number"
-                      name="rating"
-                      value={editProduct.rating || ''}
-                      onChange={handleInputChange}
-                    />
-                  </FormGroup>
-                  <FormGroup controlId="formProductCount">
-                    <Form.Label>Count</Form.Label>
-                    <Form.Control
-                      type="number"
-                      name="count"
-                      value={editProduct.count || ''}
-                      onChange={handleInputChange}
-                    />
-                  </FormGroup>
-                </Form>
-              )}
-            </ModalBody>
-            <Modal.Footer>
-              <Button
-                variant="secondary"
-                onClick={() => setShowEditModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={handleUpdateProduct}>
-                Save Changes
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </Overlay>
-      )}
-    </div>
+      {/* Edit Product Modal */}
+      <Modal
+        show={showEditModal}
+        onHide={() => setShowEditModal(false)}
+        dialogClassName="modal-lg"
+        centered
+        backdropClassName="modal-backdrop"
+      >
+        <Overlay />
+        <ModalHeader closeButton />
+        <ModalBody>
+          <Form>
+            <FormGroup controlId="formTitle">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                value={editProduct.title || ''}
+                onChange={handleInputChange}
+              />
+            </FormGroup>
+
+            <FormGroup controlId="formPrice">
+              <Form.Label>Price</Form.Label>
+              <Form.Control
+                type="number"
+                name="price"
+                value={editProduct.price || ''}
+                onChange={handleInputChange}
+                step="0.01"
+                min="0"
+              />
+            </FormGroup>
+
+            <FormGroup controlId="formCategory">
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                type="text"
+                name="category"
+                value={editProduct.category || ''}
+                onChange={handleInputChange}
+              />
+            </FormGroup>
+
+            <FormGroup controlId="formQuantity">
+              <Form.Label>Quantity</Form.Label>
+              <Form.Control
+                type="number"
+                name="quantity"
+                value={editProduct.quantity || ''}
+                onChange={handleInputChange}
+                min="0"
+              />
+            </FormGroup>
+
+            <FormGroup controlId="formSGST">
+              <Form.Label>SGST (%)</Form.Label>
+              <Form.Control
+                type="number"
+                name="sgst"
+                value={editProduct.sgst || ''}
+                onChange={handleInputChange}
+                step="0.1"
+                min="0"
+                max="100"
+              />
+            </FormGroup>
+
+            <FormGroup controlId="formCGST">
+              <Form.Label>CGST (%)</Form.Label>
+              <Form.Control
+                type="number"
+                name="cgst"
+                value={editProduct.cgst || ''}
+                onChange={handleInputChange}
+                step="0.1"
+                min="0"
+                max="100"
+              />
+            </FormGroup>
+
+            <FormGroup controlId="formDiscount">
+              <Form.Label>Discount (%)</Form.Label>
+              <Form.Control
+                type="number"
+                name="discount"
+                value={editProduct.discount || ''}
+                onChange={handleInputChange}
+                step="0.1"
+                min="0"
+                max="100"
+              />
+            </FormGroup>
+
+            <FormGroup controlId="formRating">
+              <Form.Label>Rating</Form.Label>
+              <Form.Control
+                type="number"
+                name="rating.rate" // Update name attribute to reflect the nested structure
+                value={editProduct.rating?.rate || ''} // Use optional chaining
+                onChange={handleInputRateChange}
+                step="0.1"
+                min="0"
+                max="5"
+              />
+            </FormGroup>
+
+            <FormGroup controlId="formCount">
+              <Form.Label>Count</Form.Label>
+              <Form.Control
+                type="number"
+                name="rating.count" // Update name attribute to reflect the nested structure
+                value={editProduct.rating?.count || ''} // Use optional chaining
+                onChange={handleInputRateChange}
+                min="0"
+              />
+            </FormGroup>
+
+
+            {error && <Alert variant="danger">{error}</Alert>}
+
+            <Button
+              variant="primary"
+              onClick={handleUpdateProduct}
+              disabled={loading}
+            >
+              {loading ? <Spinner animation="border" size="sm" /> : 'Save'}
+            </Button>
+          </Form>
+        </ModalBody>
+      </Modal>
+
+
+    </>
   );
 };
 

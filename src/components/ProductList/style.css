@@ -5,3 +5,7 @@
   .custom-table td {
     white-space: normal !important;
   }
+
+  .product-card-div{
+    height: 55vh;
+  }

@@ -13,6 +13,8 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
     quantity: 0,
     category: '',
     discount: 0,
+    sgst: 0, // Added SGST field
+    cgst: 0, // Added CGST field
     rating: { rate: 0, count: 0 },
     status: 'available'
   });
@@ -64,15 +66,15 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!imageFile) {
+    if (!imageFile && !productId) {
       setError("Please select an image");
       return;
     }
 
     try {
-      const imageUrl = await uploadImage(imageFile);
+      const imageUrl = imageFile ? await uploadImage(imageFile) : product.image;
       const updatedProduct = { ...product, image: imageUrl };
-      
+
       let response;
       if (productId) {
         response = await updateProduct(productId, updatedProduct);
@@ -155,7 +157,7 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
           </Row>
 
           <Row>
-            <Col md={6}>
+            <Col md={4}>
               <Form.Group controlId="quantity">
                 <Form.Label>Quantity:</Form.Label>
                 <Form.Control
@@ -167,7 +169,7 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
                 />
               </Form.Group>
             </Col>
-            <Col md={6}>
+            <Col md={4}>
               <Form.Group controlId="discount">
                 <Form.Label>Discount (%):</Form.Label>
                 <Form.Control
@@ -178,10 +180,32 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
                 />
               </Form.Group>
             </Col>
+            <Col md={4}>
+              <Form.Group controlId="sgst">
+                <Form.Label>SGST (%):</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="sgst"
+                  value={product.sgst}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </Col>
           </Row>
 
           <Row>
-            <Col md={6}>
+            <Col md={4}>
+              <Form.Group controlId="cgst">
+                <Form.Label>CGST (%):</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="cgst"
+                  value={product.cgst}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={4}>
               <Form.Group controlId="rating.rate">
                 <Form.Label>Rating (Rate):</Form.Label>
                 <Form.Control
@@ -193,7 +217,7 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
                 />
               </Form.Group>
             </Col>
-            <Col md={6}>
+            <Col md={4}>
               <Form.Group controlId="rating.count">
                 <Form.Label>Rating (Count):</Form.Label>
                 <Form.Control
@@ -229,7 +253,7 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
                   type="file"
                   name="image"
                   onChange={handleChange}
-                  required
+                  required={!productId}
                 />
                 {imagePreview && (
                   <div className="mt-2">

@@ -10,7 +10,7 @@
 }
 
 .contentWrapper {
-  margin-top: 120px; /* Adjust this value based on your header height */
+  margin-top: 150px; /* Adjust this value based on your header height */
   margin-bottom: 220px;
   height: 100vh;
 }

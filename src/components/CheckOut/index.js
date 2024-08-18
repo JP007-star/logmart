@@ -125,13 +125,18 @@ const CheckOut = () => {
       const totalAmount = cartDetails.items.reduce((acc, item) => {
         const itemPrice = parseFloat(item.price) || 0;
         const itemQuantity = item.quantity || 0;
-        const itemDiscount = parseFloat(item.discount.replace('%', '')) || 0; // Remove '%' and parse as float
-
+      
+        // Check if the discount is a string and contains '%', then remove '%' and parse as float
+        const itemDiscount = (typeof item.discount === 'string' && item.discount.includes('%')) 
+          ? parseFloat(item.discount.replace('%', '')) 
+          : (typeof item.discount === 'number' ? item.discount : 0);
+      
         const itemTotal = itemPrice * itemQuantity;
         const itemDiscountedTotal = itemTotal - (itemTotal * itemDiscount / 100);
-
+      
         return acc + itemDiscountedTotal;
       }, 0);
+      
 
       const orderDetails = {
         userId: user._id,
@@ -173,7 +178,9 @@ const CheckOut = () => {
   const grandTotal = cartDetails.items.reduce((total, item) => {
     const itemPrice = parseFloat(item.price) || 0;
     const itemQuantity = item.quantity || 0;
-    const itemDiscount = parseFloat(item.discount.replace('%', '')) || 0;
+    const itemDiscount = (typeof item.discount === 'string' && item.discount.includes('%')) 
+          ? parseFloat(item.discount.replace('%', '')) 
+          : (typeof item.discount === 'number' ? item.discount : 0);
 
     const itemTotal = itemPrice * itemQuantity;
     const itemDiscountedTotal = itemTotal - (itemTotal * itemDiscount / 100);
@@ -184,8 +191,9 @@ const CheckOut = () => {
   const totalDiscount = cartDetails.items.reduce((total, item) => {
     const itemPrice = parseFloat(item.price) || 0;
     const itemQuantity = item.quantity || 0;
-    const itemDiscount = parseFloat(item.discount.replace('%', '')) || 0;
-
+    const itemDiscount = (typeof item.discount === 'string' && item.discount.includes('%')) 
+    ? parseFloat(item.discount.replace('%', '')) 
+    : (typeof item.discount === 'number' ? item.discount : 0);
     const itemTotal = itemPrice * itemQuantity;
     const discountValue = itemTotal * itemDiscount / 100;
 

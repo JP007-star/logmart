@@ -10,7 +10,7 @@ import './style.css'
 // Styled components (as defined earlier)
 const CustomDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-root': {
-    height: '55vh',
+    height: '100%',
     width: '100%',
     '& .MuiDataGrid-columnsContainer': {
       backgroundColor: '#212529',

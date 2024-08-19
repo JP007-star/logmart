@@ -58,8 +58,8 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
       const itemDiscountedTotal = itemTotal - (itemTotal * itemDiscount / 100);
 
       // Calculate taxes based on item total before discount
-      const itemCGST = (itemTotal * itemCGSTPercentage / 100);
-      const itemSGST = (itemTotal * itemSGSTPercentage / 100);
+      const itemCGST = (itemDiscountedTotal * itemCGSTPercentage / 100);
+      const itemSGST = (itemDiscountedTotal * itemSGSTPercentage / 100);
 
       total += itemDiscountedTotal;
       discount += (itemTotal * itemDiscount / 100);

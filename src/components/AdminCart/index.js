@@ -9,6 +9,9 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
   const [cart, setCart] = useState(null); // Initialize cart state to null
   const [grandTotal, setGrandTotal] = useState(0); // Initialize grand total state
   const [totalDiscount, setTotalDiscount] = useState(0); // Initialize total discount state
+  const [cgstTotal, setCgstTotal] = useState(0); // Initialize CGST state
+  const [sgstTotal, setSgstTotal] = useState(0); // Initialize SGST state
+
   const [loading, setLoading] = useState(false); // State for loading indicator
   const [checkoutSuccess, setCheckoutSuccess] = useState(false); // State to track checkout success
 
@@ -16,7 +19,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
     if (propCartItems && propCartItems.length > 0) {
       // If cart items are passed as props, use them
       setCart({ items: propCartItems });
-      calculateGrandTotal(propCartItems); // Calculate totals based on props
+      calculateTotals(propCartItems); // Calculate totals based on props
     } else {
       // If no props, fetch cart details as fallback
       const fetchCart = async () => {
@@ -24,7 +27,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
         try {
           const cartDetails = await fetchCartDetails();
           setCart(cartDetails);
-          calculateGrandTotal(cartDetails.items); // Calculate totals based on fetched data
+          calculateTotals(cartDetails.items); // Calculate totals based on fetched data
         } catch (error) {
           console.error("Error fetching cart details:", error.message);
           toast.error('Error fetching cart details.'); // Show error notification
@@ -36,26 +39,50 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
     }
   }, [propCartItems]);
 
-  // Function to calculate grand total and total discount
-  const calculateGrandTotal = (items) => {
+  // Function to calculate grand total, total discount, CGST, and SGST
+  const calculateTotals = (items) => {
     let total = 0;
     let discount = 0;
+    let cgst = 0;
+    let sgst = 0;
 
     items.forEach(item => {
-      const itemPrice = parseFloat(item.price) || 0; // Ensure price is a number
-      const itemQuantity = item.quantity || 0; // Ensure quantity is a number
-      const itemDiscount = parseFloat(item.discount) || 0; // Ensure discount is a number
+      const itemPrice = parseFloat(item.price) || 0;
+      const itemQuantity = item.quantity || 0;
+      const itemDiscount = parseFloat(item.discount) || 0;
+      const itemCGSTPercentage = parseFloat(item.cgst) || 0;
+      const itemSGSTPercentage = parseFloat(item.sgst) || 0;
 
+      // Total price before discount
       const itemTotal = itemPrice * itemQuantity;
       const itemDiscountedTotal = itemTotal - (itemTotal * itemDiscount / 100);
 
+      // Calculate taxes based on item total before discount
+      const itemCGST = (itemTotal * itemCGSTPercentage / 100);
+      const itemSGST = (itemTotal * itemSGSTPercentage / 100);
+
       total += itemDiscountedTotal;
       discount += (itemTotal * itemDiscount / 100);
+
+      cgst += itemCGST;
+      sgst += itemSGST;
+
+      // Debug logs
+      console.log(`Item ${item.productId}: Price = ${itemPrice}, Quantity = ${itemQuantity}, Discount = ${itemDiscount}, CGST Percentage = ${itemCGSTPercentage}, SGST Percentage = ${itemSGSTPercentage}`);
+      console.log(`Item Total = ${itemTotal}, Discounted Total = ${itemDiscountedTotal}`);
+      console.log(`CGST for item = ${itemCGST}, SGST for item = ${itemSGST}`);
     });
 
-    setGrandTotal(total);
+    console.log(`Grand Total Before Taxes = ${total}`);
+    console.log(`CGST Total = ${cgst}`);
+    console.log(`SGST Total = ${sgst}`);
+
+    setGrandTotal(total + cgst + sgst);
     setTotalDiscount(discount);
+    setCgstTotal(cgst);
+    setSgstTotal(sgst);
   };
+
 
   // Function to handle item deletion
   const handleDelete = async (productId) => {
@@ -64,7 +91,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
       // Fetch updated cart details to refresh the state
       const updatedCart = await fetchCartDetails();
       setCart(updatedCart);
-      calculateGrandTotal(updatedCart.items); // Recalculate totals based on updated data
+      calculateTotals(updatedCart.items); // Recalculate totals based on updated data
       toast.success('Item removed from cart successfully'); // Show success notification
     } catch (err) {
       console.error('Error deleting item:', err.message);
@@ -72,12 +99,11 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
     }
   };
 
-
   const handleAddQuantity = async (cartId) => {
     try {
       const updatedCart = await updateCartQuantity(cartId, 1); // Increment quantity by 1
       setCart(updatedCart);
-      calculateGrandTotal(updatedCart.items || []); // Recalculate grand total
+      calculateTotals(updatedCart.items || []); // Recalculate grand total
     } catch (error) {
       console.error(`Error adding quantity for cart ID: ${cartId}`, error.message);
     }
@@ -88,7 +114,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
     try {
       const updatedCart = await updateCartQuantity(cartId, -1); // Decrement quantity by 1
       setCart(updatedCart);
-      calculateGrandTotal(updatedCart.items || []); // Recalculate grand total
+      calculateTotals(updatedCart.items || []); // Recalculate grand total
     } catch (error) {
       console.error(`Error removing quantity for cart ID: ${cartId}`, error.message);
     }
@@ -100,11 +126,10 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
 
     if (!user || !user._id) {
       console.error('User not found in session storage.');
-      toast.error('User not found. Please log in.'); // Show error notification
+      toast.error('User not found. Please log in.');
       return;
     }
 
-    // Set default shipping address if not provided
     const shippingAddress = cart.items.length && cart.items[0].shippingAddress
       ? cart.items[0].shippingAddress
       : {
@@ -127,22 +152,29 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
         name: item.productName,
         price: item.price,
         discount: item.discount,
+        cgst: item.cgst,
+        sgst: item.sgst,
         image: item.image
       })),
       shippingAddress,
-      totalAmount: grandTotal
+      totalAmount: grandTotal,
+      totalDiscount: totalDiscount,
+      totalCGST: cgstTotal,
+      totalSGST: sgstTotal
     };
+
+    console.log('Order Details:', orderDetails);
 
     try {
       const result = await createOrder(orderDetails);
       console.log('Order created successfully:', result);
-      setCheckoutSuccess(true); // Set success state
-      onClearCart(); // Call the function passed as prop to clear the cart
-      setCart(null); // Optionally set cart to null to clear the local state
-      toast.success('Order placed successfully!'); // Show success notification
+      setCheckoutSuccess(true);
+      onClearCart();
+      setCart(null);
+      toast.success('Order placed successfully!');
     } catch (error) {
       console.error('Failed to create order:', error.message);
-      toast.error('Failed to place order. Please try again.'); // Show error notification
+      toast.error('Failed to place order. Please try again.');
     }
   };
 
@@ -246,20 +278,27 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
         </tbody>
         <tfoot>
           <tr>
+            <td colSpan="1">Total Tax ({cart.items.reduce((acc, item) => acc + (parseFloat(item.cgst) || 0) + (parseFloat(item.sgst) || 0), 0).toFixed(2)}%):</td>
+            <td colSpan="1">₹{(cgstTotal + sgstTotal).toFixed(2)}</td>
+            <td colSpan="2">CGST Total: ₹{cgstTotal.toFixed(2)}</td>
+            <td colSpan="2">SGST Total: ₹{sgstTotal.toFixed(2)}</td>
+          </tr>
+          <tr>
             <td colSpan="2">Grand Total:</td>
-            <td colSpan="2">₹{grandTotal.toFixed(2)}</td>
-            <td colSpan="1">Discount:</td>
+            <td colSpan="1">₹{grandTotal.toFixed(2)}</td>
+            <td colSpan="2">Total Discount:</td>
             <td colSpan="1">₹{totalDiscount.toFixed(2)}</td>
           </tr>
           <tr>
             <td colSpan="4">
               <button className='btn btn-warning' style={{ color: "black" }} onClick={handleCheckout}>Check out</button>
             </td>
-            <td colSpan="3">
+            <td colSpan="2">
               <button className='btn btn-outline-warning bg-white' onClick={onClearCart} style={{ color: "black" }}>Clear</button>
             </td>
           </tr>
         </tfoot>
+
       </table>
       <ToastContainer /> {/* Add ToastContainer to render notifications */}
     </div>

@@ -3,21 +3,24 @@ import { Form } from 'react-bootstrap';
 import { AdminCart } from '../AdminCart';
 import './style.css'; // Import the updated CSS file
 import { addToCart, clearCart, fetchCartDetails } from '../../actions/cart.action';
-import QRCodeScanner from '../QRScanner'; // Import the QRCodeScanner component
-import { UilCameraChange } from '@iconscout/react-unicons'
+import QRCodeScanner from '../QRScanner'; 
+import { UilCameraChange } from '@iconscout/react-unicons';
 
 export const Biller = ({ initialData }) => {
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [selectedProductDiscount, setSelectedProductDiscount] = useState("");
+  const [selectedProductDiscount, setSelectedProductDiscount] = useState(0);
   const [selectedProductId, setSelectedProductId] = useState("");
   const [selectedProductQuantity, setSelectedProductQuantity] = useState(0);
   const [selectedProductPrice, setSelectedProductPrice] = useState(0);
   const [selectedProductImage, setSelectedProductImage] = useState("");
+  const [selectedProductSGST, setSelectedProductSGST] = useState(0);
+  const [selectedProductCGST, setSelectedProductCGST] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [cart, setCart] = useState([]); // State to hold the cart items
-  const [isFlipped, setIsFlipped] = useState(false); // State to manage the card flip
+  const [cart, setCart] = useState([]);
+  const [isFlipped, setIsFlipped] = useState(false); 
+  const [sgst, setSGST] = useState(0);
+  const [cgst, setCGST] = useState(0);
 
-  // Fetch cart details when the component mounts
   useEffect(() => {
     const fetchCart = async () => {
       const userId = JSON.parse(sessionStorage.getItem('user'))._id;
@@ -28,6 +31,20 @@ export const Biller = ({ initialData }) => {
     };
     fetchCart();
   }, []);
+
+  useEffect(() => {
+    // Update SGST and CGST when product or quantity changes
+    const calculateTaxes = () => {
+      const priceAfterDiscount = selectedProductPrice * (1 - selectedProductDiscount / 100);
+      const sgstAmount = priceAfterDiscount * (selectedProductSGST / 100);
+      const cgstAmount = priceAfterDiscount * (selectedProductCGST / 100);
+
+      setSGST(sgstAmount);
+      setCGST(cgstAmount);
+    };
+
+    calculateTaxes();
+  }, [selectedProductPrice, selectedProductDiscount, selectedProductSGST, selectedProductCGST, quantity]);
 
   const handleProductChange = (event) => {
     const selectedProductId = event.target.value;
@@ -41,7 +58,9 @@ export const Biller = ({ initialData }) => {
       setSelectedProductQuantity(product.quantity);
       setSelectedProductPrice(product.price);
       setSelectedProductImage(product.image);
-      setQuantity(1); // Reset quantity to 1 on new product selection
+      setSelectedProductSGST(product.sgst);
+      setSelectedProductCGST(product.cgst);
+      setQuantity(1); 
     } else {
       setSelectedProductId("");
       setSelectedProduct("");
@@ -49,6 +68,8 @@ export const Biller = ({ initialData }) => {
       setSelectedProductQuantity(0);
       setSelectedProductPrice(0);
       setSelectedProductImage("");
+      setSelectedProductSGST(0);
+      setSelectedProductCGST(0);
       setQuantity(0);
     }
   };
@@ -68,18 +89,20 @@ export const Biller = ({ initialData }) => {
       quantity: quantity,
       price: selectedProductPrice,
       name: selectedProduct,
-      discount: selectedProductDiscount, // Add actual discount if needed
-      image: selectedProductImage, // Add actual image URL
+      discount: selectedProductDiscount,
+      image: selectedProductImage,
+      sgst: selectedProductSGST,
+      cgst: selectedProductCGST,
     };
+
+    console.log("Product Data Before Adding to Cart:", productData);
 
     const result = await addToCart(productData);
 
     if (typeof result === 'string') {
-      // Handle error message
       console.log(result);
     } else {
-      // Handle success, update cart state
-      setCart(result.items); // Assuming result contains updated cart items
+      setCart(result.items); 
       console.log("Product added to cart successfully");
     }
   };
@@ -88,10 +111,8 @@ export const Biller = ({ initialData }) => {
     const result = await clearCart();
 
     if (typeof result === 'string') {
-      // Handle error message
       console.log(result);
     } else {
-      // Handle success, clear cart state
       setCart([]);
       console.log("Cart cleared successfully");
     }
@@ -105,10 +126,12 @@ export const Biller = ({ initialData }) => {
       setSelectedProductId(product._id);
       setSelectedProduct(product.title);
       setQuantity(1);
-      setSelectedProductDiscount(product.discount)
+      setSelectedProductDiscount(product.discount);
       setSelectedProductQuantity(product.quantity);
       setSelectedProductPrice(product.price);
       setSelectedProductImage(product.image);
+      setSelectedProductSGST(product.sgst);
+      setSelectedProductCGST(product.cgst);
 
       // Add the product to the cart automatically
       const productData = {
@@ -116,9 +139,13 @@ export const Biller = ({ initialData }) => {
         quantity: 1,
         price: product.price,
         name: product.title,
-        discount: product.discount, // Add actual discount if needed
-        image: product.image, // Add actual image URL
+        discount: product.discount,
+        image: product.image,
+        sgst: product.sgst,
+        cgst: product.cgst,
       };
+
+      console.log("Scanned Product Data Before Adding to Cart:", productData);
 
       const result = await addToCart(productData);
 
@@ -144,15 +171,13 @@ export const Biller = ({ initialData }) => {
   ));
 
   return (
-
     <div className="biller-container">
       <div className={`biller-card m-3 ${isFlipped ? 'flipped' : ''}`}>
         {/* Form card (Front) */}
         <div className="biller-form front">
-          <Form >
+          <Form>
             <UilCameraChange className="float-end" onClick={() => setIsFlipped(true)} />
             <Form.Group className="mb-3">
-
               <Form.Label htmlFor="productSelect" className="form-label">Product</Form.Label>
               <Form.Select id="productSelect" size="lg" onChange={handleProductChange} value={selectedProductId}>
                 <option value="">Select a product</option>
@@ -160,19 +185,16 @@ export const Biller = ({ initialData }) => {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group >
+            <Form.Group>
               <div className="d-flex justify-content-between">
                 <Form.Label htmlFor="quantityInput" className="form-label">Quantity</Form.Label>
-                <small className="form-text">
-                  Stock: {selectedProductQuantity}
-                </small>
+                <small className="form-text">Stock: {selectedProductQuantity}</small>
               </div>
               <Form.Control
                 type="number"
                 id="quantityInput"
                 placeholder="Enter Quantity"
                 min="1"
-
                 value={quantity}
                 onChange={handleQuantityChange}
               />
@@ -181,9 +203,7 @@ export const Biller = ({ initialData }) => {
             <Form.Group>
               <div className="d-flex justify-content-between">
                 <Form.Label htmlFor="priceInput" className="form-label">Price</Form.Label>
-                <small className="form-text">
-                  Discount: {selectedProductDiscount}%
-                </small>
+                <small className="form-text">Discount: {selectedProductDiscount}%</small>
               </div>
               <Form.Control
                 type="number"
@@ -192,11 +212,37 @@ export const Biller = ({ initialData }) => {
                 placeholder="Product Price"
                 disabled
               />
-
             </Form.Group>
 
+            <Form.Group>
+              <div className="d-flex justify-content-between">
+                <Form.Label htmlFor="sgstInput" className="form-label">SGST</Form.Label>
+                <small className="form-text">Rate: {selectedProductSGST}%</small>
+              </div>
+              <Form.Control
+                type="number"
+                id="sgstInput"
+                value={sgst.toFixed(2)}
+                placeholder="SGST"
+                disabled
+              />
+            </Form.Group>
 
-            <div className='m-3'>
+            <Form.Group>
+              <div className="d-flex justify-content-between">
+                <Form.Label htmlFor="cgstInput" className="form-label">CGST</Form.Label>
+                <small className="form-text">Rate: {selectedProductCGST}%</small>
+              </div>
+              <Form.Control
+                type="number"
+                id="cgstInput"
+                value={cgst.toFixed(2)}
+                placeholder="CGST"
+                disabled
+              />
+            </Form.Group>
+
+            <div className="m-3">
               <button
                 className="btn btn-primary form-control shadow-sm rounded"
                 type="button"
@@ -205,30 +251,22 @@ export const Biller = ({ initialData }) => {
                 Add to Cart
               </button>
             </div>
-
-
           </Form>
         </div>
 
         {/* QR Code Scanner card (Back) */}
         <div className="biller-form back">
-
-
           <UilCameraChange className="float-end" onClick={() => setIsFlipped(false)} />
           <div className="qr-scanner-container">
             <QRCodeScanner onScan={handleScan} onError={handleError} />
           </div>
-
-
         </div>
-
-        {/* Cart container */}
-
       </div>
+
+      {/* Cart container */}
       <div className="admin-cart-container m-3">
         <AdminCart cartItems={cart} onClearCart={handleClearCart} />
       </div>
     </div>
-
   );
 };

@@ -72,6 +72,8 @@ export const addToCart = async (product) => {
             productName: product.name,
             discount: product.discount,
             image: product.image,
+            sgst:product.sgst,
+            cgst:product.cgst
           },
         ],
       }),

@@ -22,8 +22,10 @@ const ProductCard = ({ product }) => {
       quantity: 1,
       price: product.price,
       name: product.title,
-      discount: "20%", // Add actual discount if needed
-      image: product.image, // Add actual image URL
+      sgst: product.sgst,
+      cgst: product.cgst,
+      discount: product.discount, 
+      image: product.image, 
     };
   
     const result = await addToCart(productData);
@@ -48,7 +50,9 @@ const ProductCard = ({ product }) => {
       quantity: 1,
       price: product.price,
       name: product.title,
-      discount: "20%", // Add actual discount if needed
+      sgst: product.sgst,
+      cgst: product.cgst,
+      discount: product.discount, // Add actual discount if needed
       image: product.image, // Add actual image URL
     };
   

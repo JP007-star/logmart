@@ -4,8 +4,8 @@ import './style.css'; // Import the updated CSS file
 
 export const DashboardCounter = ({ initialData }) => {
   const formatIndianCurrency = (amount) => {
-    // Convert the number to a string
-    let amountStr = amount.toString();
+    // Convert the number to a string with two decimal places
+    let amountStr = amount.toFixed(2);
     
     // Split the number into integer and decimal parts
     let [integerPart, decimalPart] = amountStr.split('.');
@@ -18,8 +18,8 @@ export const DashboardCounter = ({ initialData }) => {
     }
     let formatted = otherParts.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + lastThree;
 
-    // Combine integer and decimal parts if any
-    return decimalPart ? `₹${formatted}.${decimalPart}` : `₹${formatted}`;
+    // Combine integer and decimal parts
+    return `₹${formatted}.${decimalPart}`;
   };
 
   // Default to zero if totalRevenue is undefined or null

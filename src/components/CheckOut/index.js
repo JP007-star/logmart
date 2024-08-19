@@ -121,22 +121,42 @@ const CheckOut = () => {
     try {
       const cartDetails = await fetchCartDetails(); // Fetch cart details asynchronously
 
-      // Calculate grand total for the order
-      const totalAmount = cartDetails.items.reduce((acc, item) => {
-        const itemPrice = parseFloat(item.price) || 0;
-        const itemQuantity = item.quantity || 0;
-      
-        // Check if the discount is a string and contains '%', then remove '%' and parse as float
-        const itemDiscount = (typeof item.discount === 'string' && item.discount.includes('%')) 
-          ? parseFloat(item.discount.replace('%', '')) 
-          : (typeof item.discount === 'number' ? item.discount : 0);
-      
+      // Initialize totals
+      let totalPrice = 0;
+      let totalDiscount = 0;
+      let totalDiscountedPrice = 0;
+      let totalSGST = 0;
+      let totalCGST = 0;
+
+      // Calculate totals
+      cartDetails.items.forEach(product => {
+        const itemPrice = parseFloat(product.price) || 0;
+        const itemQuantity = product.quantity || 0;
+        const itemDiscount = product.discount ? parseFloat(product.discount) : 0;
+        const itemSGSTRate = product.sgst || 0; // Ensure sgst and cgst rates are present
+        const itemCGSTRate = product.cgst || 0;
+
+        // Total price before discount
         const itemTotal = itemPrice * itemQuantity;
-        const itemDiscountedTotal = itemTotal - (itemTotal * itemDiscount / 100);
-      
-        return acc + itemDiscountedTotal;
-      }, 0);
-      
+        // Calculate discount amount
+        const itemDiscountAmount = itemTotal * itemDiscount / 100;
+        // Discounted total for each item
+        const discountedItemTotal = itemTotal - itemDiscountAmount;
+
+        // Calculate SGST and CGST based on the discounted item total
+        const itemSGSTAmount = discountedItemTotal * itemSGSTRate / 100;
+        const itemCGSTAmount = discountedItemTotal * itemCGSTRate / 100;
+
+        // Accumulate totals
+        totalPrice += itemTotal;
+        totalDiscount += itemDiscountAmount;
+        totalDiscountedPrice += discountedItemTotal;
+        totalSGST += itemSGSTAmount;
+        totalCGST += itemCGSTAmount;
+      });
+
+      // Calculate grand total
+      const grandTotal = totalDiscountedPrice + totalSGST + totalCGST;
 
       const orderDetails = {
         userId: user._id,
@@ -151,9 +171,14 @@ const CheckOut = () => {
           price: item.price,
           discount: item.discount, // Assuming discount is in percentage as a string
           image: item.image,
+          sgst: item.sgst,
+          cgst: item.cgst
         })),
         shippingAddress,
-        totalAmount,
+        totalAmount: grandTotal, 
+        totalSGST: totalSGST,
+        totalCGST: totalCGST,
+        totalDiscount: totalDiscount
       };
 
       const result = await createOrder(orderDetails);
@@ -172,33 +197,6 @@ const CheckOut = () => {
   if (!cartDetails) {
     return <div>Loading cart details...</div>;
   }
-
-  // Calculate total items and grand total
-  const totalItems = cartDetails.items.reduce((total, item) => total + item.quantity, 0);
-  const grandTotal = cartDetails.items.reduce((total, item) => {
-    const itemPrice = parseFloat(item.price) || 0;
-    const itemQuantity = item.quantity || 0;
-    const itemDiscount = (typeof item.discount === 'string' && item.discount.includes('%')) 
-          ? parseFloat(item.discount.replace('%', '')) 
-          : (typeof item.discount === 'number' ? item.discount : 0);
-
-    const itemTotal = itemPrice * itemQuantity;
-    const itemDiscountedTotal = itemTotal - (itemTotal * itemDiscount / 100);
-
-    return total + itemDiscountedTotal;
-  }, 0);
-
-  const totalDiscount = cartDetails.items.reduce((total, item) => {
-    const itemPrice = parseFloat(item.price) || 0;
-    const itemQuantity = item.quantity || 0;
-    const itemDiscount = (typeof item.discount === 'string' && item.discount.includes('%')) 
-    ? parseFloat(item.discount.replace('%', '')) 
-    : (typeof item.discount === 'number' ? item.discount : 0);
-    const itemTotal = itemPrice * itemQuantity;
-    const discountValue = itemTotal * itemDiscount / 100;
-
-    return total + discountValue;
-  }, 0);
 
   return (
     <div className="checkout-page cart-container card shadow">
@@ -231,21 +229,17 @@ const CheckOut = () => {
               onPaymentMethodChange={handlePaymentMethodChange}
             />
             <CartSummary
-              totalItems={totalItems}
-              totalPrice={grandTotal}
-              totalDiscount={totalDiscount}
-              finalAmount={grandTotal} // Adjust based on discount if needed
+              products={cartDetails.items}        
             />
           </div>
           <button
-          onClick={handleCheckout}
-          className="btn-primary"
-          disabled={loading} // Disable button while loading
-        >
-          {loading ? 'Processing...' : 'Payment'}
-        </button>
+            onClick={handleCheckout}
+            className="btn-primary"
+            disabled={loading} // Disable button while loading
+          >
+            {loading ? 'Processing...' : 'Payment'}
+          </button>
         </div>
-       
       </div>
     </div>
   );

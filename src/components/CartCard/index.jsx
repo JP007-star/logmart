@@ -9,17 +9,26 @@ const CartCard = React.memo(({ product, onAddQuantity, onRemoveQuantity, onDelet
         quantity,
         price,
         discount,
+        sgst,
+        cgst,
         image,
         _id: cartId,
     } = product;
 
-    // Ensure price and discount are treated as numbers
+    // Ensure price, discount, sgst, and cgst are treated as numbers
     const numericPrice = parseFloat(price) || 0;
     const numericDiscount = parseFloat(discount) || 0;
+    const numericSGST = parseFloat(sgst) || 0;
+    const numericCGST = parseFloat(cgst) || 0;
 
     // Calculate total price after discount
     const totalPrice = numericPrice * quantity;
     const discountedPrice = totalPrice * (1 - numericDiscount / 100);
+
+    // Calculate SGST and CGST amounts
+    const sgstAmount = discountedPrice * (numericSGST / 100);
+    const cgstAmount = discountedPrice * (numericCGST / 100);
+    const finalPrice = discountedPrice + sgstAmount + cgstAmount;
 
     return (
         <div className="cart-card m-2">
@@ -76,9 +85,27 @@ const CartCard = React.memo(({ product, onAddQuantity, onRemoveQuantity, onDelet
                     </span>
                 </div>
                 <div className="price-item">
-                    <span className="price-label">Total Price:</span>
+                    <span className="price-label">Discounted Price:</span>
                     <span className="price-value">
                         ₹{discountedPrice.toFixed(2)}
+                    </span>
+                </div>
+                <div className="price-item">
+                    <span className="price-label">SGST ({numericSGST.toFixed(2)}%):</span>
+                    <span className="price-value">
+                        ₹{sgstAmount.toFixed(2)}
+                    </span>
+                </div>
+                <div className="price-item">
+                    <span className="price-label">CGST ({numericCGST.toFixed(2)}%):</span>
+                    <span className="price-value">
+                        ₹{cgstAmount.toFixed(2)}
+                    </span>
+                </div>
+                <div className="price-item">
+                    <span className="price-label">Final Price:</span>
+                    <span className="price-value">
+                        ₹{finalPrice.toFixed(2)}
                     </span>
                 </div>
             </div>

@@ -128,6 +128,9 @@ const CheckOut = () => {
       let totalSGST = 0;
       let totalCGST = 0;
 
+      console.log(totalPrice);
+      
+
       // Calculate totals
       cartDetails.items.forEach(product => {
         const itemPrice = parseFloat(product.price) || 0;

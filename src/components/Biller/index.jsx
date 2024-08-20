@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import { AdminCart } from '../AdminCart';
 import './style.css'; // Import the updated CSS file
 import { addToCart, clearCart, fetchCartDetails } from '../../actions/cart.action';
-import QRCodeScanner from '../QRScanner'; 
+import QRCodeScanner from '../QRScanner';
 import { UilCameraChange } from '@iconscout/react-unicons';
 
 export const Biller = ({ initialData }) => {
@@ -17,7 +17,7 @@ export const Biller = ({ initialData }) => {
   const [selectedProductCGST, setSelectedProductCGST] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [cart, setCart] = useState([]);
-  const [isFlipped, setIsFlipped] = useState(false); 
+  const [isFlipped, setIsFlipped] = useState(false);
   const [sgst, setSGST] = useState(0);
   const [cgst, setCGST] = useState(0);
 
@@ -60,7 +60,7 @@ export const Biller = ({ initialData }) => {
       setSelectedProductImage(product.image);
       setSelectedProductSGST(product.sgst);
       setSelectedProductCGST(product.cgst);
-      setQuantity(1); 
+      setQuantity(1);
     } else {
       setSelectedProductId("");
       setSelectedProduct("");
@@ -102,7 +102,7 @@ export const Biller = ({ initialData }) => {
     if (typeof result === 'string') {
       console.log(result);
     } else {
-      setCart(result.items); 
+      setCart(result.items);
       console.log("Product added to cart successfully");
     }
   };
@@ -184,63 +184,72 @@ export const Biller = ({ initialData }) => {
                 {options}
               </Form.Select>
             </Form.Group>
-
-            <Form.Group>
-              <div className="d-flex justify-content-between">
-                <Form.Label htmlFor="quantityInput" className="form-label">Quantity</Form.Label>
-                <small className="form-text">Stock: {selectedProductQuantity}</small>
+            <div className='row'>
+              <div className='col-6'>
+                <Form.Group>
+                  <div className="d-flex justify-content-between">
+                    <Form.Label htmlFor="quantityInput" className="form-label">Quantity</Form.Label>
+                    <small className="form-text">Stock: {selectedProductQuantity}</small>
+                  </div>
+                  <Form.Control
+                    type="number"
+                    id="quantityInput"
+                    placeholder="Enter Quantity"
+                    min="1"
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                  />
+                </Form.Group>
               </div>
-              <Form.Control
-                type="number"
-                id="quantityInput"
-                placeholder="Enter Quantity"
-                min="1"
-                value={quantity}
-                onChange={handleQuantityChange}
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <div className="d-flex justify-content-between">
-                <Form.Label htmlFor="priceInput" className="form-label">Price</Form.Label>
-                <small className="form-text">Discount: {selectedProductDiscount}%</small>
+              <div className='col-6'>
+                <Form.Group>
+                  <div className="d-flex justify-content-between">
+                    <Form.Label htmlFor="priceInput" className="form-label">Price</Form.Label>
+                    <small className="form-text">Discount: {selectedProductDiscount}%</small>
+                  </div>
+                  <Form.Control
+                    type="number"
+                    id="priceInput"
+                    value={selectedProductPrice}
+                    placeholder="Product Price"
+                    disabled
+                  />
+                </Form.Group>
               </div>
-              <Form.Control
-                type="number"
-                id="priceInput"
-                value={selectedProductPrice}
-                placeholder="Product Price"
-                disabled
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <div className="d-flex justify-content-between">
-                <Form.Label htmlFor="sgstInput" className="form-label">SGST</Form.Label>
-                <small className="form-text">Rate: {selectedProductSGST}%</small>
+            </div>
+            <div className='row'>
+              <div className='col-6'>
+                <Form.Group>
+                  <div className="d-flex justify-content-between">
+                    <Form.Label htmlFor="sgstInput" className="form-label">SGST</Form.Label>
+                    <small className="form-text">Rate: {selectedProductSGST}%</small>
+                  </div>
+                  <Form.Control
+                    type="number"
+                    id="sgstInput"
+                    value={sgst.toFixed(2)}
+                    placeholder="SGST"
+                    disabled
+                  />
+                </Form.Group>
               </div>
-              <Form.Control
-                type="number"
-                id="sgstInput"
-                value={sgst.toFixed(2)}
-                placeholder="SGST"
-                disabled
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <div className="d-flex justify-content-between">
-                <Form.Label htmlFor="cgstInput" className="form-label">CGST</Form.Label>
-                <small className="form-text">Rate: {selectedProductCGST}%</small>
+              <div className='col-6'>
+                <Form.Group>
+                  <div className="d-flex justify-content-between">
+                    <Form.Label htmlFor="cgstInput" className="form-label">CGST</Form.Label>
+                    <small className="form-text">Rate: {selectedProductCGST}%</small>
+                  </div>
+                  <Form.Control
+                    type="number"
+                    id="cgstInput"
+                    value={cgst.toFixed(2)}
+                    placeholder="CGST"
+                    disabled
+                  />
+                </Form.Group>
               </div>
-              <Form.Control
-                type="number"
-                id="cgstInput"
-                value={cgst.toFixed(2)}
-                placeholder="CGST"
-                disabled
-              />
-            </Form.Group>
+            </div>
+
 
             <div className="m-3">
               <button

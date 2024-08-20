@@ -280,8 +280,8 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
           <tr>
             <td colSpan="1">Total Tax ({cart.items.reduce((acc, item) => acc + (parseFloat(item.cgst) || 0) + (parseFloat(item.sgst) || 0), 0).toFixed(2)}%):</td>
             <td colSpan="1">₹{(cgstTotal + sgstTotal).toFixed(2)}</td>
-            <td colSpan="2">CGST Total: ₹{cgstTotal.toFixed(2)}</td>
-            <td colSpan="2">SGST Total: ₹{sgstTotal.toFixed(2)}</td>
+            <td colSpan="2">CGST : ₹{cgstTotal.toFixed(2)}</td>
+            <td colSpan="2">SGST : ₹{sgstTotal.toFixed(2)}</td>
           </tr>
           <tr>
             <td colSpan="2">Grand Total:</td>

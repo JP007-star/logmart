@@ -5,6 +5,8 @@ import { format } from "date-fns";
 import styles from "./style.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOut } from "@fortawesome/free-solid-svg-icons";
 
 const AdminHeader = () => {
   const { isDarkTheme } = useTheme();
@@ -67,7 +69,9 @@ const AdminHeader = () => {
           </Navbar.Text>
         </div>
       </Navbar.Brand>
+
       <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
+
         <Nav className="m-1">
           <Nav.Link href="/admin/home" style={menuStyle}>
             Home
@@ -87,6 +91,8 @@ const AdminHeader = () => {
         </Nav>
       </Navbar.Collapse>
       <div className="d-lg-none">
+      <FontAwesomeIcon onClick={handleLogout} className="float-end" icon={faSignOut}  />               
+
         <Navbar.Text className={styles.dateText}>
           {formattedDateWords}   {formattedTime}
         </Navbar.Text>

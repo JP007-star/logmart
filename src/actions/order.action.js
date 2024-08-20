@@ -1,6 +1,6 @@
 // actions/order.action.js
 
-import { userDNS } from "../config";
+import { invoiceDNS, userDNS } from "../config";
 import { clearCart } from "./cart.action";
 
 // Function to create an order
@@ -39,7 +39,7 @@ export const createOrder = async (orderDetails) => {
 
   export const downloadInvoicePdf = async (orderId) => {
     try {
-      const response = await fetch(`${userDNS}api/v1/invoice/${orderId}`, {
+      const response = await fetch(`${invoiceDNS}api/v1/invoice/${orderId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/pdf',

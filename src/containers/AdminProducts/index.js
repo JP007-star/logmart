@@ -11,6 +11,8 @@ import AddProduct from "../../components/AddProduct";
 import { toast, ToastContainer } from 'react-toastify'; // Import ToastContainer
 import 'react-toastify/dist/ReactToastify.css';
 import { userDNS } from "../../config";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOut } from "@fortawesome/free-solid-svg-icons";
 
 const AdminProducts = ({ users: initialUsers }) => {
   const [isAddProductVisible, setAddProductVisible] = useState(false);
@@ -88,6 +90,7 @@ const AdminProducts = ({ users: initialUsers }) => {
                 
                 <div className="product-list-section">
                   <div className="d-flex justify-content-between mb-3">
+                    <FontAwesomeIcon onClick={handleExports} className="float-end" icon={faSignOut}  />               
                     <h2 onClick={handleExports} >Products</h2>
                     <button
                       id="add-product"

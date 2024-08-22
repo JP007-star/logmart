@@ -47,7 +47,7 @@ const StockDoughnutChart = ({ products }) => {
         maintainAspectRatio: false, // Allows more control over the aspect ratio
         plugins: {
             legend: {
-                display: false, // Show legend
+                display: true, // Show legend
                 position: 'top'
             },
             tooltip: {
@@ -60,7 +60,7 @@ const StockDoughnutChart = ({ products }) => {
         },
         elements: {
             arc: {
-                borderWidth: 2,
+                borderWidth: 1,
             }
         }
     };

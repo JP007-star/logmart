@@ -103,6 +103,8 @@ export const Biller = ({ initialData }) => {
       console.log(result);
     } else {
       setCart(result.items);
+      window.location.reload()
+
       console.log("Product added to cart successfully");
     }
   };
@@ -153,6 +155,7 @@ export const Biller = ({ initialData }) => {
         console.log(result);
       } else {
         setCart(result.items);
+        window.location.reload()
         console.log("Product added to cart successfully");
       }
     } else {
@@ -274,6 +277,7 @@ export const Biller = ({ initialData }) => {
 
       {/* Cart container */}
       <div className="admin-cart-container m-3">
+
         <AdminCart cartItems={cart} onClearCart={handleClearCart} />
       </div>
     </div>

@@ -10,14 +10,14 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 const Charts = ({ data }) => {
     return (
         <div className="charts row">
-            <div className="chart card m-2">
+            <div className="chart  card m-2">
                 <h4>Stock Distribution</h4>
                 <StockDoughnutChart products={data.products} />
             </div>
-            <div className="chart card m-2">
+            {/* <div className="chart card m-2">
                 <h4 className='card-title'>Stock Quantity</h4>
                 <StockLineChart className="card-body" products={data.products} />
-            </div>
+            </div> */}
 
             <div className="chart card m-2">
                 <h4 className='card-title'>Order Statistics</h4>

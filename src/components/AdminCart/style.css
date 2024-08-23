@@ -178,6 +178,16 @@ h2 {
 }
 
 
+.pdf-container.show {
+  display: block;
+}
+
+.pdf-container.hide {
+  display: none;
+}
+
+
+
 
 
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './style.css'; // Ensure that hide and show classes are defined here
+import './style.css'; // Ensure hide and show classes are defined here
 import { deleteCartItem, fetchCartDetails, updateCartQuantity } from '../../actions/cart.action';
 import { createOrder } from '../../actions/order.action';
 import { toast, ToastContainer } from 'react-toastify';
@@ -19,7 +19,6 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
   const [generatingPdf, setGeneratingPdf] = useState(false);
   const [showIframe, setShowIframe] = useState(false);
 
-  // Effect to handle prop changes
   useEffect(() => {
     if (propCartItems && propCartItems.length > 0) {
       setCart({ items: propCartItems });
@@ -31,7 +30,6 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
           const cartDetails = await fetchCartDetails();
           setCart(cartDetails);
           calculateTotals(cartDetails.items);
-          
         } catch (error) {
           console.error("Error fetching cart details:", error.message);
           toast.error('Error fetching cart details.');
@@ -41,7 +39,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
       };
       fetchCart();
     }
-  }, [propCartItems]); // Only re-run if propCartItems changes
+  }, [propCartItems]);
 
   const calculateTotals = (items) => {
     let total = 0;
@@ -110,8 +108,8 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
 
   const generatePDF = async (orderId) => {
     const apiUrl = `${userDNS}api/v1/invoice/${orderId}`;
-    console.log("api url :: "+apiUrl);
-    
+    console.log("API URL: ", apiUrl);
+
     setGeneratingPdf(true);
 
     try {
@@ -133,10 +131,15 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
 
     } catch (error) {
       console.error("Error generating PDF:", error);
+      toast.error('Failed to generate PDF.');
     } finally {
       setGeneratingPdf(false);
     }
   };
+
+  const onClearCartPdf =async () =>{
+   window.location.reload()
+  }
 
   const handleCheckout = async () => {
     const user = JSON.parse(sessionStorage.getItem('user'));
@@ -193,14 +196,18 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
     }
   };
 
-
-
   if (loading) {
     return <div>Loading cart details...</div>;
   }
 
   if (generatingPdf) {
-    return <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>;
+    return (
+      <div className="text-center mt-5">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
   }
 
   if (checkoutSuccess) {
@@ -208,6 +215,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
       <div className="container-fluid">
         {showIframe && pdfUrl && (
           <div className={`pdf-container ${showIframe ? 'show' : 'hide'}`}>
+            <button className='btn btn-outline-warning bg-white' onClick={onClearCartPdf} style={{ color: "black" }}>Clear</button>
             <iframe id="pdfFrame" src={pdfUrl} width="100%" height="370px" title="Order Receipt" className="pdf-iframe"></iframe>
           </div>
         )}
@@ -226,9 +234,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
           className="img-fluid mb-4"
           alt="Empty cart"
         />
-        <h3>
-          <strong>Your Cart is Empty</strong>
-        </h3>
+        <h3><strong>Your Cart is Empty</strong></h3>
         <h4>Add something to make me happy :)</h4>
       </div>
     );
@@ -236,89 +242,87 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
 
   return (
     <div className="container-fluid">
-      
-        <div className="cart-table-wrapper">
-          <table className="cart-table">
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Discount</th>
-                <th>Total</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cart.items.map((item) => {
-                const itemPrice = parseFloat(item.price) || 0;
-                const itemQuantity = item.quantity || 0;
-                const itemDiscount = parseFloat(item.discount) || 0;
-                const itemTotal = itemPrice * itemQuantity;
-                const itemDiscountedTotal = itemTotal - (itemTotal * itemDiscount / 100);
+      <div className="cart-table-wrapper">
+        <table className="cart-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Discount</th>
+              <th>Total</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cart.items.map((item) => {
+              const itemPrice = parseFloat(item.price) || 0;
+              const itemQuantity = item.quantity || 0;
+              const itemDiscount = parseFloat(item.discount) || 0;
+              const itemTotal = itemPrice * itemQuantity;
+              const itemDiscountedTotal = itemTotal - (itemTotal * itemDiscount / 100);
 
-                return (
-                  <tr key={item._id}>
-                    <td>{item.productName}</td>
-                    <td>₹{itemPrice.toFixed(2)}</td>
-                    <td>
-                      <div className="quantity-container">
-                        <button
-                          onClick={() => handleAddQuantity(item._id)}
-                          className="quantity-btn"
-                          aria-label="Increase quantity"
-                        >
-                          <i className="fa fa-plus"></i>
-                        </button>
-                        <span>{itemQuantity}</span>
-                        <button
-                          onClick={() => handleRemoveQuantity(item._id)}
-                          className="quantity-btn"
-                          aria-label="Decrease quantity"
-                        >
-                          <i className="fa fa-minus"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td>{itemDiscount ? itemDiscount + '%' : '0%'}</td>
-                    <td>₹{itemDiscountedTotal.toFixed(2)}</td>
-                    <td>
+              return (
+                <tr key={item._id}>
+                  <td>{item.productName}</td>
+                  <td>₹{itemPrice.toFixed(2)}</td>
+                  <td>
+                    <div className="quantity-container">
                       <button
-                        className='btn btn-warning'
-                        onClick={() => handleDelete(item._id)}
+                        onClick={() => handleAddQuantity(item._id)}
+                        className="quantity-btn"
+                        aria-label="Increase quantity"
                       >
-                        X
+                        <i className="fa fa-plus"></i>
                       </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan="1">Total Tax :</td>
-                <td colSpan="1">₹{(cgstTotal + sgstTotal).toFixed(2)}</td>
-                <td colSpan="2">CGST : ₹{cgstTotal.toFixed(2)}</td>
-                <td colSpan="2">SGST : ₹{sgstTotal.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td colSpan="2">Grand Total:</td>
-                <td colSpan="1">₹{grandTotal.toFixed(2)}</td>
-                <td colSpan="2">Total Discount:</td>
-                <td colSpan="1">₹{totalDiscount.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td colSpan="4">
-                  <button className='btn btn-warning' style={{ color: "black" }} onClick={handleCheckout}>Check out</button>
-                </td>
-                <td colSpan="2">
-                  <button className='btn btn-outline-warning bg-white' onClick={onClearCart} style={{ color: "black" }}>Clear</button>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-
+                      <span>{itemQuantity}</span>
+                      <button
+                        onClick={() => handleRemoveQuantity(item._id)}
+                        className="quantity-btn"
+                        aria-label="Decrease quantity"
+                      >
+                        <i className="fa fa-minus"></i>
+                      </button>
+                    </div>
+                  </td>
+                  <td>{itemDiscount ? itemDiscount + '%' : '0%'}</td>
+                  <td>₹{itemDiscountedTotal.toFixed(2)}</td>
+                  <td>
+                    <button
+                      className='btn btn-warning'
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      X
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="1">Total Tax :</td>
+              <td colSpan="1">₹{(cgstTotal + sgstTotal).toFixed(2)}</td>
+              <td colSpan="2">CGST : ₹{cgstTotal.toFixed(2)}</td>
+              <td colSpan="2">SGST : ₹{sgstTotal.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td colSpan="2">Grand Total:</td>
+              <td colSpan="1">₹{grandTotal.toFixed(2)}</td>
+              <td colSpan="2">Total Discount:</td>
+              <td colSpan="1">₹{totalDiscount.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td colSpan="4">
+                <button className='btn btn-warning' style={{ color: "black" }} onClick={handleCheckout}>Check out</button>
+              </td>
+              <td colSpan="2">
+                <button className='btn btn-outline-warning bg-white' onClick={onClearCart} style={{ color: "black" }}>Clear</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
       <ToastContainer />
     </div>
   );

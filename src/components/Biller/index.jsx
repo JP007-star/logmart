@@ -103,8 +103,6 @@ export const Biller = ({ initialData }) => {
       console.log(result);
     } else {
       setCart(result.items);
-      window.location.reload()
-
       console.log("Product added to cart successfully");
     }
   };
@@ -155,7 +153,6 @@ export const Biller = ({ initialData }) => {
         console.log(result);
       } else {
         setCart(result.items);
-        window.location.reload()
         console.log("Product added to cart successfully");
       }
     } else {
@@ -277,8 +274,24 @@ export const Biller = ({ initialData }) => {
 
       {/* Cart container */}
       <div className="admin-cart-container m-3">
-
-        <AdminCart cartItems={cart} onClearCart={handleClearCart} />
+        {cart.length > 0 ? (
+          <AdminCart cartItems={cart} onClearCart={handleClearCart} />
+          
+        ) : (
+          <div className="container-fluid mt-5 text-center">
+          <img
+            src="https://previews.123rf.com/images/lumut/lumut2007/lumut200700708/151980837-basket-vector-icon-shopping-sign-online-shop-or-e-shop-concept.jpg?fj=1"
+            width="130"
+            height="auto"
+            className="img-fluid mb-4"
+            alt="Empty cart"
+          />
+          <h3>
+            <strong>Your Cart is Empty</strong>
+          </h3>
+          <h4>Add something to make me happy :)</h4>
+        </div>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 // src/components/Charts.js
 import React from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
-import StockLineChart from '../StockBarChart';
 import StockDoughnutChart from '../StockDoughnutChart';
 import OrderLinechart from '../OrderLineCart';
 

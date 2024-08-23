@@ -5,6 +5,7 @@ import { createOrder } from '../../actions/order.action';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Spinner } from 'react-bootstrap';
+import { userDNS } from '../../config';
 
 export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
   const [cart, setCart] = useState({ items: [] });
@@ -108,7 +109,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
   };
 
   const generatePDF = async (orderId) => {
-    const apiUrl = `http://localhost:9001/api/v1/invoice/${orderId}`;
+    const apiUrl = `${userDNS}api/v1/invoice/${orderId}`;
     setGeneratingPdf(true);
 
     try {

@@ -110,6 +110,8 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
 
   const generatePDF = async (orderId) => {
     const apiUrl = `${userDNS}api/v1/invoice/${orderId}`;
+    console.log("api url :: "+apiUrl);
+    
     setGeneratingPdf(true);
 
     try {

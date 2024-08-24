@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px; /* Increased padding for better spacing */
+  padding: 6px 10px; /* Reduced padding for smaller height */
   transition: background-color 0.3s ease-in-out;
 }
 
@@ -17,40 +17,36 @@
 
 /* Logo Styling */
 .logo {
-  height: 50px; /* Adjust based on your logo's proportions */
+  height: 45px; /* Adjust based on your logo's proportions */
   width: auto;
 }
 
 /* Seven Segment Time Display */
 .sevenSegment {
-  font-size: 3.5rem; /* Adjusted for desktop */
+  font-size: 3rem; /* Reduced size for less height */
   font-weight: bold;
   color: #ff4500;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Slightly more pronounced shadow */
-  letter-spacing: 0.2rem; /* Increased letter-spacing for better readability */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.2rem;
 }
 
 .led-font {
-  font-family: 'Roboto', Arial, Helvetica, sans-serif; /* Changed to a more modern font */
-  font-size: 2.5rem; /* Adjusted size for better balance */
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-size: 2rem; /* Adjusted size for better balance */
   color: #ff0000;
-  text-shadow: 0 0 8px rgba(255, 0, 0, 0.8); /* LED glowing effect */
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
 }
 
 /* Date Text Styling */
 .dateText {
-  font-size: 1.2rem;
-  color: #6c757d; /* Muted color for the date text */
-  margin-right: 20px;
-}
-
-.timeText {
-  display: block;
+  font-size: 1rem; /* Slightly reduced for more compact layout */
+  color: #6c757d;
+  margin-right: 10px; /* Reduced margin */
 }
 
 /* Navbar Links */
 .navbar-nav {
-  display: flex; /* Ensure proper alignment */
+  display: flex;
   flex-direction: row;
   align-items: center;
 }
@@ -59,30 +55,30 @@
   color: #333;
   font-weight: 500;
   font-size: 1rem;
-  padding: 8px 12px; /* Increased padding for better click targets */
-  transition: color 0.3s ease, background-color 0.3s ease; /* Added background-color transition */
+  padding: 5px 10px; /* Reduced padding for smaller height */
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .nav-link:hover {
   color: #007bff;
-  background-color: rgba(0, 123, 255, 0.1); /* Subtle background highlight on hover */
+  background-color: rgba(0, 123, 255, 0.1);
   text-decoration: none;
 }
 
 .nav-link.active {
   color: #007bff;
   font-weight: bold;
-  background-color: rgba(0, 123, 255, 0.1); /* Background highlight for active link */
+  background-color: rgba(0, 123, 255, 0.1);
 }
 
 /* Responsive Adjustments */
 @media (max-width: 1200px) {
   .sevenSegment {
-    font-size: 3rem;
+    font-size: 2.8rem;
   }
 
   .led-font {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -92,15 +88,15 @@
   }
 
   .led-font {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   .logo {
-    height: 40px; /* Resize logo on smaller screens */
+    height: 40px;
   }
 
   .dateText {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -108,31 +104,30 @@
   .header {
     flex-direction: column;
     align-items: center;
-    padding: 15px 10px;
-    background-color: #f8f9fa; /* Ensure a consistent background color on mobile */
+    padding: 10px 5px; /* Reduced padding for smaller height on mobile */
+    background-color: #f8f9fa;
   }
 
   .sevenSegment, .led-font {
-    font-size: 2.2rem; /* Adjusted for smaller screens */
+    font-size: 2.2rem;
   }
 
   .navbar-nav {
     flex-direction: column;
     width: 100%;
-    margin-top: 10px; /* Add margin to separate from other elements */
+    margin-top: 10px;
   }
 
   .nav-link {
     text-align: right;
-    padding: 20px;
+    padding: 15px;
     margin: 5px;
     width: 100%;
     font-size: 1.1rem;
   }
 
   .logo {
-    height: 35px; /* Further resize for mobile */
-    margin-left: 0px;
+    height: 35px;
   }
 
   .dateText {
@@ -142,7 +137,7 @@
 
 @media (max-width: 576px) {
   .sevenSegment, .led-font {
-    font-size: 1.8rem; /* Smaller size for extra small screens */
+    font-size: 1.8rem;
   }
 
   .nav-link {
@@ -151,6 +146,6 @@
   }
 
   .header {
-    padding: 6px 5px;
+    padding: 5px 5px; /* Further reduce padding for small screens */
   }
 }

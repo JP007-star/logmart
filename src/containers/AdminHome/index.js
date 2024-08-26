@@ -44,8 +44,8 @@ const AdminHome = () => {
         </div>
       </div>
       <SideBarMobile isSidebarMinimized={isSidebarMinimized} toggleSidebar={toggleSidebar} />
-      <div className="container d-md-block">
-        <p className="text-center text-muted m-2">
+      <div className="fixed-bottom bg-light  d-md-block">
+        <p className="text-center text-muted">
           © 2024 Copyright: JP made with Love 
           <img src="/images/heart.svg" height="20px" width="20px" alt="" />
         </p>

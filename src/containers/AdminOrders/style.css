@@ -2,10 +2,11 @@
 
 /* General container styles */
 .admin-orders-container {
-    display: flex;
-    flex-direction: row;
-    padding: 0;
-  }
+  height: 85vh; /* Full viewport height */
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
   
   /* Sidebar styles */
   .sidebar-container {

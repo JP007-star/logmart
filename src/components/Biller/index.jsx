@@ -171,8 +171,8 @@ export const Biller = ({ initialData }) => {
   ));
 
   return (
-    <div className="biller-container">
-      <div className={`biller-card m-3 ${isFlipped ? 'flipped' : ''}`}>
+    <div className="biller-container  justify-content-between">
+      <div className={`biller-card m-2  ${isFlipped ? 'flipped' : ''}`}>
         {/* Form card (Front) */}
         <div className="biller-form front">
           <Form>
@@ -273,7 +273,7 @@ export const Biller = ({ initialData }) => {
       </div>
 
       {/* Cart container */}
-      <div className="admin-cart-container m-3">
+      <div className="admin-cart-container m-2">
         {cart.length > 0 ? (
           <AdminCart cartItems={cart} onClearCart={handleClearCart} />
           

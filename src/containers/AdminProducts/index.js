@@ -11,8 +11,7 @@ import AddProduct from "../../components/AddProduct";
 import { toast, ToastContainer } from 'react-toastify'; // Import ToastContainer
 import 'react-toastify/dist/ReactToastify.css';
 import { userDNS } from "../../config";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOut } from "@fortawesome/free-solid-svg-icons";
+
 
 const AdminProducts = ({ users: initialUsers }) => {
   const [isAddProductVisible, setAddProductVisible] = useState(false);
@@ -90,7 +89,7 @@ const AdminProducts = ({ users: initialUsers }) => {
                 
                 <div className="product-list-section">
                   <div className="d-flex justify-content-between mb-3">
-                    <FontAwesomeIcon onClick={handleExports} className="float-end" icon={faSignOut}  />               
+                    {/* <FontAwesomeIcon onClick={handleExports} className="float-end" icon={faSignOut}  />                */}
                     <h2 onClick={handleExports} >Products</h2>
                     <button
                       id="add-product"
@@ -101,7 +100,7 @@ const AdminProducts = ({ users: initialUsers }) => {
                       <Unicons.UilPlus /> Add Product
                     </button>
                   </div>
-                  <div className="product-list-container">
+                  <div className="product-card-div">
                    
                     {products.length > 0 ? (
                       <ProductList products={products} />
@@ -117,10 +116,12 @@ const AdminProducts = ({ users: initialUsers }) => {
         </div>
       </div>
       <SideBarMobile isSidebarMinimized={isSidebarMinimized} toggleSidebar={toggleSidebar} />
-      <footer className="text-center d-none text-muted mt-3 mb-2">
-        © 2024 Copyright: JP made with Love 
-        <img src="/images/heart.svg" height="20px" width="20px" alt="" />
-      </footer>
+      <div className="fixed-bottom text-center d-none bg-light  d-md-block">
+            <p className="text-center text-muted">
+              © 2024 Copyright: JP made with Love
+              <img src="/images/heart.svg" height="20px" width="20px" alt="" />
+            </p>
+          </div>
       <ToastContainer /> {/* Include ToastContainer */}
     </ThemeProvider>
   );

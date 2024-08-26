@@ -2,9 +2,10 @@
 
 /* General container styles */
 .admin-users-container {
-  display: flex;
-  flex-direction: row;
-  padding: 0;
+  height: 85vh; /* Full viewport height */
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
 }
 
 /* Sidebar styles */
@@ -79,11 +80,11 @@
   margin-right: 0.5rem;
 }
 .user-card-div{
-  height: 55vh;
+  height: 60vh;
 }
 /* User list container */
 .user-list-container {
-  max-height: auto;
+  max-height: 100%;
 
 }
 

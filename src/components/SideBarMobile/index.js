@@ -22,10 +22,10 @@ export const SideBarMobile = ({ activeNavLink }) => {
 
   return(
    
-    <div className="fixed-bottom shadow   d-md-none m-0">
+    <div className="fixed-bottom shadow  justify-content-between   d-md-none m-0 p-0">
      
         {/* Hide container on medium and larger screens */}
-        <ul className="nav justify-content-between border-bottom  bg-dark">
+        <ul className="justify-content-between   m-0 p-0  bg-dark">
        
         <Nav className={`nav nav-pills`}>
               <Nav.Link
@@ -40,7 +40,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
                 href="/admin/orders"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'orders' ? 'active' : ''}`}
               >
-                <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
+                <div className={`d-flex align-items-center m-2 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
                   <FontAwesomeIcon icon={faTag}  />
                 </div>
               </Nav.Link>
@@ -48,7 +48,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
                href="/admin/dashboard"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'dashboard' ? 'active' : ''}`}
               >
-                <div className={`d-flex align-items-center justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`} onClick={handleLogout}>
+                <div className={`d-flex align-items-center m-2 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`} onClick={handleLogout}>
                   <FontAwesomeIcon icon={faDashboard}  />
                 </div>
               </Nav.Link>
@@ -56,7 +56,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
                 href="/admin/products"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'products' ? 'active' : ''}`}
               >
-                <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
+                <div className={`d-flex align-items-center m-2  justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
                   <FontAwesomeIcon icon={faBox}  />
                 </div>
               </Nav.Link>
@@ -65,7 +65,7 @@ export const SideBarMobile = ({ activeNavLink }) => {
                 href="/admin/users"
                 className={`text-white d-flex align-items-center ${styles.link} ${styles.line} ${activeNavLink === 'users' ? 'active' : ''}`}
               >
-                <div className={`d-flex align-items-center m-3 justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
+                <div className={`d-flex align-items-center m-3  justify-content-center ${isSidebarMinimized ? styles.iconOnly : ''}`}>
                   <FontAwesomeIcon icon={faUsers}  />
                 </div>
               </Nav.Link>

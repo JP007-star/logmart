@@ -66,7 +66,7 @@ const AdminUsers = ({ users: initialUsers }) => {
           <SideBar activeNavLink="users" onLogoClick={toggleSidebar} />
         </div>
         <div className={`main-content ${isSidebarMinimized ? 'expanded' : ''}`}>
-          <div className="card shadow-sm rounded mt-3">
+          <div className="card shadow-sm rounded">
             <div className="card-body">
               {isAddUserVisible ? (
                 <AddUser
@@ -100,10 +100,12 @@ const AdminUsers = ({ users: initialUsers }) => {
         </div>
       </div>
       <SideBarMobile />
-      <footer className="text-center text-muted mt-3 mb-2">
-        © 2024 Copyright: JP made with Love 
-        <img src="/images/heart.svg" height="20px" width="20px" alt="" />
-      </footer>
+      <div className="fixed-bottom text-center d-none bg-light  d-md-block">
+            <p className="text-center text-muted">
+              © 2024 Copyright: JP made with Love
+              <img src="/images/heart.svg" height="20px" width="20px" alt="" />
+            </p>
+          </div>
     </ThemeProvider>
   );
 };

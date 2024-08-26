@@ -1,25 +1,20 @@
 /* Main sidebar styles */
 
-.admin-home-container{
-  height: auto; /* Full viewport height */
-  width: auto;
-
+.admin-home{
+  height: 85vh; /* Full viewport height */
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
 }
 .sidebar-container {
-  flex: 0 0 240px; /* Default width for sidebar */
-  transition: width 0.3s ease, margin-left 0.3s ease; /* Smooth transitions for resizing */
-  background-color: #f8f9fa; /* Light background for the sidebar */
-  border-right: 1px solid #dee2e6; /* Border to separate from content */
-  height: auto; /* Full viewport height */
-  position: fixed; /* Fixed position for sidebar */
-  top: 0; /* Align with the top of the viewport */
-  left: 0; /* Align with the left edge */
-  z-index: 1000; /* Ensure sidebar is above other content */
+  border-right: 1px solid #dee2e6;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 
 .home-div{
-  height: auto;
+  height: 100%;
 
 }
 
@@ -31,9 +26,9 @@
 
 /* Main content area styles */
 .content-area {
-  flex: 1;
-  height: auto;
-  width: auto;
+ 
+  height: 100vh;
+  width: 100vw !important;
   transition: margin-left 0.3s ease; /* Smooth transition for resizing */
   padding: 0.5rem; /* Padding inside content area */
 }
@@ -45,6 +40,13 @@
 
 /* Hide the main sidebar on mobile */
 @media (max-width: 768px) {
+  .admin-home{
+    height: 100vh; /* Full viewport height */
+    width: 100vw;
+    margin: 0;
+    overflow: scroll;
+  
+  }
   .sidebar-container {
     display: none; /* Hide sidebar on smaller screens */
   }
@@ -65,6 +67,7 @@
 
   .content-area {
     margin-left: 0; /* No margin needed on smaller screens */
+    width: auto;
   }
 
   .home-div{

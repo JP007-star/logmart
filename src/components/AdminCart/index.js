@@ -215,8 +215,8 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
       <div className="container-fluid">
         {showIframe && pdfUrl && (
           <div className={`pdf-container ${showIframe ? 'show' : 'hide'}`}>
-            <button className='btn btn-outline-warning bg-white' onClick={onClearCartPdf} style={{ color: "black" }}>Clear</button>
-            <iframe id="pdfFrame" src={pdfUrl} width="100%" height="370px" title="Order Receipt" className="pdf-iframe"></iframe>
+            <button className='' onClick={onClearCartPdf} style={{ color: "black" }}>Clear</button>
+            <iframe id="pdfFrame" src={pdfUrl} width="100%" height="300px" title="Order Receipt" className="pdf-iframe"></iframe>
           </div>
         )}
         <ToastContainer />

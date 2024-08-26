@@ -1,9 +1,22 @@
 /* src/styles/dashboard.css */
+.admin-dashboard{
+    height: 85vh; /* Full viewport height */
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+  
+  }
+
 .dashboard-counter {
     display: flex;
     justify-content: space-around;
     padding: 20px;
 }
+
+.content-area {
+    transition: margin-left 0.3s ease; /* Smooth transition for resizing */
+    padding: 0.5rem; /* Padding inside content area */
+  }
 
 
 
@@ -18,6 +31,15 @@
 
 
 @media (min-width: 768px) {
+
+    .admin-dashboard{
+        height: 90vh !important; /* Full viewport height */
+        width: 100% !important;
+        margin: 0;
+        overflow: scroll !important;
+        margin-bottom: 200px!important;
+      
+      }
     .charts {
         flex-direction: row;
         flex-wrap: wrap;

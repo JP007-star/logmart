@@ -34,11 +34,11 @@ const AdminDashboardPage = () => {
         <div>
             <ThemeProvider>
                 <AdminHeader />
-                <div className="d-flex">
+                <div className="d-flex admin-dashboard">
                     <div className={`sidebar-container ${isSidebarMinimized ? 'minimized' : ''}`}>
                         <SideBar activeNavLink="dashboard" onLogoClick={toggleSidebar} />
                     </div>
-                    <div className={`content-area card ${isSidebarMinimized ? 'expanded' : ''}`}>
+                    <div className={`content-area  ${isSidebarMinimized ? 'expanded' : ''}`}>
                         <div className="dash-div">
                             <DashboardCounter initialData={initialData} />
                             <Charts className="card" data={initialData} />
@@ -46,8 +46,8 @@ const AdminDashboardPage = () => {
                     </div>
                 </div>
                 <SideBarMobile isSidebarMinimized={isSidebarMinimized} toggleSidebar={toggleSidebar} />
-                <div className="container d-md-block">
-                    <p className="text-center text-muted m-2">
+                <div className="fixed-bottom text-center d-none bg-light  d-md-block">
+                    <p className="text-center text-muted">
                         © 2024 Copyright: JP made with Love
                         <img src="/images/heart.svg" height="20px" width="20px" alt="" />
                     </p>

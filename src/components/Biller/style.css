@@ -2,8 +2,9 @@
 .biller-container {
   display: flex;
   flex-wrap: wrap;
-  height: 90vh;
-  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  justify-content: space-between;
  /* Padding around the container */
 }
 
@@ -13,7 +14,7 @@
   flex-direction: row; /* Align children horizontally */
   width: 100%;
   max-width: 400px; /* Adjust as needed for your layout */
-  height: 380px; /* Fixed height for the card flip effect */
+  height: 350px; /* Fixed height for the card flip effect */
   perspective: 1000px; /* Gives a 3D perspective effect */
 }
 
@@ -58,7 +59,7 @@
   background-color: #f8f9fa; /* Light background */
   border: 1px solid #dee2e6; /* Border to distinguish the card */
   border-radius: 0.375rem; /* Rounded corners */
-  height: 90%;
+  height: 100%;
   width: 100%; /* Ensure it takes full width of the container */
   position: relative; /* Position relative for proper alignment */
 }
@@ -70,7 +71,7 @@
   background-color: #ffffff; /* White background */
   border: 1px solid #dee2e6; /* Border to distinguish the card */
   border-radius: 0.375rem; /* Rounded corners */
-  max-height: 380px; /* Ensure it occupies full height */
+  max-height: 350px; /* Ensure it occupies full height */
 }
 
 /* Responsive adjustments */

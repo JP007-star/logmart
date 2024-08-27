@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Form, Button, Row, Col, Alert, Image } from 'react-bootstrap';
+import { Card, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { uploadImage } from '../../firebase'; // Adjust the path as necessary
 import { createProduct, updateProduct } from '../../actions/product.action'; // Adjust the path as necessary
 import { toast } from 'react-toastify'; // Import toast
@@ -19,7 +19,7 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
     status: 'available'
   });
   const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  // const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
       const response = await fetch(`/api/products/${id}`);
       const data = await response.json();
       setProduct(data);
-      setImagePreview(data.image);
+      // setImagePreview(data.image);
     } catch (err) {
       console.error(err);
       toast.error('Failed to fetch product details');
@@ -46,7 +46,7 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
     if (type === 'file') {
       const file = files[0];
       setImageFile(file);
-      setImagePreview(URL.createObjectURL(file)); // Preview the image
+      // setImagePreview(URL.createObjectURL(file)); // Preview the image
     } else if (name in product.rating) {
       setProduct(prevProduct => ({
         ...prevProduct,
@@ -255,11 +255,11 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
                   onChange={handleChange}
                   required={!productId}
                 />
-                {imagePreview && (
+                {/* {imagePreview && (
                   <div className="mt-2">
                     <Image src={imagePreview} rounded style={{ maxWidth: '200px' }} />
                   </div>
-                )}
+                )} */}
               </Form.Group>
             </Col>
           </Row>
@@ -267,7 +267,8 @@ const AddProduct = ({ productId, onCancel, onSubmit }) => {
           <Row className="mt-3">
             <Col className="d-flex justify-content-between">
               <Button
-                variant="secondary"
+                variant="outline"
+                
                 onClick={onCancel}
               >
                 Cancel

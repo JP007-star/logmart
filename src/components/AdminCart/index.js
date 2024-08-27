@@ -269,7 +269,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
                   <td>
                     <div className="quantity-container">
                       <button
-                        onClick={() => handleAddQuantity(item._id)}
+                        onClick={() => handleAddQuantity(item.productId)}
                         className="quantity-btn"
                         aria-label="Increase quantity"
                       >
@@ -277,7 +277,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
                       </button>
                       <span>{itemQuantity}</span>
                       <button
-                        onClick={() => handleRemoveQuantity(item._id)}
+                        onClick={() => handleRemoveQuantity(item.productId)}
                         className="quantity-btn"
                         aria-label="Decrease quantity"
                       >
@@ -290,7 +290,7 @@ export const AdminCart = ({ cartItems: propCartItems, onClearCart }) => {
                   <td>
                     <button
                       className='btn btn-warning'
-                      onClick={() => handleDelete(item._id)}
+                      onClick={() => handleDelete(item.productId)}
                     >
                       X
                     </button>

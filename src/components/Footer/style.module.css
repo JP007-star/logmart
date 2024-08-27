@@ -1,7 +1,7 @@
 /* styles/Footer.module.css */
 .footer {
   text-align: center;
-  padding: 8px !important;
+  padding: 4px !important;
   transition: background-color 0.3s, color 0.3s;
 }
 

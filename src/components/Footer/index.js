@@ -25,50 +25,52 @@ const Footer = () => {
   }
 
   return (
-    <footer
-      className={`fixed-bottom shadow ${styles.footer} ${
-        isDarkTheme ? styles.dark : styles.light
-      }`}
+    <>
+     <div
+      className={`fixed-bottom bg-light `}
     >
-      <div className="container d-md-none">
-        {/* Hide container on medium and larger screens */}
-        <ul className="nav justify-content-between border-bottom  pb-0 mb-0">
-          <li className="nav-item">
-            <Link to="/" className="nav-link px-2 text-muted">
-              <Unicons.UilEstate />
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/" className="nav-link px-2 text-muted">
-              <Unicons.UilApps />
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/profile" className="nav-link px-2 text-muted">
-              <Unicons.UilUser />
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/cart" className="nav-link px-2 text-muted">
-              <Unicons.UilShoppingCartAlt />
-            </Link>
-          </li>
-          <li className="nav-item">
-            <div onClick={handleLogout}  className="nav-link px-2 text-muted">
-            <FontAwesomeIcon icon={faSignOut}  />
-            
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div className="container d-none d-md-block" style={menuStyle}>
+      
+      <div className=" d-none d-md-block">
         {/* Visible on medium and larger screens */}
         <p className="text-center text-muted m-2" style={menuStyle}>
           © 2024 Copyright: JP made with Love{" "}
           <img src="/images/heart.svg" height="20px" width="20px" alt="Heart icon" />
         </p>
       </div>
-    </footer>
+      <div className="container d-md-none">
+    {/* Hide container on medium and larger screens */}
+    <ul className="nav justify-content-between border-bottom p-2  pb-0 mb-0">
+      <li className="nav-item">
+        <Link to="/" className="nav-link px-2 text-muted">
+          <Unicons.UilEstate />
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link to="/" className="nav-link px-2 text-muted">
+          <Unicons.UilApps />
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link to="/profile" className="nav-link px-2 text-muted">
+          <Unicons.UilUser />
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link to="/cart" className="nav-link px-2 text-muted">
+          <Unicons.UilShoppingCartAlt />
+        </Link>
+      </li>
+      <li className="nav-item">
+        <div onClick={handleLogout}  className="nav-link px-2 text-muted">
+        <FontAwesomeIcon icon={faSignOut}  />
+        
+        </div>
+      </li>
+    </ul>
+  </div>
+    </div>
+   </>
+   
   );
 };
 

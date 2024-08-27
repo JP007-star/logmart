@@ -27,16 +27,16 @@ const Header = () => {
 
   return (
     <Navbar
-      className={`fixed-top p-0 m-0  shadow-lg p-1 mb-5 rounded ${styles.header} ${
+      className={`fixed-top p-0 m-0  shadow-lg  rounded ${styles.header} ${
         isDarkTheme ? styles.darkHeader : styles.lightHeader
       }`}
       expand="lg"
       style={headerStyle}
     >
      
-        <Navbar.Brand className="m-sm-0" href="/">
+        <Navbar.Brand className="m-sm-0 " href="/">
           <img
-            className="d-none d-md-block w-75 "
+            className="d-none d-md-block w-75 text-center"
             src={`${isDarkTheme ? "/images/logo_light.png" : "/images/logo.png"}`}
             alt="Logo"
           /> 
@@ -45,16 +45,16 @@ const Header = () => {
             src={`${isDarkTheme ? "/images/logo_light.png" : "/images/logo.png"}`}
             alt="Logo"
           />
-          <div className="float-end m-3 d-sm-none ">
+          <div className="float-end m-2 d-sm-none ">
           <Unicons.UilBell/>
           </div>
-          <div className="float-end m-3 d-sm-none ">
+          <div className="float-end m-2 d-sm-none ">
           <Nav.Link href="/cart" style={menuStyle}>
             <Unicons.UilShoppingCartAlt/>
             </Nav.Link>          </div>
          
         </Navbar.Brand>
-        <Form inline className="mr-3 col-md-6 col-sm-10">
+        <Form inline className="mr-2 col-md-6 col-sm-10">
             <FormControl
               type="text"
               placeholder="Search"
@@ -63,7 +63,7 @@ const Header = () => {
           </Form>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav float-end">
-          <Nav className="m-3">
+          <Nav className="m-2 p-1">
             <Nav.Link href="/" style={menuStyle}>
             <Unicons.UilEstate /> Home
             </Nav.Link>

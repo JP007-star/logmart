@@ -1,6 +1,5 @@
 import React from "react";
 import { useTheme } from "../ThemeContext";
-import styles from "./style.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as Unicons from '@iconscout/react-unicons';
 import { Link, useNavigate } from "react-router-dom"; // Import Link from React Router
